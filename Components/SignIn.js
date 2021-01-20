@@ -9,7 +9,6 @@ const SignIn = () => {
   return(
     <TouchableWithoutFeedback onPress={() => {
         Keyboard.dismiss();
-        console.log('dismissed keyboard');
     }}>
     <View style={styles.container}>
 
