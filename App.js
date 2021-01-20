@@ -9,7 +9,8 @@ import { View, Text } from 'react-native-animatable'
 const App = () => {
     return(
       // <HomePage />
-      <SignIn />
+      // <SignIn />
+      <SignUp />
     );
 };
 
