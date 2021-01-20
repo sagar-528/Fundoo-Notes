@@ -40,7 +40,7 @@ const SignUp = () => {
       
       <View style={styles.action}>
           <Feather 
-              name="lock"
+              name="unlock"
               size={20}
               color="#fff"
           />
