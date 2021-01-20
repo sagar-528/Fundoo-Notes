@@ -5,7 +5,7 @@ const App = () => {
     return(
       <View>
         <Text>Hi world</Text>
-        </View>
+      </View>
     );
 };
 
