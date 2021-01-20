@@ -1,13 +1,12 @@
 import React from 'react'
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
+import HomePage from './Components/HomePage'
+import SignIn from './Components/SignIn'
 
 const App = () => {
     return(
-      <View>
-        <Text>Hi world</Text>
-      </View>
+        // <HomePage />
+        <SignIn />
     );
 };
-
 
 export default App

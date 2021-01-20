@@ -3,31 +3,31 @@ import { View, StyleSheet, Dimensions, Text, Image, TouchableOpacity, StatusBar 
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 
-const App = () => {
+const HomePage = () => {
   return(
     <View style={styles.container}>
       <View style={styles.header}>
         <Animatable.Image
         animation="bounceIn"
         duraton="1500"
-        source={require('./Assets/avatar.png')}/>
+        source={require('../Assets/avatar.png')}/>
       </View>
       <Animatable.View 
-      style={styles.footer}
-      animation="fadeInUpBig"
+        style={styles.footer}
+        animation="fadeInUpBig"
       >
-      <Text style={styles.title}>Wellcome to Registartion App.</Text>
-      <Text style={styles.text}>Sign in with account</Text>
-      <View style={styles.button}>
-      <TouchableOpacity>
-          <LinearGradient
-              colors={['#08d4c4', '#01ab9d']}
-              style={styles.signIn}
-          >
-              <Text style={styles.textSign}>Get Started</Text>
-          </LinearGradient>
-      </TouchableOpacity>
-      </View>
+        <Text style={styles.title}>Wellcome to Registartion App.</Text>
+        <Text style={styles.text}>Sign in with account</Text>
+        <View style={styles.button}>
+          <TouchableOpacity>
+              <LinearGradient
+                  colors={['#08d4c4', '#01ab9d']}
+                  style={styles.signIn}
+              >
+                  <Text style={styles.textSign}>Get Started</Text>
+              </LinearGradient>
+          </TouchableOpacity>
+        </View>
       </Animatable.View>
     </View>
   );
