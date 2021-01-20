@@ -1,7 +1,8 @@
 import React from 'react'
-import { View, StyleSheet, Dimensions, Text, Image, TouchableOpacity, StatusBar } from 'react-native';
+import { View, StyleSheet, Dimensions, Text, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const HomePage = () => {
   return(
@@ -17,7 +18,7 @@ const HomePage = () => {
         animation="fadeInUpBig"
       >
         <Text style={styles.title}>Wellcome to Registartion App.</Text>
-        <Text style={styles.text}>Sign in with account</Text>
+        <Text style={styles.text}>Sign in with new account.</Text> 
         <View style={styles.button}>
           <TouchableOpacity>
               <LinearGradient
@@ -25,6 +26,12 @@ const HomePage = () => {
                   style={styles.signIn}
               >
                   <Text style={styles.textSign}>Get Started</Text>
+                  <FontAwesome5 
+                        name="angle-double-right"
+                        color="#fff"
+                        size={20}
+                        style={styles.icon}
+                    />
               </LinearGradient>
           </TouchableOpacity>
         </View>
@@ -62,7 +69,7 @@ const styles = StyleSheet.create({
   },
   text: {
       color: '#fff',
-      fontSize: 18,
+      fontSize: 15,
       marginTop:5
   },
   button: {
@@ -80,6 +87,9 @@ const styles = StyleSheet.create({
   textSign: {
       color: 'white',
       fontWeight: 'bold'
+  },
+  icon: {
+    padding: 10,
   }
 });
 

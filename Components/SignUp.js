@@ -4,9 +4,9 @@ import { View, Text } from 'react-native';
 const SignUp = () => {
   return(
     <View>
-      <Text> SignUp Page</Text>
+      <Text>SignUp</Text>
     </View>
-  );
+     );
 };
 
 export default SignUp
