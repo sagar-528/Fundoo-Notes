@@ -1,9 +1,9 @@
 import React from 'react'
-import Routes from './Router/Routes'
+import NavigationStack  from './src/Navigation/NavigationStack'
 
 const App = () => {
     return(
-      <Routes />
+      <NavigationStack  />
     );
 };
 

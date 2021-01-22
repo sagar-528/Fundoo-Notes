@@ -8,7 +8,7 @@ import ForgetPassword from '../Components/ForgetPassword'
 
 const Stack = createStackNavigator();
 
-const Routes = () => {
+const NavigationStack = () => {
 
     return(
         <NavigationContainer>
@@ -22,4 +22,4 @@ const Routes = () => {
     )
 }
 
-export default Routes
+export default NavigationStack 

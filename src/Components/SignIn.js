@@ -3,7 +3,6 @@ import {  View, Text, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFee
 import * as Animatable from 'react-native-animatable';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
-import LinearGradient from 'react-native-linear-gradient';
 import GlobalCss from '../Styles/GlobalCss'
 
 const SignIn = ( { navigation } ) => {
