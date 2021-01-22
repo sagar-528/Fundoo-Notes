@@ -5,7 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import GlobalCss from '../Styles/GlobalCss';
 
-const ForgetPassword = () => {
+const ForgetPassword = ( { navigation } ) => {
   return(
     <TouchableWithoutFeedback onPress = {() => {
       Keyboard.dismiss();
@@ -69,13 +69,14 @@ const ForgetPassword = () => {
        />
   </View>
   
-        <View style = {GlobalCss.button}>
+        <View style = {{alignItems: 'center', marginTop: 20}}>
         <TouchableOpacity
             style = {[GlobalCss.signIn, {
                 borderColor: '#009387',
                 borderWidth: 1,
                 marginTop: 15
             }]}
+            onPress = { () => {navigation.navigate('SignIn')} }
         >
             <Text style = {[GlobalCss.textSign, {
                 color: 'black'

@@ -5,7 +5,8 @@ import * as Animatable from 'react-native-animatable';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import GobalCss from '../Styles/GlobalCss'
 
-const HomePage = () => {
+const HomePage = ( { navigation } ) => {
+
   return(
     <View style = {GobalCss.container}>
       <View style = {GobalCss.homeHeader}>
@@ -21,7 +22,7 @@ const HomePage = () => {
         <Text style = {GobalCss.title}>Wellcome to Registartion App.</Text>
         <Text style = {GobalCss.text}>Sign in with new account.</Text> 
         <View style = {GobalCss.homeButton}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress = { () => {navigation.navigate('SignIn')} }>
               <LinearGradient
                   colors = {['#08d4c4', '#01ab9d']}
                   style = {GobalCss.homeSignIn}

@@ -5,7 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import GlobalCss from '../Styles/GlobalCss'
 
-const SignUp = () => {
+const SignUp = ( { navigation } ) => {
   return(
     <TouchableWithoutFeedback onPress = {() => {
       Keyboard.dismiss();
@@ -69,13 +69,14 @@ const SignUp = () => {
          />
     </View>
     
-          <View style = {GlobalCss.button}>
+          <View style = {{alignItems: 'center', marginTop: 15}}>
           <TouchableOpacity
               style = {[GlobalCss.signIn, {
                   borderColor: '#009387',
                   borderWidth: 1,
                   marginTop: 15
               }]}
+              onPress = { () => {navigation.navigate('SignIn')} }
           >
               <Text style = {[GlobalCss.textSign, {
                   color: 'black'
@@ -84,7 +85,7 @@ const SignUp = () => {
           
           <View style = {{flexDirection:'row',padding: 5}}>
             <Text style = {{color: 'black'}}> Already have an account? </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress = { () => {navigation.navigate('SignIn')} }>
               <Text style = {{color: '#1976d2', fontSize: 16}}> Sign In</Text>
             </TouchableOpacity>
           </View>

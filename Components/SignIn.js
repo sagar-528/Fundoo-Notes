@@ -6,7 +6,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
 import GlobalCss from '../Styles/GlobalCss'
 
-const SignIn = () => {
+const SignIn = ( { navigation } ) => {
   return(
     <TouchableWithoutFeedback onPress = {() => {
         Keyboard.dismiss();
@@ -52,7 +52,7 @@ const SignIn = () => {
                     style = {GlobalCss.textInput}
                  />
             </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress = { () => {navigation.navigate('ForgetPassword')} }>
                     <Text style = {{color: '#1976d2', marginTop:15, fontSize: 15}}>Forgot password?</Text>
                 </TouchableOpacity>
             
@@ -63,6 +63,7 @@ const SignIn = () => {
                         borderWidth: 1,
                         marginTop: 15
                     }]}
+                    onPress = { () => {navigation.navigate('SignIn')} }
                 >
                 <Text style = {[GlobalCss.textSign, {
                     color:'black'
@@ -75,6 +76,7 @@ const SignIn = () => {
                         borderWidth: 1,
                         marginTop: 15
                     }]}
+                    onPress = { () => {navigation.navigate('SignUp')} }
                 >
                     <Text style = {[GlobalCss.textSign, {
                         color: 'black'

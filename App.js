@@ -1,15 +1,9 @@
 import React from 'react'
-import HomePage from './Components/HomePage'
-import SignIn from './Components/SignIn'
-import SignUp from './Components/SignUp'
-import ForgetPassword from './Components/ForgetPassword'
+import Routes from './Router/Routes'
 
 const App = () => {
     return(
-      // <HomePage />
-      // <SignIn />  
-      <SignUp />
-      // <ForgetPassword />
+      <Routes />
     );
 };
 

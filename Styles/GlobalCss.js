@@ -74,7 +74,7 @@ const GlobalCss = StyleSheet.create({
       }, 
     button: {
         alignItems: 'center',
-        marginTop: 45
+        marginTop: 30
     },
     homeSignIn: {
           width: 150,
