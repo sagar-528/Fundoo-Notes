@@ -3,17 +3,26 @@ import {  View, Text, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFee
 import * as Animatable from 'react-native-animatable';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
-import GlobalCss from '../Styles/GlobalCss'
+import GlobalCss from '../Styles/GlobalCss';
 
 const SignIn = ( { navigation } ) => {
+
+const signInHandler = () => {
+    navigation.navigate('Home')
+}
+
   return(
     <TouchableWithoutFeedback onPress = {() => {
         Keyboard.dismiss();
     }}>
     <View style = {GlobalCss.container}>
- 
         <View style = {GlobalCss.header}>
-            <Text style = {GlobalCss.text_header}>Welcome!!!</Text>
+            <FontAwesome5 
+                name = "google"
+                color = "#fff"
+                size = {40}
+            />
+            <Text style = {GlobalCss.text_header}>Fundoo-Notes</Text>
         </View>
 
         <Animatable.View 
@@ -62,7 +71,7 @@ const SignIn = ( { navigation } ) => {
                         borderWidth: 1,
                         marginTop: 15
                     }]}
-                    onPress = { () => {navigation.navigate('SignIn')} }
+                    onPress = { signInHandler }
                 >
                 <Text style = {[GlobalCss.textSign, {
                     color:'black'

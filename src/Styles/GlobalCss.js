@@ -17,8 +17,9 @@ const GlobalCss = StyleSheet.create({
     header: {
         flex: 1,
         justifyContent: 'flex-end',
+        alignItems: 'center',
         paddingHorizontal: 20,
-        paddingBottom: 50
+        paddingBottom: 30,
     },
     text_header: {
         color: 'white',
@@ -35,7 +36,7 @@ const GlobalCss = StyleSheet.create({
       },
     text_footer: {
         color: '#009387',
-        fontSize: 25
+        fontSize: 20
     },
     footer: {
         flex: 3,
@@ -43,7 +44,7 @@ const GlobalCss = StyleSheet.create({
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingHorizontal: 20,
-        paddingVertical: 30
+        paddingVertical: 10
     },
     title: {
           color: '#fff',
@@ -65,7 +66,7 @@ const GlobalCss = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 10,
         borderBottomWidth: 1,
-        borderBottomColor: '#f2f2f2',
+        borderBottomColor: 'black',
         paddingBottom: 5
     },
     homeButton: {

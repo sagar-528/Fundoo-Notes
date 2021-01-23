@@ -5,7 +5,7 @@ import * as Animatable from 'react-native-animatable';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import GobalCss from '../Styles/GlobalCss'
 
-const HomePage = ( { navigation } ) => {
+const SplashScreen = ( { navigation } ) => {
 
   return(
     <View style = {GobalCss.container}>
@@ -42,5 +42,5 @@ const HomePage = ( { navigation } ) => {
   );
 };
 
-export default HomePage
+export default  SplashScreen
 

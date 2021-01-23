@@ -1,11 +1,16 @@
 import React from 'react'
-import { View, Text, StyleSheet,  TouchableWithoutFeedback, Keyboard, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Keyboard, TouchableOpacity, TextInput } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import GlobalCss from '../Styles/GlobalCss';
 
 const ForgetPassword = ( { navigation } ) => {
+
+const signInHandler = () => {
+    navigation.navigate('SignIn')
+}
+
   return(
     <TouchableWithoutFeedback onPress = {() => {
       Keyboard.dismiss();
@@ -13,7 +18,12 @@ const ForgetPassword = ( { navigation } ) => {
     <View style = {GlobalCss.container}>
     
     <View style = {GlobalCss.header}>
-      <Text style = {GlobalCss.text_header}> Forget Password</Text>
+        <FontAwesome5 
+            name = "google"
+            color = "#fff"
+            size = {40}
+        />
+      <Text style = {GlobalCss.text_header}>Fundoo-Notes</Text>
     </View>
 
     <Animatable.View 
@@ -76,7 +86,7 @@ const ForgetPassword = ( { navigation } ) => {
                 borderWidth: 1,
                 marginTop: 15
             }]}
-            onPress = { () => {navigation.navigate('SignIn')} }
+            onPress = { signInHandler }
         >
             <Text style = {[GlobalCss.textSign, {
                 color: 'black'
