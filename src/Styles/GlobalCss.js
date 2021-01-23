@@ -36,7 +36,7 @@ const GlobalCss = StyleSheet.create({
       },
     text_footer: {
         color: '#009387',
-        fontSize: 20
+        fontSize: 25
     },
     footer: {
         flex: 3,
@@ -67,7 +67,7 @@ const GlobalCss = StyleSheet.create({
         marginTop: 10,
         borderBottomWidth: 1,
         borderBottomColor: 'black',
-        paddingBottom: 5
+        paddingBottom: 3
     },
     homeButton: {
           alignItems: 'flex-end',

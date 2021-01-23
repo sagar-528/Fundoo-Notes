@@ -37,12 +37,12 @@ const signInHandler = () => {
     <Text style = {GlobalCss.text_footer}>First Name</Text>
     <View style = {GlobalCss.action}>
         <FontAwesome5 
-            name = "user"
+            name = "user-circle"
             size = {20}
             color = "black"
         />
         <TextInput 
-            placeholder = "Your First Name"
+            placeholder = "First Name"
             placeholderTextColor = "black"
             style = {GlobalCss.textInput}
         />
@@ -53,12 +53,12 @@ const signInHandler = () => {
       }]}>Last Name</Text>
     <View style = {GlobalCss.action}>
         <FontAwesome5 
-            name = "user"
+            name = "user-circle"
             size = {20}
             color = "black"
         />
         <TextInput 
-            placeholder = "Your Last Name"
+            placeholder = "Last Name"
             placeholderTextColor = "black"
             style = {GlobalCss.textInput}
         />
@@ -79,7 +79,7 @@ const signInHandler = () => {
               style = {GlobalCss.textInput}
           />
       </View>
-      
+
       <Text style = {[GlobalCss.text_footer, {
           marginTop: 10
       }]}>Password</Text>
