@@ -36,7 +36,7 @@ const GlobalCss = StyleSheet.create({
       },
     text_footer: {
         color: '#009387',
-        fontSize: 25
+        fontSize: 20
     },
     footer: {
         flex: 3,

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import GobalCss from '../Styles/GlobalCss'
+import GobalCss from '../../Styles/GlobalCss';
 
 const SplashScreen = ( { navigation } ) => {
 
@@ -13,7 +13,7 @@ const SplashScreen = ( { navigation } ) => {
         <Animatable.Image
         animation = "bounceIn"
         duraton = "1500"
-        source = {require('../Assets/avatar.png')}/>
+        source = {require('../../Assets/avatar.png')}/>
       </View>
       <Animatable.View 
         style = {GobalCss.homeFooter}
