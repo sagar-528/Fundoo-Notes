@@ -4,13 +4,65 @@ import * as Animatable from 'react-native-animatable';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import GlobalCss from '../Styles/GlobalCss';
+import UserServices from '../../Service/UserServices';
 
-const SignIn = ( { navigation } ) => {
+class SignIn extends React.Component {
 
-const signInHandler = () => {
-    navigation.navigate('Home')
+constructor(props) {
+    super(props)
+
+    this.state = {
+        email : '',
+        password : '',
+    }
 }
 
+signInHandler = () => {
+    if(this.state.email != '' && this.state.password != '')
+    {
+        UserServices.login(this.state.email, this.state.password)
+            .then(user => {
+                this.props.navigation.navigate('Home')
+            })
+            .catch(error => {
+                if(error == 'Email not Found') {
+                    this.setState({
+                        invalidEmail : true
+                    })
+                }
+                if(error == 'Incorrect Password') {
+                    this.setState({
+                        invalidPassword : true
+                    })
+                }
+            })
+    }
+    else{
+        console.log('error while SignIn');
+    }
+}
+
+SignUpHandler = () =>{
+    this.props.navigation.push('SignUp')
+}
+
+forgotPasswordHandler = () =>{
+    this.props.navigation.push('ForgotPassword')
+}
+
+textInputChangeEmail = (val) =>{
+    this.setState({
+        email : val
+    })
+}
+
+textInputChangePassword = (val) =>{
+    this.setState({
+        password : val
+    })
+}
+
+render(){
   return(
     <TouchableWithoutFeedback onPress = {() => {
         Keyboard.dismiss();
@@ -29,7 +81,7 @@ const signInHandler = () => {
             animation = "fadeInUpBig"
             style = {GlobalCss.footer}
         >
-            <Text style = {GlobalCss.text_footer}>Username</Text>
+            <Text style = {GlobalCss.text_footer}>Email-Id</Text>
             
             <View style = {GlobalCss.action}>
                 <FontAwesome5 
@@ -38,9 +90,10 @@ const signInHandler = () => {
                     color = "black"
                 />
                 <TextInput 
-                    placeholder = "Your Username"
+                    placeholder = "Your Email-Id"
                     placeholderTextColor = "black"
                     style = {GlobalCss.textInput}
+                    onChangeText={this.textInputChangeEmail}
                 />
             </View>
             
@@ -58,9 +111,10 @@ const signInHandler = () => {
                     placeholder = "Your Password"
                     placeholderTextColor = "black"
                     style = {GlobalCss.textInput}
+                    onChangeText={this.textInputChangePassword}
                  />
             </View>
-                <TouchableOpacity onPress = { () => {navigation.navigate('ForgetPassword')} }>
+                <TouchableOpacity onPress = { this.forgotPasswordHandler }>
                     <Text style = {{color: '#1976d2', marginTop:15, fontSize: 15}}>Forgot password?</Text>
                 </TouchableOpacity>
             
@@ -71,7 +125,7 @@ const signInHandler = () => {
                         borderWidth: 1,
                         marginTop: 15
                     }]}
-                    onPress = { signInHandler }
+                    onPress = { this.signInHandler }
                 >
                 <Text style = {[GlobalCss.textSign, {
                     color:'black'
@@ -84,7 +138,7 @@ const signInHandler = () => {
                         borderWidth: 1,
                         marginTop: 15
                     }]}
-                    onPress = { () => {navigation.navigate('SignUp')} }
+                    onPress = { this.SignUpHandler }
                 >
                     <Text style = {[GlobalCss.textSign, {
                         color: 'black'
@@ -94,7 +148,7 @@ const signInHandler = () => {
         </Animatable.View>
     </View>
     </TouchableWithoutFeedback>
-  );
+  )};
 };
 
 export default SignIn

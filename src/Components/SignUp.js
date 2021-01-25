@@ -4,7 +4,6 @@ import * as Animatable from 'react-native-animatable';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import GlobalCss from '../Styles/GlobalCss'
-// import Firebase from '../../Environment/Firebase';
 import UserServices from '../../Service/UserServices';
 
 export default class SignUp extends Component{
