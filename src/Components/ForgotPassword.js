@@ -2,15 +2,43 @@ import React from 'react'
 import { View, Text, TouchableWithoutFeedback, Keyboard, TouchableOpacity, TextInput } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Feather from 'react-native-vector-icons/Feather';
 import GlobalCss from '../Styles/GlobalCss';
+import UserServices from '../../Service/UserServices'
 
-const ForgetPassword = ( { navigation } ) => {
+class ForgetPassword extends React.Component {
 
-const signInHandler = () => {
-    navigation.navigate('SignIn')
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            email : ''
+        }
+    }
+
+textInputChangeEmail = (val) =>{
+    this.setState({
+        email: val
+    })
 }
 
+ resetPasswordHandler = () => {
+    if(this.state.email != '') {
+        UserServices.forgotPassword(this.state.email)
+            .then(user => this.props.navigation.push('SignIn'))
+            .catch(error => {
+                if(error == 'Email not Found') {
+                    this.setState({
+                        invalidEmail : true
+                    })
+                }
+            })
+    }
+    else{
+        console.log("error in ResettingPassword");
+    }
+}
+
+render(){
   return(
     <TouchableWithoutFeedback onPress = {() => {
       Keyboard.dismiss();
@@ -30,7 +58,7 @@ const signInHandler = () => {
     animation = "fadeInUpBig"
     style = {GlobalCss.footer}
     >
-    <Text style = {GlobalCss.text_footer}>Email-Id</Text>
+    <Text style = {[GlobalCss.text_footer,{marginTop: 30}]}>Email-Id</Text>
     
     <View style = {GlobalCss.action}>
         <FontAwesome5 
@@ -42,61 +70,28 @@ const signInHandler = () => {
             placeholder = "Your Email-Id"
             placeholderTextColor = "black"
             style = {GlobalCss.textInput}
+            onChangeText = {this.textInputChangeEmail}
         />
     </View>
-    
-    <Text style = {[GlobalCss.text_footer, {
-        marginTop: 35
-    }]}>Password</Text>
-    
-    <View style = {GlobalCss.action}>
-        <Feather 
-            name = "unlock"
-            size = {20}
-            color = "black"
-        />
-        <TextInput 
-            placeholder = "Your Password"
-            placeholderTextColor = "black"
-            style = {GlobalCss.textInput}
-         />
-    </View>
-    
-    <Text style = {[GlobalCss.text_footer, {
-      marginTop: 35
-  }]}> Confirm Password </Text>
   
-  <View style = {GlobalCss.action}>
-      <Feather 
-          name = "lock"
-          size = {20}
-          color = "black"
-      />
-      <TextInput 
-          placeholder = "confirm Password"
-          placeholderTextColor = "black"
-          style = {GlobalCss.textInput}
-       />
-  </View>
-  
-        <View style = {{alignItems: 'center', marginTop: 20}}>
+        <View style = {{alignItems: 'center', marginTop: 40}}>
         <TouchableOpacity
             style = {[GlobalCss.signIn, {
                 borderColor: '#009387',
                 borderWidth: 1,
                 marginTop: 15
             }]}
-            onPress = { signInHandler }
+            onPress = { this.resetPasswordHandler }
         >
             <Text style = {[GlobalCss.textSign, {
                 color: 'black'
-            }]}>Submit</Text>
+            }]}>Reset Password</Text>
         </TouchableOpacity>
     </View>
     </Animatable.View>
     </View>
     </TouchableWithoutFeedback>
-  );
+  )};
 };
 
 export default ForgetPassword
