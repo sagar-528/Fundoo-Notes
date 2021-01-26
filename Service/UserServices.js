@@ -1,4 +1,3 @@
-// import { findNodeHandle } from 'react-native'
 import Firebase from '../Environment/Firebase'
 
 class UserServices {

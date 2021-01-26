@@ -92,9 +92,9 @@ render(){
     <View style = {GlobalCss.container}>
         <View style = {GlobalCss.header}>
             <FontAwesome5 
-                name = "google"
+                name = "user-circle"
                 color = "#fff"
-                size = {40}
+                size = {50}
             />
             <Text style = {GlobalCss.text_header}>Fundoo Notes</Text>
         </View>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { View, Text, TouchableWithoutFeedback, Keyboard, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Keyboard, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
@@ -167,6 +167,7 @@ validatePassword = () => {
 
 render(){
   return(
+    <ScrollView>
     <TouchableWithoutFeedback onPress = {() => {
       Keyboard.dismiss();
     }}>
@@ -174,9 +175,9 @@ render(){
 
       <View style = {GlobalCss.header}>
         <FontAwesome5 
-                name = "google"
+                name = "user-circle"
                 color = "#fff"
-                size = {40}
+                size = {50}
         />
         <Text style = {GlobalCss.text_header}>Fundoo Notes</Text>
       </View>
@@ -270,12 +271,12 @@ render(){
             {(this.state.passwordEmpty) ? 'required..' : (this.state.passwordValidation) ? null : 'Invalid Password..'}
         </Text>
       </View>
-          <View style = {{alignItems: 'center', marginTop: 10}}>
+          <View style = {{alignItems: 'center', marginTop: 20}}>
           <TouchableOpacity
               style = {[GlobalCss.signIn, {
                   borderColor: '#009387',
                   borderWidth: 1,
-                  marginTop: 2
+                  marginTop: 15
               }]}
               onPress = { this.signUpHandler }
           >
@@ -290,10 +291,10 @@ render(){
               <Text style = {{color: '#1976d2', fontSize: 17}}> Sign In</Text>
             </TouchableOpacity>
           </View>
-      </View>
-  </Animatable.View>
-
+       </View>
+      </Animatable.View>
     </View>
     </TouchableWithoutFeedback>
+    </ScrollView>
   )}
 }

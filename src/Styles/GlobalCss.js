@@ -96,6 +96,7 @@ const GlobalCss = StyleSheet.create({
     text_error_style : {
         alignSelf : 'flex-start',
         marginRight : '10%',
+        marginBottom : 10,
         color : 'red'
     },
     homeTextSign: {
