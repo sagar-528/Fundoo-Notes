@@ -16,37 +16,110 @@ export default class SignUp extends Component{
         lastName : '',
         email : '',
         password : '',
+        firstNameValidation : true,
+        lastNameValidation : true,
+        emailValidation : true,
+        passwordValidation : true,
+        secureTextPassword : true,
+        firstNameEmpty : false,
+        lastNameEmpty : false,
+        emailEmpty : false,
+        passwordEmpty : false,
         emailPresent : false
     }
   }
 
  textInputChangeFirstName = (val) =>{
   this.setState({
-    firstName: val
+    firstName: val,
+    firstNameEmpty : false
   })
+  this.validateFirstName();
 }
 
 textInputChangeLastName = (val) =>{
     this.setState({
-     lastName: val
+     lastName: val,
+     lastNameEmpty : false
    })
+   this.validateLastName();
  }
 
 textInputChangeEmail = (val) =>{
     this.setState({
-     email: val
+     email: val,
+     emailEmpty : false,
+     emailPresent : false
    })
+   this.validateEmail();
  }
 
  textInputChangePassword = (val) =>{
     this.setState({
-     password: val
+     password: val,
+     passwordEmpty : false,
    })
+   this.validatePassword();
  }
+
+  validateFirstName = () => {
+    const nameRegex = new RegExp("^[A-Z][a-z]{1,}$")
+      if(nameRegex.test(this.state.firstName)) {
+        this.setState({
+          firstNameValidation : true
+      })
+    }
+    else {
+        this.setState({
+          firstNameValidation : false
+      })
+    }
+  }
+
+  validateLastName = () => {
+    const nameRegex = new RegExp("^[A-Z][a-z]{2,}$")
+    if(nameRegex.test(this.state.lastName)) {
+      this.setState({
+          lastNameValidation : true
+      })
+    }
+    else {
+      this.setState({
+          lastNameValidation : false
+    })
+   }
+  }
+
+validateEmail = () => {
+  const emailRejex = new RegExp("^[0-9a-zA-Z]+([._+-][0-9A-Za-z]+)*@[0-9A-Za-z]+[.][a-zA-Z]{2,4}([.][a-zA-Z]{2,4})?$")
+  if(emailRejex.test(this.state.email)) {
+      this.setState({
+          emailValidation : true
+      })
+  } 
+  else {
+      this.setState({
+          emailValidation : false
+      })
+  }
+}
+
+validatePassword = () => {
+  const passwordRegex = new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[*.!@#$%^&(){}:'<>,.>/~`_+=|].).{8,}$");
+  if(passwordRegex.test(this.state.password)) {
+      this.setState({
+          passwordValidation: true
+      })
+  }
+  else {
+      this.setState({
+          passwordValidation: false
+      })
+  }
+}
 
  signUpHandler = async() =>{
     if(this.state.firstName != '' &&  this.state.lastName != '' && this.state.email != '' && this.state.password != ''){
-      console.log('In SignUp Container');
       UserServices.SignUp(this.state.email, this.state.password)
           .then(user => {
               this.props.navigation.push("SignIn")
@@ -59,8 +132,33 @@ textInputChangeEmail = (val) =>{
               }
           })
     }
-    else
-      console.log('failed');
+    else{
+      if(this.state.firstName == '') {
+          await this.setState({
+              firstNameEmpty : true
+          })
+      }
+      if(this.state.lastName == ''){
+          await this.setState({
+              lastNameEmpty : true
+          })
+      }
+      if(this.state.email == '') {
+          await this.setState({
+              emailEmpty : true
+          })
+      }
+      if(this.state.password == '') {
+          await this.setState({
+              passwordEmpty : true
+          })
+      }
+      if(this.state.confirmPassword == '') {
+          await this.setState({
+              confirmPasswordEmpty : true
+          })
+      }
+  }   
  }
 
  signInHandler = () => {
@@ -80,7 +178,7 @@ render(){
                 color = "#fff"
                 size = {40}
         />
-        <Text style = {GlobalCss.text_header}>Fundoo-Notes</Text>
+        <Text style = {GlobalCss.text_header}>Fundoo Notes</Text>
       </View>
 
     <Animatable.View 
@@ -102,7 +200,11 @@ render(){
             onChangeText={this.textInputChangeFirstName}
         />
       </View>
-
+      <View>
+        <Text style = {GlobalCss.text_error_style}>
+            {(this.state.firstNameEmpty) ? 'required..' : (this.state.firstNameValidation) ? null : 'Invalid First Name'}
+        </Text>
+      </View>
     <Text style = {[GlobalCss.text_footer, {
       marginTop: 10
       }]}>Last Name</Text>
@@ -119,7 +221,11 @@ render(){
             onChangeText={this.textInputChangeLastName}
         />
     </View>
-
+      <View>
+        <Text style = {GlobalCss.text_error_style}>
+            {(this.state.lastNameEmpty) ? 'required..' : (this.state.lastNameValidation) ? null : 'Invalid Last Name..'}
+        </Text>
+      </View>
       <Text style = {[GlobalCss.text_footer, {
         marginTop: 10
         }]}>Email-Id</Text>
@@ -136,7 +242,11 @@ render(){
               onChangeText={this.textInputChangeEmail}
           />
       </View>
-
+      <View>    
+        <Text style = {GlobalCss.text_error_style}>
+            {(this.state.emailEmpty) ? 'required..' : (this.state.emailValidation) ? (this.state.emailPresent) ? 'Email Already Exist' : null : 'Invalid Email..'}
+        </Text>
+      </View>  
       <Text style = {[GlobalCss.text_footer, {
           marginTop: 10
       }]}>Password</Text>
@@ -152,15 +262,20 @@ render(){
               placeholderTextColor = "black"
               style = {GlobalCss.textInput}
               onChangeText={this.textInputChangePassword}
+              secureTextEntry = {this.state.secureTextPassword}
            />
       </View>
-    
-          <View style = {{alignItems: 'center', marginTop: 15}}>
+      <View>    
+        <Text style = {GlobalCss.text_error_style}>
+            {(this.state.passwordEmpty) ? 'required..' : (this.state.passwordValidation) ? null : 'Invalid Password..'}
+        </Text>
+      </View>
+          <View style = {{alignItems: 'center', marginTop: 10}}>
           <TouchableOpacity
               style = {[GlobalCss.signIn, {
                   borderColor: '#009387',
                   borderWidth: 1,
-                  marginTop: 15
+                  marginTop: 2
               }]}
               onPress = { this.signUpHandler }
           >

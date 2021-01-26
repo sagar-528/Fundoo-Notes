@@ -1,12 +1,14 @@
-import React from 'react'
-import { View, Text } from 'react-native-animatable'
+import React, { Component } from 'react'
+import  {  View, Text } from 'react-native'
 
-function Home() {
-    return (
-        <View>
-            <Text>Main Page</Text>
-        </View>
-    )
+export class Home extends Component {
+    render() {
+        return (
+            <View>
+                <Text>Home</Text>
+            </View>
+        )
+    }
 }
 
 export default Home

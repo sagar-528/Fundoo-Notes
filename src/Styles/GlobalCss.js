@@ -55,7 +55,8 @@ const GlobalCss = StyleSheet.create({
         flex: 1,
         marginTop: -12,
         paddingLeft: 10,
-        color: '#757575',
+        color: 'black',
+        fontSize: 18
     },
     text: {
           color: '#fff',
@@ -91,6 +92,11 @@ const GlobalCss = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10
+    },
+    text_error_style : {
+        alignSelf : 'flex-start',
+        marginRight : '10%',
+        color : 'red'
     },
     homeTextSign: {
           color: 'white',

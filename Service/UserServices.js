@@ -1,4 +1,4 @@
-import { findNodeHandle } from 'react-native'
+// import { findNodeHandle } from 'react-native'
 import Firebase from '../Environment/Firebase'
 
 class UserServices {
@@ -17,7 +17,7 @@ class UserServices {
         })
     }
 
-    login(email, password) {
+    SignIn(email, password) {
         return new Promise((resolve, reject) => {
             Firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(user => resolve(user))

@@ -11,13 +11,17 @@ class ForgetPassword extends React.Component {
         super(props)
     
         this.state = {
-            email : ''
+            email : '',
+            invalidEmail : false,
+            emailEmpty : false
         }
     }
 
 textInputChangeEmail = (val) =>{
     this.setState({
-        email: val
+        email: val,
+        invalidEmail : false,
+        emailEmpty : false,
     })
 }
 
@@ -33,8 +37,12 @@ textInputChangeEmail = (val) =>{
                 }
             })
     }
-    else{
-        console.log("error in ResettingPassword");
+    else {
+        if(this.state.email == '') {
+             this.setState({
+                emailEmpty : true
+            })
+        }
     }
 }
 
@@ -51,7 +59,7 @@ render(){
             color = "#fff"
             size = {40}
         />
-      <Text style = {GlobalCss.text_header}>Fundoo-Notes</Text>
+      <Text style = {GlobalCss.text_header}>FundooNotes</Text>
     </View>
 
     <Animatable.View 
@@ -73,8 +81,14 @@ render(){
             onChangeText = {this.textInputChangeEmail}
         />
     </View>
-  
-        <View style = {{alignItems: 'center', marginTop: 40}}>
+    
+    <View>    
+        <Text style = {GlobalCss.text_error_style}>
+            {(this.state.emailEmpty) ? 'required..' : (this.state.invalidEmail) ? 'Email not Found..' : null}
+        </Text>
+    </View>     
+
+        <View style = {{alignItems: 'center', marginTop: 20}}>
         <TouchableOpacity
             style = {[GlobalCss.signIn, {
                 borderColor: '#009387',

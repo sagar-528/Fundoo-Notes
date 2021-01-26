@@ -14,13 +14,37 @@ constructor(props) {
     this.state = {
         email : '',
         password : '',
+        invalidEmail : false,
+        invalidPassword : false,
+        secureTextPassword : true,
+        emailEmpty : false,
+        passwordEmpty : false
     }
 }
+
+
+textInputChangeEmail = (val) =>{
+     this.setState({
+          email : val,
+          invalidEmail : false,
+          invalidPassword : false,
+          emailEmpty : false
+      })
+  }
+  
+  textInputChangePassword = (val) =>{
+     this.setState({
+          password : val,
+          invalidEmail : false,
+          invalidPassword : false,
+          emailEmpty : false
+      })
+  }
 
 signInHandler = () => {
     if(this.state.email != '' && this.state.password != '')
     {
-        UserServices.login(this.state.email, this.state.password)
+        UserServices.SignIn(this.state.email, this.state.password)
             .then(user => {
                 this.props.navigation.navigate('Home')
             })
@@ -34,11 +58,21 @@ signInHandler = () => {
                     this.setState({
                         invalidPassword : true
                     })
+                    console.log('incorrect password');
                 }
             })
     }
     else{
-        console.log('error while SignIn');
+        if(this.state.email == '') {
+           this.setState({
+                emailEmpty : true
+            })
+        }
+        if(this.state.password == '') {
+             this.setState({
+                passwordEmpty : true
+            })
+        }
     }
 }
 
@@ -48,18 +82,6 @@ SignUpHandler = () =>{
 
 forgotPasswordHandler = () =>{
     this.props.navigation.push('ForgotPassword')
-}
-
-textInputChangeEmail = (val) =>{
-    this.setState({
-        email : val
-    })
-}
-
-textInputChangePassword = (val) =>{
-    this.setState({
-        password : val
-    })
 }
 
 render(){
@@ -74,7 +96,7 @@ render(){
                 color = "#fff"
                 size = {40}
             />
-            <Text style = {GlobalCss.text_header}>Fundoo-Notes</Text>
+            <Text style = {GlobalCss.text_header}>Fundoo Notes</Text>
         </View>
 
         <Animatable.View 
@@ -96,9 +118,14 @@ render(){
                     onChangeText={this.textInputChangeEmail}
                 />
             </View>
+            <View>
+                <Text style={GlobalCss.text_error_style}>
+                    {(this.state.emailEmpty) ? 'Required..' : (this.state.invalidEmail) ? 'Email not Found..' : null}
+                </Text>
+            </View>
             
             <Text style = {[GlobalCss.text_footer, {
-                marginTop: 35
+                marginTop: 15
             }]}>Password</Text>
             
             <View style = {GlobalCss.action}>
@@ -112,10 +139,16 @@ render(){
                     placeholderTextColor = "black"
                     style = {GlobalCss.textInput}
                     onChangeText={this.textInputChangePassword}
+                    secureTextEntry = {this.state.secureTextPassword}
                  />
             </View>
+            <View>
+                <Text style = {GlobalCss.text_error_style}>
+                    {(this.state.passwordEmpty) ? 'Required..' : (this.state.invalidPassword) ? 'Invalid Password..' : null}
+                </Text>
+            </View>
                 <TouchableOpacity onPress = { this.forgotPasswordHandler }>
-                    <Text style = {{color: '#1976d2', marginTop:15, fontSize: 15}}>Forgot password?</Text>
+                    <Text style = {{color: '#1976d2', marginTop:5, fontSize: 15}}>Forgot password?</Text>
                 </TouchableOpacity>
             
                 <View style = {GlobalCss.button}>
