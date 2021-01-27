@@ -55,7 +55,7 @@ render(){
     
     <View style = {GlobalCss.header}>
         <FontAwesome5 
-            name = "user-circle"
+            name = "foursquare"
             color = "#fff"
             size = {50}
         />
