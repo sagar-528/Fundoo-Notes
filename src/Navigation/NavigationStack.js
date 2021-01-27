@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import  SplashScreen from '../Components/Screens/SplashScreen';
-import SignInScreen from '../Components/Screens/SignInScreen';
-import SignUpScreen from '../Components/Screens/SignUpScreen';
-import ForgotPasswordScreen from '../Components/Screens/ForgotPasswordScreen';
+import  SplashScreen from '../Screens/SplashScreen';
+import SignInScreen from '../Screens/SignInScreen';
+import SignUpScreen from '../Screens/SignUpScreen';
+import ForgotPasswordScreen from '../Screens/ForgotPasswordScreen';
 import Home from '../Components/Home';
 
 const Stack = createStackNavigator();

@@ -2,7 +2,6 @@ import { StyleSheet, Dimensions } from 'react-native'
 
 
 const {height} = Dimensions.get("screen");
-const height_logo = height * 0.28;
 
 const GlobalCss = StyleSheet.create({
     container: {
@@ -48,7 +47,7 @@ const GlobalCss = StyleSheet.create({
     },
     title: {
           color: '#fff',
-          fontSize: 25,
+          fontSize: 40,
           fontWeight: 'bold'
       },
     textInput: {

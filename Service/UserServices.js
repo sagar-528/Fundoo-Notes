@@ -4,12 +4,14 @@ class UserServices {
      
   SignUp(email, password){
         return new Promise((resolve, reject) => {
-            console.log('handleSignUp')
             Firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(user => resolve(user))
             .catch(error => {
                 if (error.code === 'auth/email-already-in-use') {
                     reject('Email Already Exist')
+                }
+                if (error.code === 'auth/wrong-password') {
+                    reject('Incorrect Password')
                 }
                 console.log(error);
             })
