@@ -5,7 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import GlobalCss from '../Styles/GlobalCss';
 import UserServices from '../../Service/UserServices';
-// import {LoginButton, AccessToken, GraphRequest, GraphRequestManager} from 'react-native-fbsdk'
+import {LoginButton, AccessToken, GraphRequest, GraphRequestManager} from 'react-native-fbsdk'
 
 class SignIn extends React.Component {
 
@@ -21,9 +21,9 @@ constructor(props) {
         emailEmpty : false,
         passwordEmpty : false,
 
-        // user_name: '',
-        // avatar_url: '',
-        // avatar_show: false
+        user_name: '',
+        avatar_url: '',
+        avatar_show: false
     }
 }
 
@@ -89,21 +89,21 @@ forgotPasswordHandler = () =>{
     this.props.navigation.push('ForgotPassword')
 }
 
-// get_Response_Info = (error, result) => {
-//     if (error) {
-//       Alert.alert('Error fetching data: ' + error.toString());
-//     } 
-//     else {
-//       this.setState({ user_name: 'Welcome' + ' ' + result.name });
-//       this.setState({ avatar_url: result.picture.data.url });
-//       this.setState({ avatar_show: true })
-//       console.log(result);
-//     }
-// }
+get_Response_Info = (error, result) => {
+    if (error) {
+      Alert.alert('Error fetching data: ' + error.toString());
+    } 
+    else {
+      this.setState({ user_name: 'Welcome' + ' ' + result.name });
+      this.setState({ avatar_url: result.picture.data.url });
+      this.setState({ avatar_show: true })
+      console.log(result);
+    }
+}
 
-// onLogout = () => {
-//     this.setState({ user_name: null, avatar_url: null, avatar_show: false });
-// }
+onLogout = () => {
+    this.setState({ user_name: null, avatar_url: null, avatar_show: false });
+}
 
 render(){
   return(
@@ -199,7 +199,7 @@ render(){
                     }]}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
-    {/* <View>
+     <View style = {GlobalCss.facebookButton}>
         <LoginButton
             readPermissions={['public_profile']}
             onLoginFinished={(error, result) => {
@@ -226,8 +226,8 @@ render(){
             }}
             onLogoutFinished={this.onLogout}
         />    
-        </View> */}
-        </Animatable.View>
+        </View> 
+    </Animatable.View>
     </View>
     </TouchableWithoutFeedback>
   )};

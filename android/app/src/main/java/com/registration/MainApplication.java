@@ -8,6 +8,10 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.facebook.FacebookSdk;
+import com.facebook.CallbackManager;
+import com.facebook.appevents.AppEventsLogger;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -46,6 +50,12 @@ public class MainApplication extends Application implements ReactApplication {
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
+
+
+private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
+     protected static CallbackManager getCallbackManager() {
+     return mCallbackManager;
+     }
 
   /**
    * Loads Flipper in React Native templates. Call this in the onCreate method with something like

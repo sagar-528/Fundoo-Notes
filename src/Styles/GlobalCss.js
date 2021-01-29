@@ -77,6 +77,10 @@ const GlobalCss = StyleSheet.create({
         alignItems: 'center',
         marginTop: 30
     },
+    facebookButton: {
+        marginTop: 20,
+        alignItems: 'center',
+    },
     homeSignIn: {
           width: 150,
           height: 40,
