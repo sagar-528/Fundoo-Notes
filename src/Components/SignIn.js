@@ -5,7 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import GlobalCss from '../Styles/GlobalCss';
 import UserServices from '../../Service/UserServices';
-import {LoginButton, AccessToken, GraphRequest, GraphRequestManager} from 'react-native-fbsdk'
+import UserSocialServices from '../../Service/UserSocialServices';
 
 class SignIn extends React.Component {
 
@@ -89,20 +89,14 @@ forgotPasswordHandler = () =>{
     this.props.navigation.push('ForgotPassword')
 }
 
-get_Response_Info = (error, result) => {
-    if (error) {
-      Alert.alert('Error fetching data: ' + error.toString());
-    } 
-    else {
-      this.setState({ user_name: 'Welcome' + ' ' + result.name });
-      this.setState({ avatar_url: result.picture.data.url });
-      this.setState({ avatar_show: true })
-      console.log(result);
-    }
-}
-
-onLogout = () => {
-    this.setState({ user_name: null, avatar_url: null, avatar_show: false });
+handleFacebookLoginButton = async () => {
+    const {onPress} = this.props;
+    UserSocialServices.facebookLogin()
+        .then(UserCredential => this.props.navigation.navigate('Dashboard'))
+        .catch(error => {
+            console.log(error)
+        })
+    onPress();
 }
 
 render(){
@@ -146,7 +140,7 @@ render(){
             </View>
             
             <Text style = {[GlobalCss.text_footer, {
-                marginTop: 15
+                marginTop: 10
             }]}>Password</Text>
             
             <View style = {GlobalCss.action}>
@@ -199,34 +193,20 @@ render(){
                     }]}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
-     <View style = {GlobalCss.facebookButton}>
-        <LoginButton
-            readPermissions={['public_profile']}
-            onLoginFinished={(error, result) => {
-                if (error) {
-                    console.log(error.message);
-                    console.log('login has error: ' + result.error);
-                } 
-                else if (result.isCancelled) {
-                    console.log('login is cancelled.');
-                } 
-                else {
-                    AccessToken.getCurrentAccessToken().then(data => {
-
-                    const processRequest = new GraphRequest(
-                    '/me?fields=name,picture.type(large)',
-                    null,
-                    this.get_Response_Info
-                    );
-                    // Start the graph request.
-                    new GraphRequestManager().addRequest(processRequest).start();
-
-                    });
-                }
-            }}
-            onLogoutFinished={this.onLogout}
-        />    
-        </View> 
+                <View>
+                    <Text style={{marginTop: 10, textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 15,}}>Or</Text>
+                </View>
+                <TouchableOpacity onPress={this.handleFacebookLoginButton}>
+                <View style={GlobalCss.facebookButton} >
+                   <FontAwesome5 
+                   name = "facebook"
+                   size = {20}
+                   color = "blue" />
+                   <Text style = {[GlobalCss.homeTextSign,{
+                    color: '#1976d2'
+                   }]}>Login with Facebook</Text>
+            </View>
+            </TouchableOpacity>
     </Animatable.View>
     </View>
     </TouchableWithoutFeedback>

@@ -75,7 +75,7 @@ const GlobalCss = StyleSheet.create({
       }, 
     button: {
         alignItems: 'center',
-        marginTop: 30
+        marginTop: 20
     },
     facebookButton: {
         marginTop: 20,
@@ -104,7 +104,8 @@ const GlobalCss = StyleSheet.create({
     },
     homeTextSign: {
           color: 'white',
-          fontWeight: 'bold'
+          fontWeight: 'bold',
+          fontSize: 20
       },
     textSign: {
         fontSize: 18,
