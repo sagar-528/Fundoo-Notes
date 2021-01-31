@@ -26,6 +26,7 @@ textInputChangeEmail = (val) =>{
 }
 
  resetPasswordHandler = () => {
+    const {onPress} = this.props
     if(this.state.email != '') {
         UserServices.forgotPassword(this.state.email)
             .then(user => this.props.navigation.push('SignIn'))

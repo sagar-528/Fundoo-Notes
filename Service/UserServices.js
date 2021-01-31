@@ -2,7 +2,7 @@ import Firebase from '../Environment/Firebase'
 
 class UserServices {
      
-  SignUp(email, password){
+  SignUp = (email, password) => {
         return new Promise((resolve, reject) => {
             Firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(user => resolve(user))
@@ -18,7 +18,7 @@ class UserServices {
         })
     }
 
-    SignIn(email, password) {
+    SignIn = (email, password) => {
         return new Promise((resolve, reject) => {
             Firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(user => resolve(user))
@@ -34,7 +34,7 @@ class UserServices {
         })
     }
 
-    forgotPassword(email) {
+    forgotPassword = (email) => {
         return new Promise((resolve, reject) => {
             Firebase.auth().sendPasswordResetEmail(email)
                 .then(user => resolve(user))
@@ -44,6 +44,14 @@ class UserServices {
                     }
                     console.log(error);
                 })
+        })
+    }
+
+    writeUserDataForRegister = (userCredential, firstName, lastName) => {
+        Firebase.database().ref('users/' + userCredential.user.uid).set({
+            firstName : firstName,
+            lastName : lastName,
+            email : userCredential.user.email,
         })
     }
 

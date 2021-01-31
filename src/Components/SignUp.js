@@ -121,7 +121,9 @@ validatePassword = () => {
  signUpHandler = async() =>{
     if(this.state.firstName != '' &&  this.state.lastName != '' && this.state.email != '' && this.state.password != ''){
       UserServices.SignUp(this.state.email, this.state.password)
-          .then(user => {
+          .then(userCredential => {
+            alert('You are Registered Successfully')
+            UserServices.writeUserDataForRegister(userCredential, this.state.firstName, this.state.lastName)
               this.props.navigation.push("SignIn")
           })
           .catch(error => {

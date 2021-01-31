@@ -7,6 +7,7 @@ import GlobalCss from '../Styles/GlobalCss';
 import UserServices from '../../Service/UserServices';
 import UserSocialServices from '../../Service/UserSocialServices';
 
+
 class SignIn extends React.Component {
 
 constructor(props) {
@@ -20,10 +21,6 @@ constructor(props) {
         secureTextPassword : true,
         emailEmpty : false,
         passwordEmpty : false,
-
-        user_name: '',
-        avatar_url: '',
-        avatar_show: false
     }
 }
 
@@ -50,8 +47,8 @@ signInHandler = () => {
     if(this.state.email != '' && this.state.password != '')
     {
         UserServices.SignIn(this.state.email, this.state.password)
-            .then(user => {
-                this.props.navigation.navigate('Home')
+            .then(UserCredential => {
+                this.props.navigation.push('Home')
             })
             .catch(error => {
                 if(error == 'Email not Found') {
@@ -89,14 +86,15 @@ forgotPasswordHandler = () =>{
     this.props.navigation.push('ForgotPassword')
 }
 
-handleFacebookLoginButton = async () => {
-    const {onPress} = this.props;
+handleFacebookLoginButton = () => {
     UserSocialServices.facebookLogin()
-        .then(UserCredential => this.props.navigation.navigate('Dashboard'))
+    .then(UserCredential => {
+        UserSocialServices.writeUserDataForFacebookLogin(UserCredential);
+        this.props.navigation.push('Home')
+    })
         .catch(error => {
             console.log(error)
         })
-    onPress();
 }
 
 render(){
