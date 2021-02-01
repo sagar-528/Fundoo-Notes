@@ -48,6 +48,7 @@ signInHandler = () => {
     {
         UserServices.SignIn(this.state.email, this.state.password)
             .then(UserCredential => {
+                console.log("signIn");
                 this.props.navigation.push('Home')
             })
             .catch(error => {
