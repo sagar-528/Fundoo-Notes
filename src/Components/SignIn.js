@@ -43,28 +43,44 @@ textInputChangeEmail = (val) =>{
       })
   }
 
+handleSecureTextPassword = () => {
+    const {onPress} = this.props
+    if(this.state.secureTextPassword == true) {
+        this.setState({
+            secureTextPassword : false
+        })
+    }
+    else {
+        this.setState({
+            secureTextPassword : true
+        })
+    }
+    (onPress == undefined) ? null : onPress();
+}
+
 signInHandler = () => {
+    const {onPress} = this.props
     if(this.state.email != '' && this.state.password != '')
     {
-        UserServices.SignIn(this.state.email, this.state.password)
-            .then(UserCredential => {
-                console.log("signIn");
-                this.props.navigation.push('Home')
-            })
-            .catch(error => {
-                if(error == 'Email not Found') {
-                    this.setState({
+                UserServices.SignIn(this.state.email, this.state.password)
+                .then(UserCredential => {
+                        console.log("signIn");
+                        this.props.navigation.push('Home')
+                    })
+                .catch(error => {
+                    if(error == 'Email not Found') {
+                        this.setState({
                         invalidEmail : true
-                    })
-                }
-                if(error == 'Incorrect Password') {
-                    this.setState({
-                        invalidPassword : true
-                    })
-                    console.log('incorrect password');
-                }
-            })
-    }
+                        })
+                    }
+                    if(error == 'Incorrect Password') {
+                        this.setState({
+                            invalidPassword : true
+                        })
+                        console.log('incorrect password');
+                    }
+                })
+        }
     else{
         if(this.state.email == '') {
            this.setState({
@@ -77,14 +93,19 @@ signInHandler = () => {
             })
         }
     }
+    onPress();
 }
 
 SignUpHandler = () =>{
-    this.props.navigation.push('SignUp')
+    const {onPress} = this.props;
+    this.props.navigation.navigate('SignUp')
+    onPress();
 }
 
 forgotPasswordHandler = () =>{
-    this.props.navigation.push('ForgotPassword')
+    const {onPress} = this.props;
+    this.props.navigation.navigate('ForgotPassword')
+    onPress();
 }
 
 handleFacebookLoginButton = () => {

@@ -15,7 +15,7 @@ class UserSocialServices {
                 reject('Something went wrong obtaining access token');
             }
 
-            const facebookCredential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+            const facebookCredential = firebase.auth().FacebookAuthProvider.credential(data.accessToken);
             firebase.auth().signInWithCredential(facebookCredential)
             .then(UserCredential => {
                 console.log(UserCredential)

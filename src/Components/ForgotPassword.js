@@ -45,6 +45,7 @@ textInputChangeEmail = (val) =>{
             })
         }
     }
+    onPress();
 }
 
 render(){

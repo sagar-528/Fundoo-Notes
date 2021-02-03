@@ -119,6 +119,7 @@ validatePassword = () => {
 }
 
  signUpHandler = async() =>{
+  const {onPress} = this.props;
     if(this.state.firstName != '' &&  this.state.lastName != '' && this.state.email != '' && this.state.password != ''){
       UserServices.SignUp(this.state.email, this.state.password)
           .then(userCredential => {
@@ -161,10 +162,13 @@ validatePassword = () => {
           })
       }
   }   
+  onPress();
  }
 
  signInHandler = () => {
+   const {onPress} = this.props;
     this.props.navigation.push("SignIn")
+    onPress();
  }
 
 render(){
