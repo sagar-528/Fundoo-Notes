@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import  { View, TouchableOpacity } from 'react-native'
 import { Appbar, FAB, Avatar } from 'react-native-paper';
-import HomeCss from '../Styles/HomeCss'
+import HomeCss from '../../Styles/HomeCss'
 
 export class HeaderBar extends Component {
 
@@ -24,7 +24,8 @@ export class HeaderBar extends Component {
             <View style = {HomeCss.container}>
                 <Appbar.Header>
                     <Appbar.Action
-                    icon = 'menu'/>
+                    icon = 'menu'
+                    onPress = {() => console.log('press')}/>
                     <Appbar.Content
                     style = {HomeCss.appbar_content_style}
                     title = "Search your notes"/>
@@ -34,7 +35,7 @@ export class HeaderBar extends Component {
                     />
                     <TouchableOpacity
                     style = {HomeCss.avatar_style} >
-                    <Avatar.Image size={25} source={require('../Assets/profile.jpg')} />
+                    <Avatar.Image size={25} source={require('../../Assets/profile.jpg')} />
                     </TouchableOpacity>
                 </Appbar.Header>
             </View>

@@ -1,5 +1,5 @@
 import React from 'react'
-import SignUp from '../Components/SignUp'
+import SignUp from '../Components/Authentication/SignUp'
 
 const SignUpScreen = ({ navigation }) => {
     return (

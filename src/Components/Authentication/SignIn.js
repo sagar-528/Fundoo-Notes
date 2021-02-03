@@ -3,9 +3,10 @@ import {  View, Text, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFee
 import * as Animatable from 'react-native-animatable';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
-import GlobalCss from '../Styles/GlobalCss';
-import UserServices from '../../Service/UserServices';
-import UserSocialServices from '../../Service/UserSocialServices';
+import GlobalCss from '../../Styles/GlobalCss';
+import UserServices from '../../../Service/UserServices';
+import UserSocialServices from '../../../Service/UserSocialServices';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 class SignIn extends React.Component {
@@ -93,19 +94,19 @@ signInHandler = () => {
             })
         }
     }
-    onPress();
+    // onPress();
 }
 
 SignUpHandler = () =>{
     const {onPress} = this.props;
     this.props.navigation.navigate('SignUp')
-    onPress();
+    // onPress();
 }
 
 forgotPasswordHandler = () =>{
     const {onPress} = this.props;
     this.props.navigation.navigate('ForgotPassword')
-    onPress();
+    // onPress();
 }
 
 handleFacebookLoginButton = () => {
@@ -121,6 +122,7 @@ handleFacebookLoginButton = () => {
 
 render(){
   return(
+    <ScrollView>
     <TouchableWithoutFeedback onPress = {() => {
         Keyboard.dismiss();
     }}>
@@ -230,7 +232,8 @@ render(){
     </Animatable.View>
     </View>
     </TouchableWithoutFeedback>
-  )};
+    </ScrollView>
+    )};
 };
 
 export default SignIn

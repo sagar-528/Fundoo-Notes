@@ -1,8 +1,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import SignIn from '../src/Components/SignIn'
+import SignIn from '../src/Components/Authentication/SignIn'
 
 describe('test SignIn', () => {
+
     it('test when render should match to snapshot', () => {
         const component = shallow(<SignIn/>)
         expect(component).toMatchSnapshot();
@@ -15,7 +16,7 @@ describe('test SignIn', () => {
         expect(component.instance().state.email).toBe('gupta.sagar528@gmail.com')
     })
 
-    it('test the password handler method should update password state', async () => {
+    it('test the password handler method should update password state', () => {
         const component = shallow(<SignIn/>)
         expect(component.instance().state.password).toBe('')
         component.instance().textInputChangePassword('Qwerty@111')

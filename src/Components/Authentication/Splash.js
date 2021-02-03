@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { View, Text} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import GobalCss from '../Styles/GlobalCss';
+import GobalCss from '../../Styles/GlobalCss';
 
 class SplashScreen extends Component {
 

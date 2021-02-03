@@ -1,6 +1,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import ForgotPassword from '../src/Components/ForgotPassword'
+import ForgotPassword from '../src/Components/Authentication/ForgotPassword'
 
 describe('test Forgot Password', () => {
     

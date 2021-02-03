@@ -1,5 +1,5 @@
 import React from 'react'
-import Splash from '../Components/Splash'
+import Splash from '../Components/Authentication/Splash'
 
 function SplashScreen( { navigation } ) {
     return (

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import  { View } from 'react-native'
 import { Appbar, FAB } from 'react-native-paper';
-import HomeCss from '../Styles/HomeCss';
+import HomeCss from '../../Styles/HomeCss';
 
 export class BottomBar extends Component {
     render() {
