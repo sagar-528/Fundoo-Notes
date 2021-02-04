@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-const HomeCss = StyleSheet.create({
+const NoteCss = StyleSheet.create({
 
     container: {
         flex : 1
@@ -26,7 +26,27 @@ const HomeCss = StyleSheet.create({
     avatar_style : {
         marginRight : 15, 
         marginLeft : 5
-    }
+    },
+    app_name : {
+      fontSize : 25,
+      fontWeight : 'bold',
+      marginLeft : 20,
+      marginTop : 10,
+      marginBottom : 15
+  },
+  
+  drawer_item_style : {
+      paddingLeft : 10,
+      height : 50,
+      justifyContent : 'center',
+      color : 'red'
+  },
+  
+  drawer_section_style : {
+      borderBottomWidth : 0.6,
+      borderColor : 'grey'
+  }
+  
 })
 
-export default HomeCss
+export default NoteCss

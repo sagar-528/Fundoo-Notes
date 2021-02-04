@@ -1,5 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test Register should match to snapshot 1`] = `ShallowWrapper {}`;
-
 exports[`test SignUp should match to snapshot 1`] = `ShallowWrapper {}`;

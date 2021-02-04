@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
 import  { View } from 'react-native'
 import { Appbar, FAB } from 'react-native-paper';
-import HomeCss from '../../Styles/HomeCss';
+import NoteCss from '../../Styles/NoteCss'
 
 export class BottomBar extends Component {
     render() {
         return (
             <View>
                 <Appbar
-                style = {HomeCss.bottom}>
+                style = {NoteCss.bottom}>
                     <Appbar.Action icon = "check-box-outline" />
                     <Appbar.Action icon = "brush"  />
                     <Appbar.Action icon = "microphone-outline"  />
                     <Appbar.Action icon = "panorama"  />
                 </Appbar>
-                <FAB icon = "plus"  style = {HomeCss.fab} />
+                <FAB icon = "plus"  style = {NoteCss.fab} />
             </View>
         )
     }

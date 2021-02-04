@@ -14,7 +14,7 @@ constructor(props) {
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
             <HeaderBar navigation = {this.props.navigation} />
-            <Card />
+            <Card navigation = {this.props.navigation}/>
             <BottomBar navigation = {this.props.navigation}/>
             </View>
         )

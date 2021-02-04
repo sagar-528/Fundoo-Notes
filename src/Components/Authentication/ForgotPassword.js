@@ -52,7 +52,7 @@ textInputChangeEmail = (val) =>{
             })
         }
     }
-    // onPress();
+    onPress();
 }
 
 hideDialog =  () => {
@@ -60,7 +60,7 @@ hideDialog =  () => {
      this.setState({
         visible : false
     })
-    //onDismiss();
+    onDismiss();
 }
 
 handleDialogButton = () => {

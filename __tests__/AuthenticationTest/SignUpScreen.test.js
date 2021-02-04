@@ -1,6 +1,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import SignUpScreen from '../src/Screens/SignUpScreen';
+import SignUpScreen from '../../src/Screens/SignUpScreen';
 
 describe('test SignUpScreen', () => {
     it('should match to snapshot', () => {

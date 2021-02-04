@@ -79,7 +79,7 @@ signInHandler = () => {
                 .then( (UserCredential) => {
                         this.storeIteminAsyncStorage()
                         console.log("signIn");
-                        this.props.navigation.push('Home')
+                        this.props.navigation.navigate('Home')
                     })
                 .catch(error => {
                     if(error == 'Email not Found') {
@@ -107,7 +107,7 @@ signInHandler = () => {
             })
         }
     }
-    // onPress();
+    onPress();
 }
 
 storeIteminAsyncStorage = async () => {
@@ -124,13 +124,13 @@ storeIteminAsyncStorage = async () => {
 SignUpHandler = () =>{
     const {onPress} = this.props;
     this.props.navigation.navigate('SignUp')
-    // onPress();
+    onPress();
 }
 
 forgotPasswordHandler = () =>{
     const {onPress} = this.props;
     this.props.navigation.navigate('ForgotPassword')
-    // onPress();
+    onPress();
 }
 
 handleFacebookLoginButton = async () => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import SignUp from '../src/Components/Authentication/SignUp'
+import SignUp from '../../src/Components/Authentication/SignUp'
+import UserServices from '../../Service/UserServices'
 
 describe('test SignUp', () => {
     
@@ -114,6 +115,36 @@ describe('test SignUp', () => {
         expect(instance.state.lastNameEmpty).toBe(true)
         expect(instance.state.emailEmpty).toBe(true)
         expect(instance.state.passwordEmpty).toBe(true)
+    })
+
+    it('test onPress event of sign up button when all fields are valid it will navigate to Login Screen', async() => {
+        const navigation = { navigate : jest.fn() }
+        const onPressEvent = jest.fn();
+        const component = shallow(<SignUp onPress = {onPressEvent} navigation = {navigation} />)
+        const instance = component.instance();
+        instance.textInputChangeFirstName('Sagar')
+        instance.textInputChangeLastName('Gupta')
+        instance.textInputChangeEmail('gupta.sagar528@gmail.com')
+        instance.textInputChangePassword('Qwerty@111')
+        await instance.signUpHandler();
+        expect(onPressEvent).toHaveBeenCalled();
+        return UserServices.SignUp(instance.state.email, instance.state.password)
+            .then(user => expect(navigation.navigate).toBeCalledWith('SignIn'))
+            .catch(error => console.log(error))
+    })
+
+    it('test onPress event of sign up button when email is already present then emailPresent state should be true', async() => {
+        const navigation = { navigate : jest.fn() }
+        const onPressEvent = jest.fn();
+        const component = shallow(<SignUp onPress = {onPressEvent} navigation = {navigation} />)
+        const instance = component.instance();
+        instance.textInputChangeFirstName('Sagar')
+        instance.textInputChangeLastName('Gupta')
+        instance.textInputChangeEmail('gupta.sagar528@gmail.com')
+        instance.textInputChangePassword('Qwerty@111')
+        await instance.signUpHandler();
+        expect(onPressEvent).toHaveBeenCalled();
+        return UserServices.SignUp(instance.state.email, instance.state.password).catch(error => expect(instance.state.emailPresent).toBe(true))
     })
 
 })
