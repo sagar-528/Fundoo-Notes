@@ -1,18 +1,16 @@
 import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import { NavigationContainer } from '@react-navigation/native'
-import Home from '../Components/Dashboard/Home'
-// import DrawerContent from '../Components/DrawerContent'
+import NoteScreen from '../Components/Dashboard/NoteScreen'
+import DrawerContent from '../Components/Dashboard/DrawerContent'
+// import Remainder from '../Components/Dashboard/Remainder'
 
 const Drawer = createDrawerNavigator();
 
-const DrawerNavigationStack = () => {
+function DrawerNavigationStack({props}) {
     return (
-        <NavigationContainer>
-            <Drawer.Navigator drawerContent = {props => <DrawerContent {...props}/>}>
-            <Drawer.Screen name = 'Notes' component = {Home} />
-            </Drawer.Navigator>
-        </NavigationContainer>
+        <Drawer.Navigator drawerContent = {props => <DrawerContent props = {props}/> }>
+            <Drawer.Screen name = 'Notes' component = {NoteScreen} />
+        </Drawer.Navigator>
     )
 }
 

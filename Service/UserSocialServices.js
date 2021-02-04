@@ -15,23 +15,14 @@ class UserSocialServices {
                 reject('Something went wrong obtaining access token');
             }
 
-            const facebookCredential = firebase.auth().FacebookAuthProvider.credential(data.accessToken);
+            const facebookCredential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
             firebase.auth().signInWithCredential(facebookCredential)
             .then(UserCredential => {
-                console.log(UserCredential)
                 resolve(UserCredential)
                 })
                 .catch(error => {
                     console.log(error);
                 })
-        })
-    }
-
-    writeUserDataForFacebookLogin = (userCredential) => {
-        Firebase.database().ref('users/' + userCredential.user.uid).set({
-            firstName : userCredential.additionalUserInfo.profile.first_name,
-            lastName : userCredential.additionalUserInfo.profile.last_name,
-            email : userCredential.additionalUserInfo.profile.email,
         })
     }
 

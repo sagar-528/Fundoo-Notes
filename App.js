@@ -1,11 +1,11 @@
 import React from 'react'
 import NavigationStack  from './src/Navigation/NavigationStack'
-// import Home from './src/Components/Dashboard/Home'
+// import NoteScreen from '../Registration/src/Components/Dashboard/NoteScreen'
 
 const App = () => {
     return(
       <NavigationStack  />
-      // <Home />
+      // <NoteScreen />
     );
 };
 

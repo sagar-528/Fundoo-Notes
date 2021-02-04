@@ -3,7 +3,7 @@ import  { View, TouchableOpacity } from 'react-native'
 import { Appbar, FAB, Avatar } from 'react-native-paper';
 import HomeCss from '../../Styles/HomeCss'
 
-export class HeaderBar extends Component {
+class HeaderBar extends Component {
 
     constructor(props) {
         super(props)
@@ -14,18 +14,21 @@ export class HeaderBar extends Component {
     }
     
     selectView = () => {
+        const {onPress} = this.props
         this.setState({
-           listView : !this.state.listView
+          listView : !this.state.listView
        })
+        //onPress()
    }
 
     render() {
         return (
             <View style = {HomeCss.container}>
-                <Appbar.Header>
+                <Appbar.Header style={{ backgroundColor: 'grey'}}>
                     <Appbar.Action
                     icon = 'menu'
-                    onPress = {() => console.log('press')}/>
+                    onPress = {() => this.props.navigation.openDrawer()}
+                    />
                     <Appbar.Content
                     style = {HomeCss.appbar_content_style}
                     title = "Search your notes"/>

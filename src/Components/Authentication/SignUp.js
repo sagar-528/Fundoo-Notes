@@ -124,11 +124,11 @@ validatePassword = () => {
   const {onPress} = this.props;
     if(this.state.firstName != '' &&  this.state.lastName != '' && this.state.email != '' && this.state.password != ''){
       UserServices.SignUp(this.state.email, this.state.password)
-          .then(userCredential => {
-            this.setState({
+          .then( async userCredential => {
+           await this.setState({
               visible : true
             })
-            UserServices.writeUserDataForRegister(userCredential, this.state.firstName, this.state.lastName)
+            UserServices.writeUserDataInRealtimeDatabase(userCredential.user.uid, this.state.firstName, this.state.lastName, userCredential.user.email)
               this.props.navigation.push("SignIn")
           })
           .catch(error => {

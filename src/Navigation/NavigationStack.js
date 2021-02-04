@@ -5,7 +5,8 @@ import  SplashScreen from '../Screens/SplashScreen';
 import SignInScreen from '../Screens/SignInScreen';
 import SignUpScreen from '../Screens/SignUpScreen';
 import ForgotPasswordScreen from '../Screens/ForgotPasswordScreen';
-import HomeScreen from '../Screens/HomeScreen';
+import DrawerNavigationStack from './DrawerNavigationStack';
+// import NoteScreen from '../Components/Dashboard/NoteScreen'
 
 const Stack = createStackNavigator();
 
@@ -13,11 +14,12 @@ const NavigationStack = () => {
 
     return(
         <NavigationContainer>
-        <Stack.Navigator screenOptions = {{headerShown : false}}>
+        <Stack.Navigator
+        screenOptions = {{headerShown : false}}>
             <Stack.Screen name = "SplashScreen" component = { SplashScreen } />
             <Stack.Screen name = "SignIn" component = { SignInScreen } />
-            <Stack.Screen name = "Home" component = { HomeScreen } />
             <Stack.Screen name = "SignUp" component = { SignUpScreen } />
+            <Stack.Screen name = "Home" component = { DrawerNavigationStack } />
             <Stack.Screen name = "ForgotPassword" component = { ForgotPasswordScreen } />
         </Stack.Navigator>
         </NavigationContainer>

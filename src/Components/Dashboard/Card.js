@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {ScrollView} from 'react-native';
-// import {Button} from 'react-native-paper';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Button} from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class Card extends Component {
     constructor(props) {
@@ -11,11 +11,11 @@ class Card extends Component {
     render() {
         return (
             <ScrollView style = {{marginBottom : 60}}>
-            {/*    <Button 
+               <Button 
                     onPress = { () => {
                     AsyncStorage.setItem('isLoggedIn', JSON.stringify(false));
                     this.props.navigation.push('SignIn')
-                    }}>LogOut</Button> */}           
+                    }}>LogOut</Button>           
             </ScrollView>
         )
     }

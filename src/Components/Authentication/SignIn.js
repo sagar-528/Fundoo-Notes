@@ -6,8 +6,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import GlobalCss from '../../Styles/GlobalCss';
 import UserServices from '../../../Service/UserServices';
 import UserSocialServices from '../../../Service/UserSocialServices';
-import { ScrollView } from 'react-native-gesture-handler';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class SignIn extends React.Component {
 
@@ -22,7 +21,20 @@ constructor(props) {
         secureTextPassword : true,
         emailEmpty : false,
         passwordEmpty : false,
+        isLoggedIn : false
     }
+}
+
+async componentDidMount(){
+    try {
+        const isLoggedIn = JSON.parse(await AsyncStorage.getItem('isLoggedIn'))
+        if(isLoggedIn) {
+          this.props.navigation.navigate("Home")
+        }
+      } 
+      catch(e) {
+        console.log(e)
+      }
 }
 
 
@@ -64,7 +76,8 @@ signInHandler = () => {
     if(this.state.email != '' && this.state.password != '')
     {
                 UserServices.SignIn(this.state.email, this.state.password)
-                .then(UserCredential => {
+                .then( (UserCredential) => {
+                        this.storeIteminAsyncStorage()
                         console.log("signIn");
                         this.props.navigation.push('Home')
                     })
@@ -97,6 +110,17 @@ signInHandler = () => {
     // onPress();
 }
 
+storeIteminAsyncStorage = async () => {
+    try {
+        await this.setState({
+            isLoggedIn : true
+        })
+        await AsyncStorage.setItem('isLoggedIn', JSON.stringify(this.state.isLoggedIn));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 SignUpHandler = () =>{
     const {onPress} = this.props;
     this.props.navigation.navigate('SignUp')
@@ -109,11 +133,13 @@ forgotPasswordHandler = () =>{
     // onPress();
 }
 
-handleFacebookLoginButton = () => {
+handleFacebookLoginButton = async () => {
+    const {onPress} = this.props;
     UserSocialServices.facebookLogin()
-    .then(UserCredential => {
-        UserSocialServices.writeUserDataForFacebookLogin(UserCredential);
-        this.props.navigation.push('Home')
+    .then( async UserCredential => {
+        UserSocialServices.writeUserDataInRealtimeDatabase(UserCredential.user.uid, UserCredential.additionalUserInfo.profile.first_name, UserCredential.additionalUserInfo.profile.last_name, UserCredential.additionalUserInfo.profile.email);
+        this.storeIteminAsyncStorage()
+        this.props.navigation.navigate('Home')
     })
         .catch(error => {
             console.log(error)
@@ -122,7 +148,6 @@ handleFacebookLoginButton = () => {
 
 render(){
   return(
-    <ScrollView>
     <TouchableWithoutFeedback onPress = {() => {
         Keyboard.dismiss();
     }}>
@@ -232,7 +257,6 @@ render(){
     </Animatable.View>
     </View>
     </TouchableWithoutFeedback>
-    </ScrollView>
     )};
 };
 

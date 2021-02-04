@@ -47,11 +47,11 @@ class UserServices {
         })
     }
 
-    writeUserDataForRegister = (userCredential, firstName, lastName) => {
-        Firebase.database().ref('users/' + userCredential.user.uid).set({
+    writeUserDataInRealtimeDatabase = (userid, firstName, lastName, email) => {
+        Firebase.database().ref('users/' + user.uid).set({
             firstName : firstName,
             lastName : lastName,
-            email : userCredential.user.email,
+            email : email,
         })
     }
 

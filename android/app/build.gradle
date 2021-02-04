@@ -198,6 +198,7 @@ dependencies {
 
     implementation project(':react-native-fbsdk')
     implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
+    implementation project(':@react-native-async-storage')
 
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 

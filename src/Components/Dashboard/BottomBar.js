@@ -10,7 +10,7 @@ export class BottomBar extends Component {
                 <Appbar
                 style = {HomeCss.bottom}>
                     <Appbar.Action icon = "check-box-outline" />
-                    <Appbar.Action icon = "draw"  />
+                    <Appbar.Action icon = "brush"  />
                     <Appbar.Action icon = "microphone-outline"  />
                     <Appbar.Action icon = "panorama"  />
                 </Appbar>
