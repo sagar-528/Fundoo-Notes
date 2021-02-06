@@ -8,7 +8,7 @@ const DrawerContent = ({props}) => {
 
   return (
             <View style = {{flex: 1}}>
-              <DrawerContentScrollView {...props}>
+              <DrawerContentScrollView>
               <Text style = {NoteCss.app_name}>Fundoo Notes</Text>
               <Drawer.Section style = {NoteCss.drawer_section_style}>
                 <Drawer.Item

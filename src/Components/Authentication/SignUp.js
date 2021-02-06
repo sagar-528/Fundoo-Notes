@@ -180,13 +180,13 @@ validatePassword = () => {
    this.setState({
       visible : false
   })
-  // onDismiss()
+  // onDismiss();
 }
 
 handleDialogButton = () => {
   const {onPress} = this.props
   this.props.navigation.navigate('SignIn')
-  // onPress()
+  // onPress();
 }
 
 render(){

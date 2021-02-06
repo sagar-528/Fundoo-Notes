@@ -23,10 +23,4 @@ describe('test HeaderBar', () => {
         expect(instance.state.listView).toBe(true);
     })
 
-    // it('test component in header bar component', () => {
-    //     const component = shallow(<HeaderBar />)
-    //     expect(component.find(Appbar.Action)).toHaveLength(2)
-    //     expect(component.find(Appbar.Content)).toHaveLength(1)
-    //     expect(component.find(Avatar.Image)).toHaveLength(1)
-    // })
 })

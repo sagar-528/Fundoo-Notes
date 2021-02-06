@@ -66,7 +66,7 @@ hideDialog =  () => {
 handleDialogButton = () => {
     const {onPress} = this.props
     this.props.navigation.navigate('SignIn')
-    // onPress()
+    // onPress();
 }
 
 

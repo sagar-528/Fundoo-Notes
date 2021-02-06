@@ -10,7 +10,7 @@ constructor(props) {
 
     this.state = {
         title : '',
-        description : '' 
+        notes : '' 
     }
 }
 
@@ -18,14 +18,12 @@ handleTitle = (title) => {
  this.setState({
         title : title
     })
-    console.log(this.state.title);
 }
 
-handleDescription = (description) => {
+handleNotes = (notes) => {
  this.setState({
-        description : description
+        notes : notes
     })
-    console.log(this.state.description);
 }
 
     render() {
@@ -58,7 +56,7 @@ handleDescription = (description) => {
                     style = {NoteCss.note_style}
                     multiline = {true} 
                     placeholder = 'Note'
-                    onChangeText = {this.handleDescription}
+                    onChangeText = {this.handleNotes}
                 />
             </ScrollView>
             <View style = {NoteCss.bottom_view}>
