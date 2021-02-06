@@ -45,8 +45,44 @@ const NoteCss = StyleSheet.create({
   drawer_section_style : {
       borderBottomWidth : 0.6,
       borderColor : 'grey'
-  }
+  },
+
+  header_style : {
+    backgroundColor : 'transparent'
+  },
+
+  mainContainer : {
+    flex : 1,
+    backgroundColor : 'white'
+  },
   
+  header_icon_style : {
+    marginRight : 10
+  },
+
+  title_style : {
+    marginLeft : 20,
+    marginRight : 20,
+    marginTop : 20,
+    fontSize : 22,
+  },
+
+  note_style : {
+    marginLeft : 20,
+    marginRight : 20,
+    fontSize : 18,
+  },
+
+  bottom_view : {
+    width: '100%',
+    position: 'absolute',
+    bottom : 0,
+  },
+
+  bottom_appbar_style : {
+    backgroundColor : 'white' 
+  }
+
 })
 
 export default NoteCss

@@ -15,11 +15,13 @@ const DrawerContent = ({props}) => {
                   style = {NoteCss.drawer_item_style}
                   icon = 'lightbulb-outline'
                   label = "Notes"
+                  onPress = {() => props.navigation.navigate('Home', { screen: 'Notes' })}
                 />
                 <Drawer.Item
                   style = {NoteCss.drawer_item_style}
                   icon = 'bell-outline'
                   label = "Reminders"
+                  onPress = {() => props.navigation.navigate('Home', { screen : 'Reminder'})}
                 />
               </Drawer.Section>
   

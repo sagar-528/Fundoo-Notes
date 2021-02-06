@@ -14,7 +14,10 @@ export class BottomBar extends Component {
                     <Appbar.Action icon = "microphone-outline"  />
                     <Appbar.Action icon = "panorama"  />
                 </Appbar>
-                <FAB icon = "plus"  style = {NoteCss.fab} />
+                <FAB icon = "plus"  
+                style = {NoteCss.fab}
+                onPress = {() => this.props.navigation.navigate('AddNote')}
+                />
             </View>
         )
     }

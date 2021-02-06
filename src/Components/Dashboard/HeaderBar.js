@@ -18,7 +18,7 @@ class HeaderBar extends Component {
         this.setState({
           listView : !this.state.listView
        })
-        //onPress()
+        // onPress()
    }
 
     render() {

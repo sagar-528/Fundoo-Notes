@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test HeaderBar should match to snapshot 1`] = `ShallowWrapper {}`;
+
+exports[`test NoteScreen should match to snapshot 1`] = `ShallowWrapper {}`;
