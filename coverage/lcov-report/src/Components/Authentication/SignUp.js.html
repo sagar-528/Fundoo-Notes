@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.98% </span>
+                <span class="strong">73.44% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>145/196</span>
+                <span class='fraction'>141/192</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.17% </span>
+                <span class="strong">67.42% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>92/133</span>
+                <span class='fraction'>89/132</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.79% </span>
+                <span class="strong">69.23% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>28/39</span>
+                <span class='fraction'>27/39</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.18% </span>
+                <span class="strong">85.53% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>68/78</span>
+                <span class='fraction'>65/76</span>
             </div>
         
             
@@ -527,12 +527,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -556,28 +556,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -585,7 +576,16 @@
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">63x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -862,9 +862,9 @@ validatePassword = () =&gt; {
             UserServices<span class="cstat-no" title="statement not covered" >.writeUserDataInRealtimeDatabase(userCredential.user.uid, this.state.firstName, this.state.lastName, userCredential.user.email)</span>
               this.props<span class="cstat-no" title="statement not covered" >.navigation.push("SignIn")<span class="cstat-no" title="statement not covered" ></span></span>
           })
-          .catch(error =&gt; {
-              if<span class="missing-if-branch" title="else path not taken" >E</span>(error == 'Email Already Exist') {
-                  this.setState({
+          .catch(err<span class="fstat-no" title="function not covered" >or</span> =&gt; {
+              if<span class="cstat-no" title="statement not covered" >(error == 'Email Already Exist') {</span>
+<span class="cstat-no" title="statement not covered" >                  this.setState({</span>
                       emailPresent : true
                   })
               }
@@ -897,27 +897,27 @@ validatePassword = () =&gt; {
           })
       }
   }   
-  onPress();
+  // onPress();
  }
 &nbsp;
  signInHandler = () =&gt; {
    const {onPress} = this.props;
     this.props.navigation.push("SignIn")
-    onPress();
+    // onPress();
  }
 &nbsp;
  hideDialog = async  () =&gt;<span class="fstat-no" title="function not covered" > {<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span></span></span></span>
   const {onDis<span class="cstat-no" title="statement not covered" >miss} = this.props</span>
    this.setSta<span class="cstat-no" title="statement not covered" >te({</span>
-      visible : false
+      visible : false<span class="cstat-no" title="statement not covered" ></span>
   })
-  onDismiss()<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span></span>
+  // onDismiss();
 }
 &nbsp;
 handleDialogButton = () =<span class="fstat-no" title="function not covered" >&gt; </span>{
   const {onPress<span class="cstat-no" title="statement not covered" >} = this.props</span>
   this<span class="cstat-no" title="statement not covered" >.props.navigation.navigate('SignIn')</span>
-  onPr<span class="cstat-no" title="statement not covered" >ess()</span>
+  // onPress();
 }
 &nbsp;
 render(){
@@ -1001,7 +1001,7 @@ render(){
       &lt;/View&gt;
       &lt;View&gt;    
         &lt;Text style = {GlobalCss.text_error_style}&gt;
-            {(this.state.emailEmpty) ? 'required..' : (this.state.emailValidation) ? (this.state.emailPresent) ? 'Email Already Exist' : null : 'Invalid Email..'}
+            {(this.state.emailEmpty) ? 'required..' : (this.state.emailValidation) ? (this.state.email<span class="branch-0 cbranch-no" title="branch not covered" >Present) ? 'Email Alre</span>ady Exist' : null : 'Invalid Email..'}
         &lt;/Text&gt;
       &lt;/View&gt;  
       &lt;Text style = {[GlobalCss.text_footer, {
@@ -1072,7 +1072,7 @@ render(){
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Feb 06 2021 12:22:13 GMT+0530 (India Standard Time)
+                at Sun Feb 07 2021 18:39:11 GMT+0530 (India Standard Time)
             </div>
         </div>
         <script src="../../../prettify.js"></script>

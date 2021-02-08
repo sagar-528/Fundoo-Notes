@@ -7,6 +7,7 @@ import GlobalCss from '../../Styles/GlobalCss';
 import UserServices from '../../../Service/UserServices';
 import UserSocialServices from '../../../Service/UserSocialServices';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Keychain from 'react-native-keychain'
 
 class SignIn extends React.Component {
 
@@ -71,14 +72,15 @@ handleSecureTextPassword = () => {
     (onPress == undefined) ? null : onPress();
 }
 
-signInHandler = () => {
+signInHandler = async () => {
     const {onPress} = this.props
     if(this.state.email != '' && this.state.password != '')
     {
-                UserServices.SignIn(this.state.email, this.state.password)
-                .then( (UserCredential) => {
+        await UserServices.SignIn(this.state.email, this.state.password)
+                .then( async (UserCredential) => {
                         this.storeIteminAsyncStorage()
                         console.log("signIn");
+                        await Keychain.setGenericPassword('UserCredential', JSON.stringify(UserCredential));
                         this.props.navigation.navigate('Home')
                     })
                 .catch(error => {
@@ -110,12 +112,12 @@ signInHandler = () => {
     // onPress();
 }
 
-storeIteminAsyncStorage = async () => {
+storeIteminAsyncStorage = () => {
     try {
-        await this.setState({
+         this.setState({
             isLoggedIn : true
         })
-        await AsyncStorage.setItem('isLoggedIn', JSON.stringify(this.state.isLoggedIn));
+         AsyncStorage.setItem('isLoggedIn', JSON.stringify(this.state.isLoggedIn));
     } catch (e) {
         console.log(e);
     }

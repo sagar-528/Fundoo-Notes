@@ -21,13 +21,19 @@ class HeaderBar extends Component {
         // onPress()
    }
 
+    handleMenuButton = async () => {
+        const {onPress} = this.props
+        this.props.navigation.openDrawer();
+        // onPress();
+    }
+
     render() {
         return (
             <View style = {NoteCss.container}>
                 <Appbar.Header style={{ backgroundColor: 'grey'}}>
                     <Appbar.Action
                     icon = 'menu'
-                    onPress = {() => this.props.navigation.openDrawer()}
+                    onPress = {this.handleMenuButton}
                     />
                     <Appbar.Content
                     style = {NoteCss.appbar_content_style}

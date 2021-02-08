@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import NoteCss from '../../Styles/NoteCss'
 import {View, ScrollView, TextInput} from 'react-native'
 import { Appbar } from 'react-native-paper'
+// import * as Keychain from 'react-native-keychain'
+// import Firebase from '../../../Environment/Firebase'
 
 export class AddNotes extends Component {
 
@@ -26,6 +28,12 @@ handleNotes = (notes) => {
     })
 }
 
+handleBackIconButton = async () => {
+    const {onPress} = this.props
+    this.props.navigation.navigate('Home')
+    // onPress();  
+}
+
     render() {
         return (
             <View style = {NoteCss.mainContainer}>
@@ -33,7 +41,9 @@ handleNotes = (notes) => {
                 <Appbar style = {NoteCss.header_style}>
                     <Appbar.Action 
                         style = {{marginLeft : 10}}
-                        icon = 'keyboard-backspace'/>
+                        icon = 'keyboard-backspace'
+                        onPress = {this.handleBackIconButton}
+                    />
                     <Appbar.Content />
                     <Appbar.Action
                         style = {NoteCss.header_icon_style}                             
@@ -51,12 +61,14 @@ handleNotes = (notes) => {
                     multiline = {true} 
                     placeholder = 'Title'
                     onChangeText = {this.handleTitle}
+                    value = {this.state.title}
                 />
                 <TextInput
                     style = {NoteCss.note_style}
                     multiline = {true} 
                     placeholder = 'Note'
                     onChangeText = {this.handleNotes}
+                    value = {this.state.title}
                 />
             </ScrollView>
             <View style = {NoteCss.bottom_view}>

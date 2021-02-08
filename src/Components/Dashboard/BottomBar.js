@@ -4,6 +4,13 @@ import { Appbar, FAB } from 'react-native-paper';
 import NoteCss from '../../Styles/NoteCss'
 
 export class BottomBar extends Component {
+
+    handlePlusIconButton = () => {
+        const {onPress} = this.props;
+        this.props.navigation.navigate('AddNote')
+        // onPress();
+    }
+
     render() {
         return (
             <View>
@@ -16,7 +23,7 @@ export class BottomBar extends Component {
                 </Appbar>
                 <FAB icon = "plus"  
                 style = {NoteCss.fab}
-                onPress = {() => this.props.navigation.navigate('AddNote')}
+                onPress = {this.handlePlusIconButton}
                 />
             </View>
         )

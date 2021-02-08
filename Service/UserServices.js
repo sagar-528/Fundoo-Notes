@@ -47,8 +47,8 @@ class UserServices {
         })
     }
 
-    writeUserDataInRealtimeDatabase = (uid, firstName, lastName, email) => {
-        Firebase.database().ref('users/' + user.uid).set({
+    writeUserDataInRealtimeDatabase = (userid, firstName, lastName, email) => {
+        Firebase.database().ref('users/' + userid).set({
             firstName : firstName,
             lastName : lastName,
             email : email,

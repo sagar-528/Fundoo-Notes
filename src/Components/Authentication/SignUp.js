@@ -123,7 +123,7 @@ validatePassword = () => {
  signUpHandler = async() =>{
   const {onPress} = this.props;
     if(this.state.firstName != '' &&  this.state.lastName != '' && this.state.email != '' && this.state.password != ''){
-      UserServices.SignUp(this.state.email, this.state.password)
+    await  UserServices.SignUp(this.state.email, this.state.password)
           .then( async userCredential => {
            await this.setState({
               visible : true
