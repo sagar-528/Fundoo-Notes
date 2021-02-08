@@ -6,7 +6,6 @@ import SignInScreen from '../Screens/SignInScreen';
 import SignUpScreen from '../Screens/SignUpScreen';
 import ForgotPasswordScreen from '../Screens/ForgotPasswordScreen';
 import DrawerNavigationStack from './DrawerNavigationStack';
-// import NoteScreen from '../Components/Dashboard/NoteScreen'
 
 const Stack = createStackNavigator();
 

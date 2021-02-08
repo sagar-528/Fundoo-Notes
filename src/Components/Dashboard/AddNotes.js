@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import NoteCss from '../../Styles/NoteCss'
 import {View, ScrollView, TextInput} from 'react-native'
 import { Appbar } from 'react-native-paper'
-// import * as Keychain from 'react-native-keychain'
-// import Firebase from '../../../Environment/Firebase'
+import * as Keychain from 'react-native-keychain'
+import Firebase from '../../../Environment/Firebase'
 
 export class AddNotes extends Component {
 
@@ -12,7 +12,7 @@ constructor(props) {
 
     this.state = {
         title : '',
-        notes : '' 
+        note : '' 
     }
 }
 
@@ -22,14 +22,22 @@ handleTitle = (title) => {
     })
 }
 
-handleNotes = (notes) => {
+handleNotes = (note) => {
  this.setState({
-        notes : notes
+        note : note
     })
 }
 
 handleBackIconButton = async () => {
     const {onPress} = this.props
+    if(this.state.title != '' || this.state.note != '') {
+        const credential = await Keychain.getGenericPassword();
+        const UserCredential = JSON.parse(credential.password);
+        Firebase.database().ref('notes/' + UserCredential.user.uid).push({
+            title : this.state.title,
+            note : this.state.note
+        })   
+    }
     this.props.navigation.navigate('Home')
     // onPress();  
 }
@@ -68,7 +76,7 @@ handleBackIconButton = async () => {
                     multiline = {true} 
                     placeholder = 'Note'
                     onChangeText = {this.handleNotes}
-                    value = {this.state.title}
+                    value = {this.state.note}
                 />
             </ScrollView>
             <View style = {NoteCss.bottom_view}>
