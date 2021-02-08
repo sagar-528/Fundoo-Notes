@@ -38,7 +38,7 @@ handleBackIconButton = async () => {
             note : this.state.note
         })   
     }
-    this.props.navigation.navigate('Home')
+    this.props.navigation.navigate('Notes')
     // onPress();  
 }
 

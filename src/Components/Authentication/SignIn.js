@@ -109,7 +109,7 @@ signInHandler = async () => {
             })
         }
     }
-    // onPress();
+    onPress();
 }
 
 storeIteminAsyncStorage = () => {
@@ -126,13 +126,13 @@ storeIteminAsyncStorage = () => {
 SignUpHandler = () =>{
     const {onPress} = this.props;
     this.props.navigation.navigate('SignUp')
-    // onPress();
+    onPress();
 }
 
 forgotPasswordHandler = () =>{
     const {onPress} = this.props;
     this.props.navigation.navigate('ForgotPassword')
-    // onPress();
+    onPress();
 }
 
 handleFacebookLoginButton = async () => {
@@ -146,6 +146,7 @@ handleFacebookLoginButton = async () => {
         .catch(error => {
             console.log(error)
         })
+    onPress();
 }
 
 render(){

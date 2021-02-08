@@ -8,7 +8,7 @@ export class BottomBar extends Component {
     handlePlusIconButton = () => {
         const {onPress} = this.props;
         this.props.navigation.navigate('AddNote')
-        // onPress();
+        onPress();
     }
 
     render() {

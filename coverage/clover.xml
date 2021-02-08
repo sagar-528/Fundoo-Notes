@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1612703351550" clover="3.2.0">
-  <project timestamp="1612703351550" name="All files">
-    <metrics statements="214" coveredstatements="179" conditionals="563" coveredconditionals="320" methods="181" coveredmethods="128" elements="958" coveredelements="627" complexity="0" loc="214" ncloc="214" packages="7" files="13" classes="13"/>
+<coverage generated="1612780245571" clover="3.2.0">
+  <project timestamp="1612780245571" name="All files">
+    <metrics statements="210" coveredstatements="183" conditionals="559" coveredconditionals="321" methods="177" coveredmethods="127" elements="946" coveredelements="631" complexity="0" loc="210" ncloc="210" packages="7" files="13" classes="13"/>
     <package name="Environment">
       <metrics statements="4" coveredstatements="4" conditionals="28" coveredconditionals="3" methods="3" coveredmethods="1"/>
       <file name="Firebase.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\Environment\Firebase.js">
@@ -13,19 +13,19 @@
       </file>
     </package>
     <package name="Service">
-      <metrics statements="29" coveredstatements="10" conditionals="16" coveredconditionals="4" methods="16" coveredmethods="7"/>
+      <metrics statements="29" coveredstatements="17" conditionals="16" coveredconditionals="7" methods="16" coveredmethods="9"/>
       <file name="UserServices.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\Service\UserServices.js">
-        <metrics statements="29" coveredstatements="10" conditionals="16" coveredconditionals="4" methods="16" coveredmethods="7"/>
+        <metrics statements="29" coveredstatements="17" conditionals="16" coveredconditionals="7" methods="16" coveredmethods="9"/>
         <line num="1" count="4" type="cond" truecount="4" falsecount="2"/>
         <line num="3" count="4" type="stmt"/>
-        <line num="6" count="2" type="stmt"/>
-        <line num="7" count="2" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
-        <line num="10" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="13" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="10" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="13" count="4" type="cond" truecount="1" falsecount="1"/>
         <line num="14" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
         <line num="19" count="4" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
@@ -36,12 +36,12 @@
         <line num="30" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
         <line num="35" count="4" type="stmt"/>
-        <line num="38" count="1" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
         <line num="40" count="0" type="stmt"/>
-        <line num="42" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
+        <line num="42" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
         <line num="48" count="4" type="stmt"/>
         <line num="51" count="0" type="stmt"/>
         <line num="60" count="4" type="stmt"/>
@@ -55,9 +55,9 @@
       </file>
     </package>
     <package name="src.Components.Authentication">
-      <metrics statements="107" coveredstatements="92" conditionals="215" coveredconditionals="124" methods="67" coveredmethods="46"/>
+      <metrics statements="125" coveredstatements="110" conditionals="290" coveredconditionals="173" methods="90" coveredmethods="64"/>
       <file name="ForgotPassword.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Components\Authentication\ForgotPassword.js">
-        <metrics statements="31" coveredstatements="27" conditionals="83" coveredconditionals="35" methods="28" coveredmethods="19"/>
+        <metrics statements="34" coveredstatements="30" conditionals="83" coveredconditionals="35" methods="28" coveredmethods="19"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -78,12 +78,15 @@
         <line num="42" count="0" type="stmt"/>
         <line num="49" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="50" count="1" type="stmt"/>
+        <line num="55" count="2" type="stmt"/>
         <line num="56" count="6" type="stmt"/>
         <line num="59" count="1" type="stmt"/>
         <line num="60" count="1" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
         <line num="64" count="6" type="stmt"/>
         <line num="67" count="1" type="stmt"/>
         <line num="68" count="1" type="stmt"/>
+        <line num="69" count="1" type="stmt"/>
         <line num="70" count="6" type="stmt"/>
         <line num="74" count="10" type="stmt"/>
         <line num="77" count="0" type="stmt"/>
@@ -91,7 +94,7 @@
         <line num="147" count="2" type="stmt"/>
       </file>
       <file name="SignUp.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Components\Authentication\SignUp.js">
-        <metrics statements="76" coveredstatements="65" conditionals="132" coveredconditionals="89" methods="39" coveredmethods="27"/>
+        <metrics statements="77" coveredstatements="67" conditionals="134" coveredconditionals="93" methods="39" coveredmethods="28"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -135,15 +138,14 @@
         <line num="112" count="4" type="stmt"/>
         <line num="117" count="1" type="stmt"/>
         <line num="121" count="17" type="stmt"/>
-        <line num="123" count="11" type="cond" truecount="8" falsecount="0"/>
+        <line num="123" count="13" type="cond" truecount="10" falsecount="0"/>
         <line num="124" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="125" count="1" type="cond" truecount="4" falsecount="0"/>
-        <line num="126" count="2" type="stmt"/>
+        <line num="125" count="2" type="cond" truecount="4" falsecount="0"/>
         <line num="127" count="0" type="cond" truecount="0" falsecount="4"/>
         <line num="131" count="0" type="stmt"/>
         <line num="132" count="0" type="stmt"/>
-        <line num="135" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="136" count="0" type="stmt"/>
+        <line num="135" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="136" count="2" type="stmt"/>
         <line num="140" count="2" type="cond" truecount="1" falsecount="1"/>
         <line num="143" count="1" type="stmt"/>
         <line num="145" count="1" type="cond" truecount="1" falsecount="1"/>
@@ -154,45 +156,43 @@
         <line num="158" count="1" type="stmt"/>
         <line num="160" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="163" count="1" type="stmt"/>
-        <line num="165" count="17" type="stmt"/>
+        <line num="169" count="17" type="stmt"/>
         <line num="173" count="1" type="stmt"/>
         <line num="174" count="1" type="stmt"/>
+        <line num="175" count="1" type="stmt"/>
         <line num="176" count="17" type="stmt"/>
         <line num="178" count="0" type="cond" truecount="0" falsecount="3"/>
         <line num="179" count="0" type="stmt"/>
         <line num="180" count="0" type="stmt"/>
-        <line num="181" count="17" type="stmt"/>
+        <line num="183" count="17" type="stmt"/>
         <line num="187" count="0" type="stmt"/>
         <line num="188" count="0" type="stmt"/>
+        <line num="189" count="0" type="stmt"/>
         <line num="190" count="17" type="stmt"/>
-        <line num="193" count="61" type="stmt"/>
+        <line num="193" count="63" type="stmt"/>
         <line num="197" count="0" type="stmt"/>
         <line num="335" count="2" type="stmt"/>
       </file>
-    </package>
-    <package name="src.Components.Dashboard">
-      <metrics statements="56" coveredstatements="55" conditionals="296" coveredconditionals="181" methods="91" coveredmethods="70"/>
-      <file name="AddNotes.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Components\Dashboard\AddNotes.js">
-        <metrics statements="18" coveredstatements="17" conditionals="76" coveredconditionals="47" methods="25" coveredmethods="19"/>
+      <file name="Splash.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Components\Authentication\Splash.js">
+        <metrics statements="14" coveredstatements="13" conditionals="73" coveredconditionals="45" methods="23" coveredmethods="17"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="4" count="28" type="cond" truecount="44" falsecount="29"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="10" count="5" type="stmt"/>
-        <line num="11" count="5" type="stmt"/>
-        <line num="20" count="2" type="stmt"/>
-        <line num="23" count="5" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="29" count="5" type="stmt"/>
-        <line num="31" count="2" type="cond" truecount="3" falsecount="0"/>
-        <line num="32" count="2" type="stmt"/>
-        <line num="33" count="2" type="stmt"/>
-        <line num="34" count="5" type="stmt"/>
-        <line num="38" count="7" type="stmt"/>
-        <line num="90" count="1" type="stmt"/>
-        <line num="93" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="28" type="cond" truecount="45" falsecount="28"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
       </file>
+    </package>
+    <package name="src.Components.Dashboard">
+      <metrics statements="34" coveredstatements="34" conditionals="217" coveredconditionals="130" methods="64" coveredmethods="49"/>
       <file name="BottomBar.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Components\Dashboard\BottomBar.js">
         <metrics statements="12" coveredstatements="12" conditionals="73" coveredconditionals="44" methods="22" coveredmethods="17"/>
         <line num="1" count="1" type="stmt"/>
@@ -209,25 +209,21 @@
         <line num="34" count="1" type="stmt"/>
       </file>
       <file name="HeaderBar.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Components\Dashboard\HeaderBar.js">
-        <metrics statements="18" coveredstatements="18" conditionals="78" coveredconditionals="49" methods="24" coveredmethods="19"/>
+        <metrics statements="14" coveredstatements="14" conditionals="75" coveredconditionals="45" methods="22" coveredmethods="17"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="28" type="cond" truecount="44" falsecount="29"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="8" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
-        <line num="17" count="2" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
-        <line num="21" count="2" type="stmt"/>
-        <line num="22" count="3" type="stmt"/>
-        <line num="24" count="1" type="cond" truecount="3" falsecount="0"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="26" count="1" type="stmt"/>
-        <line num="27" count="3" type="stmt"/>
-        <line num="31" count="5" type="stmt"/>
-        <line num="52" count="1" type="stmt"/>
-        <line num="56" count="1" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
       </file>
       <file name="Reminder.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Components\Dashboard\Reminder.js">
         <metrics statements="8" coveredstatements="8" conditionals="69" coveredconditionals="41" methods="20" coveredmethods="15"/>
@@ -264,16 +260,16 @@
       <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="GlobalCss.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Styles\GlobalCss.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="4" type="stmt"/>
-        <line num="4" count="4" type="stmt"/>
-        <line num="6" count="4" type="stmt"/>
-        <line num="119" count="4" type="stmt"/>
+        <line num="1" count="5" type="stmt"/>
+        <line num="4" count="5" type="stmt"/>
+        <line num="6" count="5" type="stmt"/>
+        <line num="119" count="5" type="stmt"/>
       </file>
       <file name="NoteCss.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Styles\NoteCss.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="3" count="3" type="stmt"/>
-        <line num="88" count="3" type="stmt"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="126" count="2" type="stmt"/>
       </file>
     </package>
   </project>

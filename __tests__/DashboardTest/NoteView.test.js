@@ -1,11 +1,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import SignInScreen from '../../src/Screens/SignInScreen';
+import NoteView from '../../src/Components/Dashboard/NoteView'
 
-describe('test SignInScreen', () => {
+describe('test Note View', () => {
     
     it('should match to snapshot', () => {
-        const component = shallow(<SignInScreen />)
+        const component = shallow(<NoteView />)
         expect(component).toMatchSnapshot();
     })
+
 })
+

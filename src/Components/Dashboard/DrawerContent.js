@@ -6,6 +6,7 @@ import NoteCss from '../../Styles/NoteCss'
 
 const DrawerContent = ({props}) => {
 
+
   return (
             <View style = {{flex: 1}}>
               <DrawerContentScrollView>

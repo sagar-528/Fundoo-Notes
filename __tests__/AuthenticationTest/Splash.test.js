@@ -1,11 +1,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import Card from '../../src/Components/Dashboard/Card'
+import Splash from '../../src/Components/Authentication/Splash'
 
-describe('test Card', () => {
+describe('test Splash', () => {
     
     it('should match to snapshot', () => {
-        const component = shallow(<Card />)
+        const component = shallow(<Splash />)
         expect(component).toMatchSnapshot();
     })
 

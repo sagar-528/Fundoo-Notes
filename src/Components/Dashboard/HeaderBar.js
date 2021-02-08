@@ -7,24 +7,12 @@ class HeaderBar extends Component {
 
     constructor(props) {
         super(props)
-    
-        this.state = {
-            listView : true
-        }
     }
-    
-    selectView = () => {
-        const {onPress} = this.props
-        this.setState({
-          listView : !this.state.listView
-       })
-        // onPress()
-   }
 
-    handleMenuButton = async () => {
+    handleMenuButton = () => {
         const {onPress} = this.props
         this.props.navigation.openDrawer();
-        // onPress();
+        onPress();
     }
 
     render() {
@@ -39,8 +27,8 @@ class HeaderBar extends Component {
                     style = {NoteCss.appbar_content_style}
                     title = "Search your notes"/>
                     <Appbar.Action
-                    icon = {this.state.listView ? 'view-grid-outline' : 'view-agenda-outline'}
-                    onPress={this.selectView}
+                    icon = { (this.props.listView) ? 'view-grid-outline' : 'view-agenda-outline'}
+                    onPress={this.props.onPress}
                     />
                     <TouchableOpacity
                     style = {NoteCss.avatar_style} >
