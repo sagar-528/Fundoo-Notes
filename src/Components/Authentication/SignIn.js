@@ -30,7 +30,7 @@ async componentDidMount(){
     try {
         const isLoggedIn = JSON.parse(await AsyncStorage.getItem('isLoggedIn'))
         if(isLoggedIn) {
-          this.props.navigation.navigate("Home")
+          this.props.navigation.navigate("Home", { screen: 'Notes' })
         }
       } 
       catch(e) {
@@ -81,7 +81,7 @@ signInHandler = async () => {
                         this.storeIteminAsyncStorage()
                         console.log("signIn");
                         await Keychain.setGenericPassword('UserCredential', JSON.stringify(UserCredential));
-                        this.props.navigation.navigate('Home')
+                        this.props.navigation.navigate('Home', { screen: 'Notes' })
                     })
                 .catch(error => {
                     if(error == 'Email not Found') {
@@ -109,7 +109,7 @@ signInHandler = async () => {
             })
         }
     }
-    onPress();
+    // onPress();
 }
 
 storeIteminAsyncStorage = () => {
@@ -126,13 +126,13 @@ storeIteminAsyncStorage = () => {
 SignUpHandler = () =>{
     const {onPress} = this.props;
     this.props.navigation.navigate('SignUp')
-    onPress();
+    // onPress();
 }
 
 forgotPasswordHandler = () =>{
     const {onPress} = this.props;
     this.props.navigation.navigate('ForgotPassword')
-    onPress();
+    // onPress();
 }
 
 handleFacebookLoginButton = async () => {
@@ -141,12 +141,12 @@ handleFacebookLoginButton = async () => {
     .then( async UserCredential => {
         UserSocialServices.writeUserDataInRealtimeDatabase(UserCredential.user.uid, UserCredential.additionalUserInfo.profile.first_name, UserCredential.additionalUserInfo.profile.last_name, UserCredential.additionalUserInfo.profile.email);
         this.storeIteminAsyncStorage()
-        this.props.navigation.navigate('Home')
+        this.props.navigation.navigate('Home', { screen: 'Notes' })
     })
         .catch(error => {
             console.log(error)
         })
-    onPress();
+    // onPress();
 }
 
 render(){

@@ -12,7 +12,7 @@ class HeaderBar extends Component {
     handleMenuButton = () => {
         const {onPress} = this.props
         this.props.navigation.openDrawer();
-        onPress();
+        // onPress();
     }
 
     render() {

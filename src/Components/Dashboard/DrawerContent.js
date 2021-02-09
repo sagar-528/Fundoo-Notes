@@ -6,6 +6,13 @@ import NoteCss from '../../Styles/NoteCss'
 
 const DrawerContent = ({props}) => {
 
+  const handleNoteIconButton = () => {
+    props.navigation.navigate('Home', { screen : 'Notes'})
+  }
+
+  const handleReminderIconButton = () => {
+    props.navigation.navigate('Home', { screen : 'Reminder'})
+  }
 
   return (
             <View style = {{flex: 1}}>
@@ -16,13 +23,13 @@ const DrawerContent = ({props}) => {
                   style = {NoteCss.drawer_item_style}
                   icon = 'lightbulb-outline'
                   label = "Notes"
-                  onPress = {() => props.navigation.navigate('Home', { screen: 'Notes' })}
+                  onPress = {handleNoteIconButton}
                 />
                 <Drawer.Item
                   style = {NoteCss.drawer_item_style}
                   icon = 'bell-outline'
                   label = "Reminders"
-                  onPress = {() => props.navigation.navigate('Home', { screen : 'Reminder'})}
+                  onPress = {handleReminderIconButton}
                 />
               </Drawer.Section>
   
