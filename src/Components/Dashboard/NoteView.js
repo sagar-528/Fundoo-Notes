@@ -30,7 +30,9 @@ export default class NoteView extends Component {
         let noteID = Object.keys(this.state.userNotes);
         return (
             <ScrollView style = {NoteViewStyle.container}>
-            <View style = {NoteViewStyle.list_conatiner}>
+            <Animatable.View 
+            style = {NoteViewStyle.list_conatiner}
+            animation = "fadeInUpBig">
                 { noteID.length > 0 ?
                     noteID.reverse().map(key => (
                         <React.Fragment key = {key}>
@@ -42,7 +44,7 @@ export default class NoteView extends Component {
                     :
                     null
                 }
-            </View>
+            </Animatable.View>
         </ScrollView>
         )
     }

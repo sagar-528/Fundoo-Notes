@@ -6,6 +6,7 @@ import * as Keychain from 'react-native-keychain'
 import UserNotesServices from '../../../Service/UserNotesServices'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import Icon from 'react-native-vector-icons/Ionicons'
+// import DotsVerticalRBSheetMenu from './DotsVerticalRBSheetMenu'
 
 export class AddNotes extends Component {
 
@@ -21,14 +22,14 @@ constructor(props) {
     }
 }
 
-handleTitle = (title) => {
- this.setState({
+handleTitle = async(title) => {
+await this.setState({
         title : title
     })
 }
 
-handleNotes = (note) => {
- this.setState({
+handleNotes = async(note) => {
+await this.setState({
         note : note
     })
 }
@@ -49,16 +50,17 @@ componentDidMount = async () => {
     }
 }
 
-handleDotIconButton = async() => {
+handleDotIconButton = () => {
     const {onPress} = this.props
     this.RBSheet.open()
     // onPress();
 }
 
-handleBackIconButton = async () => {
-    const {onPress} = this.props
+handleBackIconButton = () => {
+    // const {onPress} = this.props
     if(this.state.title != '' || this.state.note != '') {
         if(this.props.route.params == undefined) {
+            console.log(this.state.title)
             UserNotesServices.storeNoteInDatabase(this.state.userId, this.state.title, this.state.note)
                 .then(() => this.props.navigation.navigate('Home', {screen : 'Notes'}))
                 .then(console.log('note Added'))
@@ -75,8 +77,8 @@ handleBackIconButton = async () => {
             this.props.navigation.navigate('Home', { screen: 'Notes', params : {isEmptyNote : true}}) 
         } 
         else {
-            UserNotesServices.updateNoteInFirebase(this.state.userId, this.state.noteKey, this.state.title, this.state.note)
-                .then(() => this.props.navigation.navigate('Home', {screen : 'Notes'}))
+            UserNotesServices.removeNoteInFirebase(this.state.userId, this.state.noteKey)
+                .then(() => this.props.navigation.navigate('Home', {screen : 'Notes', params : {isEmptyNote : true}}))
                 .catch(error => console.log(error))
         }
     }
@@ -103,9 +105,11 @@ handleDeleteButton = async() => {
 }
 
 isNotAddedNoteDeletedSnackbarHandler = async () => {
+    const {onDismiss} = this.props
     await this.setState({ 
         isNoteNotAddedDeleted : false
     })
+    // onDismiss();
 }
 
 

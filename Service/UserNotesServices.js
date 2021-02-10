@@ -69,6 +69,14 @@ class UserNotesServices {
             .catch(error => reject(error))
         })
     }
+
+    removeNoteInFirebase = (userid, notekey) => {
+        return new Promise((resolve, reject) => {
+            Firebase.database().ref('UserNotes/' + userid  + '/' + notekey).remove()
+            .then(() => resolve('success'))
+            .catch(error => reject(error))
+        })
+    }
     
 }
 

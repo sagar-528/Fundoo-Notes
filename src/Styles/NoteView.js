@@ -3,12 +3,13 @@ import { StyleSheet } from 'react-native'
 const NoteViewStyle = StyleSheet.create({
     
     container : {
-        marginBottom : 60
+        flex: 1,
+        backgroundColor: 'white'
     },
 
     list_conatiner : {
         flexDirection: 'row', 
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
     }
 })
 
