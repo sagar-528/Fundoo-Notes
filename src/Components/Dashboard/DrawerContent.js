@@ -1,76 +1,84 @@
-import React from 'react'
+import React, { Component } from 'react'
 import {View, Text} from 'react-native';
 import { Drawer } from 'react-native-paper';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
-import NoteCss from '../../Styles/NoteCss'
+import DrawerContentStyle from '../../Styles/DrawerContent';
 
-const DrawerContent = ({props}) => {
+export default class DrawerContent extends Component {
 
-  const handleNoteIconButton = () => {
-    props.navigation.navigate('Home', { screen : 'Notes'})
+  constructor(props) {
+    super(props)
+  }
+  
+
+  handleNoteIconButton = () => {
+    const {onPress} = this.props
+    this.props.navigationProps.navigation.push('Home', { screen : 'Notes'})
+    // onPress();
   }
 
-  const handleReminderIconButton = () => {
-    props.navigation.navigate('Home', { screen : 'Reminder'})
+  handleDeletedIconButton = () => {
+    const {onPress} = this.props
+    this.props.navigationProps.navigation.push('Home', { screen : 'Deleted'})
+    // onPress();
   }
 
+  render(){
   return (
             <View style = {{flex: 1}}>
               <DrawerContentScrollView>
-              <Text style = {NoteCss.app_name}>Fundoo Notes</Text>
-              <Drawer.Section style = {NoteCss.drawer_section_style}>
+              <Text style = {DrawerContentStyle.app_name}>Fundoo Notes</Text>
+              <Drawer.Section style = {DrawerContentStyle.drawer_section_style}>
                 <Drawer.Item
-                  style = {NoteCss.drawer_item_style}
+                  style = {DrawerContentStyle.drawer_item_style}
                   icon = 'lightbulb-outline'
                   label = "Notes"
-                  onPress = {handleNoteIconButton}
+                  onPress = {this.handleNoteIconButton}
                 />
                 <Drawer.Item
-                  style = {NoteCss.drawer_item_style}
+                  style = {DrawerContentStyle.drawer_item_style}
                   icon = 'bell-outline'
                   label = "Reminders"
-                  onPress = {handleReminderIconButton}
                 />
               </Drawer.Section>
   
-              <Drawer.Section style = {NoteCss.drawer_section_style}>
+              <Drawer.Section style = {DrawerContentStyle.drawer_section_style}>
                 <Drawer.Item
-                  style = {NoteCss.drawer_item_style}
+                  style = {DrawerContentStyle.drawer_item_style}
                   icon = 'plus'
                   label = "Create New Label"
                 />
               </Drawer.Section>
   
-              <Drawer.Section style = {NoteCss.drawer_section_style}>
+              <Drawer.Section style = {DrawerContentStyle.drawer_section_style}>
                 <Drawer.Item
-                  style = {NoteCss.drawer_item_style}
+                  style = {DrawerContentStyle.drawer_item_style}
                   icon = 'archive-arrow-down-outline'
                   label = "Archieve"
                 />
   
                 <Drawer.Item
-                  style = {NoteCss.drawer_item_style}
+                  style = {DrawerContentStyle.drawer_item_style}
                   icon = 'delete'
                   label = "Deleted"
+                  onPress = {this.handleDeletedIconButton}
                 />
               </Drawer.Section>
   
               <Drawer.Section>
                 <Drawer.Item
-                  style = {NoteCss.drawer_item_style}
+                  style = {DrawerContentStyle.drawer_item_style}
                   icon = 'cog-outline'
                   label = "Setting"
                 />
   
                 <Drawer.Item
-                  style = {NoteCss.drawer_item_style}
+                  style = {DrawerContentStyle.drawer_item_style}
                   icon = 'help'
-                  label = "Help & feedback"
+                  label = "Help"
                 />
               </Drawer.Section>
               </DrawerContentScrollView> 
             </View> 
-        )
+        )}
 }
-
-export default DrawerContent

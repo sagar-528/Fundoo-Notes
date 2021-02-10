@@ -2,11 +2,12 @@ import Firebase from '../Environment/Firebase'
 
 class UserNotesServices {
 
-    storeNoteinDatabase = (userid, title, note) => {
+    storeNoteInDatabase = (userid, title, note) => {
         return new Promise((resolve, reject) => {
             const notes = {
                 title : title,
-                note : note
+                note : note,
+                isDeleted : false
             }
             Firebase.database().ref('UserNotes/' + userid).push({
                 notes : notes
@@ -28,7 +29,8 @@ class UserNotesServices {
         return new Promise((resolve, reject) => {
             const notes = {
                 title : title,
-                note : note
+                note : note,
+                isDeleted : false
             }
             Firebase.database().ref('UserNotes/' + userid  + '/' + notekey).set({
                 notes : notes
@@ -38,6 +40,36 @@ class UserNotesServices {
         })
     }
 
+    deleteNoteInFirebase = (userid, notekey, title, note) => {
+        return new Promise((resolve, reject) => {
+            const notes = {
+                title : title,
+                note : note,
+                isDeleted : true
+            }
+            Firebase.database().ref('UserNotes/' + userid  + '/' + notekey).set({
+                notes : notes
+            })
+            .then(() => resolve('success'))
+            .catch(error => reject(error))
+        })
+    }
+
+    restoreNoteInFirebase = (userid, notekey, title, note) => {
+        return new Promise((resolve, reject) => {
+            const notes = {
+                title : title,
+                note : note,
+                isDeleted : false
+            }
+            Firebase.database().ref('UserNotes/' + userid  + '/' + notekey).set({
+                notes : notes
+            })
+            .then(() => resolve('success'))
+            .catch(error => reject(error))
+        })
+    }
+    
 }
 
 export default new UserNotesServices()

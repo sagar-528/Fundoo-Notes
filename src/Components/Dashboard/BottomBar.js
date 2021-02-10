@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import  { View } from 'react-native'
 import { Appbar, FAB } from 'react-native-paper';
-import NoteCss from '../../Styles/NoteCss'
+import BottomBarStyle from '../../Styles/BottomBar'
 
 export class BottomBar extends Component {
 
@@ -15,14 +15,14 @@ export class BottomBar extends Component {
         return (
             <View>
                 <Appbar
-                style = {NoteCss.bottom}>
+                style = {BottomBarStyle.bottom}>
                     <Appbar.Action icon = "check-box-outline" />
                     <Appbar.Action icon = "brush"  />
                     <Appbar.Action icon = "microphone-outline"  />
                     <Appbar.Action icon = "panorama"  />
                 </Appbar>
                 <FAB icon = "plus"  
-                style = {NoteCss.fab}
+                style = {BottomBarStyle.fab}
                 onPress = {this.handlePlusIconButton}
                 />
             </View>

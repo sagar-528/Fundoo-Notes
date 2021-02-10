@@ -2,16 +2,16 @@ import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import NoteScreen from '../Components/Dashboard/NoteScreen'
 import DrawerContent from '../Components/Dashboard/DrawerContent'
-import Reminder from '../Components/Dashboard/Reminder'
 import AddNote from '../Components/Dashboard/AddNotes'
+import DeletedScreen from '../Components/Dashboard/DeletedScreen'
 
 const Drawer = createDrawerNavigator();
 
-function DrawerNavigationStack({props}) {
+function DrawerNavigationStack() {
     return (
-        <Drawer.Navigator drawerContent = {props => <DrawerContent props = {props}/> }>
+        <Drawer.Navigator drawerContent = {props => <DrawerContent navigationProps = {props}/> }>
             <Drawer.Screen name = 'Notes' component = { NoteScreen } />
-            <Drawer.Screen name = 'Reminder' component = { Reminder } />
+            <Drawer.Screen name = 'Deleted' component = { DeletedScreen } />
             <Drawer.Screen name = 'AddNote' component = { AddNote } />
         </Drawer.Navigator>
     )

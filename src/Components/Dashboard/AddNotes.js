@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import NoteCss from '../../Styles/NoteCss'
+import AddNotesStyle from '../../Styles/AddNotes'
 import {View, ScrollView, TextInput} from 'react-native'
-import { Appbar, Snackbar } from 'react-native-paper'
+import { Appbar, Menu,Snackbar } from 'react-native-paper'
 import * as Keychain from 'react-native-keychain'
 import UserNotesServices from '../../../Service/UserNotesServices'
+import RBSheet from 'react-native-raw-bottom-sheet'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 export class AddNotes extends Component {
 
@@ -13,7 +15,9 @@ constructor(props) {
     this.state = {
         noteKey : '',
         title : '',
-        note : '' 
+        note : '' ,
+        userId : '',
+        isNoteNotAddedDeleted : false 
     }
 }
 
@@ -30,6 +34,12 @@ handleNotes = (note) => {
 }
 
 componentDidMount = async () => {
+    const credential = await Keychain.getGenericPassword();
+    const UserCredential = JSON.parse(credential.password);
+    await this.setState({
+        userId : UserCredential.user.uid
+    })
+
     if(this.props.route.params != undefined) {
         await this.setState({
             noteKey : this.props.route.params.noteKey,
@@ -39,40 +49,71 @@ componentDidMount = async () => {
     }
 }
 
+handleDotIconButton = async() => {
+    const {onPress} = this.props
+    this.RBSheet.open()
+    // onPress();
+}
+
 handleBackIconButton = async () => {
     const {onPress} = this.props
-    const credential = await Keychain.getGenericPassword();
-    const UserCredential = JSON.parse(credential.password);
     if(this.state.title != '' || this.state.note != '') {
         if(this.props.route.params == undefined) {
-            UserNotesServices.storeNoteinDatabase(UserCredential.user.uid, this.state.title, this.state.note)
-                .then(() => this.props.navigation.push('Home'))
+            UserNotesServices.storeNoteInDatabase(this.state.userId, this.state.title, this.state.note)
+                .then(() => this.props.navigation.navigate('Home', {screen : 'Notes'}))
+                .then(console.log('note Added'))
                 .catch(error => console.log(error)) 
         } 
         else {
-            UserNotesServices.updateNoteInFirebase(UserCredential.user.uid, this.state.noteKey, this.state.title, this.state.note)
-                .then(() => this.props.navigation.push('Home'))
+            UserNotesServices.updateNoteInFirebase(this.state.userId, this.state.noteKey, this.state.title, this.state.note)
+                .then(() => this.props.navigation.navigate('Home', {screen : 'Notes'}))
                 .catch(error => console.log(error))
         }
     }
     else{
         if(this.props.route.params == undefined) {
-            this.props.navigation.push('Home', { screen: 'Notes', params : {isEmptyNote : true}}) 
+            this.props.navigation.navigate('Home', { screen: 'Notes', params : {isEmptyNote : true}}) 
         } 
         else {
-            UserNotesServices.updateNoteInFirebase(UserCredential.user.uid, this.state.noteKey, this.state.title, this.state.note)
-                .then(() => this.props.navigation.push('Home'))
+            UserNotesServices.updateNoteInFirebase(this.state.userId, this.state.noteKey, this.state.title, this.state.note)
+                .then(() => this.props.navigation.navigate('Home', {screen : 'Notes'}))
                 .catch(error => console.log(error))
         }
     }
     // onPress();  
 }
 
+handleDeleteButton = async() => {
+    this.RBSheet.close()
+    if(this.props.route.params == undefined){
+        await this.setState({
+            isNoteNotAddedDeleted : true
+        })
+    }
+    else {
+        UserNotesServices.deleteNoteInFirebase(this.state.userId, this.state.noteKey, this.state.title, this.state.note)
+                .then(() => this.props.navigation.push('Home', { screen : 'Notes', 
+                                                                params : {isNoteDeleted : true, 
+                                                                        noteKey : this.state.noteKey,
+                                                                        title : this.state.title,
+                                                                        note : this.state.note,
+                                                                        userId : this.state.userId}}))
+                .catch(error => console.log(error))
+    }
+}
+
+isNotAddedNoteDeletedSnackbarHandler = async () => {
+    await this.setState({ 
+        isNoteNotAddedDeleted : false
+    })
+}
+
+
     render() {
         return (
-            <View style = {NoteCss.mainContainer}>
+            <View style = {AddNotesStyle.mainContainer}>
             <View>
-                <Appbar style = {NoteCss.header_style}>
+                <Appbar style = {AddNotesStyle.header_style}>
                     <Appbar.Action 
                         style = {{marginLeft : 10}}
                         icon = 'keyboard-backspace'
@@ -80,10 +121,10 @@ handleBackIconButton = async () => {
                     />
                     <Appbar.Content />
                     <Appbar.Action
-                        style = {NoteCss.header_icon_style}                             
+                        style = {AddNotesStyle.header_icon_style}                             
                         icon = 'pin-outline'/>
                     <Appbar.Action    
-                        style = {NoteCss.header_icon_style}                          
+                        style = {AddNotesStyle.header_icon_style}                          
                         icon = 'bell-plus-outline'/>
                     <Appbar.Action 
                         icon = 'archive-arrow-down-outline'/>
@@ -91,22 +132,22 @@ handleBackIconButton = async () => {
             </View>
             <ScrollView style = {{marginBottom : 60}}> 
                 <TextInput
-                    style = {NoteCss.title_style}
+                    style = {AddNotesStyle.title_style}
                     multiline = {true} 
                     placeholder = 'Title'
                     onChangeText = {this.handleTitle}
                     value = {this.state.title}
                 />
                 <TextInput
-                    style = {NoteCss.note_style}
+                    style = {AddNotesStyle.note_style}
                     multiline = {true} 
                     placeholder = 'Note'
                     onChangeText = {this.handleNotes}
                     value = {this.state.note}
                 />
             </ScrollView>
-            <View style = {NoteCss.bottom_view}>
-                <Appbar style = {NoteCss.bottom_appbar_style}>
+            <View style = {AddNotesStyle.bottom_view}>
+                <Appbar style = {AddNotesStyle.bottom_appbar_style}>
                     <Appbar.Action 
                         icon = 'plus-box-outline'/>
                     <Appbar.Content/>
@@ -116,9 +157,44 @@ handleBackIconButton = async () => {
                         icon = 'redo-variant'/>
                     <Appbar.Content/>
                     <Appbar.Action 
-                        icon = 'dots-vertical'/>
+                        icon = 'dots-vertical'
+                        onPress = {this.handleDotIconButton}/>
                 </Appbar>
             </View>
+            <RBSheet
+                    ref = {ref => {this.RBSheet = ref}}
+                    height = {250}
+                    customStyles = {{
+                        container : {
+                            marginBottom : 50,
+                            borderTopWidth : 1,
+                            borderColor : "#d3d3d3",
+                            
+                        },
+                        wrapper: {
+                            backgroundColor: "transparent",
+                        },
+                    }}>
+                        <View>
+                            <Menu.Item icon="delete-outline" onPress={this.handleDeleteButton} title="Delete" />
+                            <Menu.Item icon="content-copy" title="Make a copy" />
+                            <Menu.Item icon="share-variant" title="Send" />
+                            <Menu.Item 
+                                icon={({ size, color }) => (
+                                    <Icon name="person-add-outline" size={size} color={color} />
+                                    )} 
+                                title="Collaborator"/>
+                            <Menu.Item icon="label-outline" title="Labels" />
+                        
+                        </View>
+                </RBSheet>
+                <Snackbar
+                    style = {{marginBottom : 100}}
+                    visible={this.state.isNoteNotAddedDeleted}
+                    onDismiss={this.isNotAddedNoteDeletedSnackbarHandler}
+                    duration = {10000}>
+                    Notes not added can't be deleted
+                </Snackbar>
         </View>
         )
     }
