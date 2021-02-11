@@ -13,13 +13,13 @@ export default class DrawerContent extends Component {
 
   handleNoteIconButton = () => {
     const {onPress} = this.props
-    this.props.navigationProps.navigation.push('Home', { screen : 'Notes'})
+    this.props.navigation.navigation.push('Home', { screen : 'Notes'})
     // onPress();
   }
 
   handleDeletedIconButton = () => {
     const {onPress} = this.props
-    this.props.navigationProps.navigation.push('Home', { screen : 'Deleted'})
+    this.props.navigation.navigation.push('Home', { screen : 'Deleted'})
     // onPress();
   }
 

@@ -28,10 +28,11 @@ class HeaderBar extends Component {
                     title = "Search your notes"/>
                     <Appbar.Action
                     icon = { (this.props.listView) ? 'view-grid-outline' : 'view-agenda-outline'}
-                    onPress={this.props.onPress}
+                    onPress={this.props.onPressView}
                     />
                     <TouchableOpacity
-                    style = {HeaderBarStyle.avatar_style} >
+                    style = {HeaderBarStyle.avatar_style}
+                    onPress = {this.props.onPressProfile} >
                     <Avatar.Image size={25} source={require('../../Assets/profile.jpg')} />
                     </TouchableOpacity>
                 </Appbar.Header>

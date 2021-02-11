@@ -55,6 +55,15 @@ class UserServices {
         })
     }
 
+    readUserDataFromRealtimeDatabase = (userid) => {
+        return new Promise((resolve, reject) => {
+            Firebase.database().ref('users/' + userid).once('value')
+                .then(snapshot => resolve(snapshot.val()))
+                .catch(error => reject(error))
+        })
+    }
+    
+
 }
 
 export default new UserServices();

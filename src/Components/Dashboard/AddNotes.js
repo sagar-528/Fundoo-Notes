@@ -6,7 +6,7 @@ import * as Keychain from 'react-native-keychain'
 import UserNotesServices from '../../../Service/UserNotesServices'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import Icon from 'react-native-vector-icons/Ionicons'
-// import DotsVerticalRBSheetMenu from './DotsVerticalRBSheetMenu'
+import DotVerticalMenu from '../Dashboard/DotVerticalMenu'
 
 export class AddNotes extends Component {
 
@@ -179,18 +179,7 @@ isNotAddedNoteDeletedSnackbarHandler = async () => {
                             backgroundColor: "transparent",
                         },
                     }}>
-                        <View>
-                            <Menu.Item icon="delete-outline" onPress={this.handleDeleteButton} title="Delete" />
-                            <Menu.Item icon="content-copy" title="Make a copy" />
-                            <Menu.Item icon="share-variant" title="Send" />
-                            <Menu.Item 
-                                icon={({ size, color }) => (
-                                    <Icon name="person-add-outline" size={size} color={color} />
-                                    )} 
-                                title="Collaborator"/>
-                            <Menu.Item icon="label-outline" title="Labels" />
-                        
-                        </View>
+                  <DotVerticalMenu delete = {this.handleDeleteButton} />     
                 </RBSheet>
                 <Snackbar
                     style = {{marginBottom : 100}}

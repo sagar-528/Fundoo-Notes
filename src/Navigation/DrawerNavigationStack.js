@@ -9,7 +9,7 @@ const Drawer = createDrawerNavigator();
 
 function DrawerNavigationStack() {
     return (
-        <Drawer.Navigator drawerContent = {props => <DrawerContent navigationProps = {props}/> }>
+        <Drawer.Navigator drawerContent = {props => <DrawerContent navigation = {props}/> }>
             <Drawer.Screen name = 'Notes' component = { NoteScreen } />
             <Drawer.Screen name = 'Deleted' component = { DeletedScreen } />
             <Drawer.Screen name = 'AddNote' component = { AddNote } />

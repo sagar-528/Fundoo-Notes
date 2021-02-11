@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-import  { View } from 'react-native'
-import {Snackbar} from 'react-native-paper'
+import  { View, Text } from 'react-native'
+import {Snackbar, Provider, Modal, Portal} from 'react-native-paper'
 import HeaderBar from './HeaderBar';
 import BottomBar from './BottomBar';
 import NoteView from './NoteView';
 import UserNotesServices from '../../../Service/UserNotesServices'
+import NoteScreenStyle from '../../Styles/NoteScreen'
+import NoteViewStyle from '../../Styles/NoteView';
+import ProfileScreen from './ProfileScreen'
 
 class NoteScreen extends Component {
 
@@ -13,7 +16,8 @@ constructor(props) {
     this.state = {
         listView : true,
         showEmptyNoteSnackbar : false,
-        showDeletedNoteSnackbar : false
+        showDeletedNoteSnackbar : false,
+        showProfileModal : false
     }
 }
 
@@ -66,10 +70,27 @@ constructor(props) {
         // onPress();
     }
 
+    showModal = async() => {
+        const {onPress} = this.props
+        await this.setState({
+            showProfileModal : true
+        })
+        //onPress();
+    }
+
+    hideModal = async() => {
+        const {onDismiss} = this.props
+        await this.setState({
+            showProfileModal : false
+        })
+        //onDismiss();
+    }
+
     render() {
         return (
-            <View style={{flex : 1,backgroundColor : 'white'}}>
-            <HeaderBar navigation = {this.props.navigation} onPress = {this.selectView} listView = {this.state.listView} />
+            <Provider>
+            <View style={NoteScreenStyle.container}>
+            <HeaderBar navigation = {this.props.navigation} onPressView = {this.selectView} listView = {this.state.listView} onPressProfile = {this.showModal}/>
             <NoteView navigation = {this.props.navigation} listView = {this.state.listView} />
             <BottomBar navigation = {this.props.navigation}/>
             <Snackbar
@@ -90,7 +111,16 @@ constructor(props) {
                 }}>
                 Note Moved to Bin!!!
         </Snackbar>
-            </View>
+            <Portal>
+                <Modal 
+                    visible={this.state.showProfileModal} 
+                    onDismiss={this.hideModal} 
+                    contentContainerStyle={NoteScreenStyle.modal_container_style}>
+                    <ProfileScreen navigation = {this.props.navigation}/>
+                </Modal>
+            </Portal>
+        </View>
+        </Provider>
         )
     }
 }
