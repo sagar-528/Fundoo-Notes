@@ -8,9 +8,8 @@ import UserNotesServices from '../../../Service/UserNotesServices'
 import NoteScreenStyle from '../../Styles/NoteScreen'
 import ProfileScreen from './ProfileScreen'
 import * as Keychain from 'react-native-keychain'
-// import {openDatabase} from 'react-native-sqlite-storage';
 import SQLiteServices from '../../../Service/SQLiteServices'
-
+import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
 
 class NoteScreen extends Component {
 
@@ -32,6 +31,10 @@ constructor(props) {
      this.setState({
         userId : UserCredential.user.uid
     })
+
+    await SQLiteServices.createTableInSQliteStorage(UserCredential.user.uid)
+    await NoteDataControllerServices.getNoteFromFirebaseToSqlite(UserCredential.user.uid)
+
     if(this.props.route.params != undefined) {
         if(this.props.route.params.isEmptyNote != undefined) {
            this.setState({
@@ -74,10 +77,8 @@ constructor(props) {
 
     restoreNotes = async() => {
         const {onPress} = this.props
-        SQLiteServices.restoreNoteinSQliteStorage(this.props.route.params.noteKey)
-        UserNotesServices.restoreNoteInFirebase(this.props.route.params.userId, this.props.route.params.noteKey)
+        NoteDataControllerServices.restoreNote(this.props.route.params.userId, this.props.route.params.noteKey)
             .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
-            .catch(error => console.log(error))
         // onPress();
     }
 
