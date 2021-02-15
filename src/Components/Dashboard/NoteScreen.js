@@ -6,8 +6,11 @@ import BottomBar from './BottomBar';
 import NoteView from './NoteView';
 import UserNotesServices from '../../../Service/UserNotesServices'
 import NoteScreenStyle from '../../Styles/NoteScreen'
-import NoteViewStyle from '../../Styles/NoteView';
 import ProfileScreen from './ProfileScreen'
+import * as Keychain from 'react-native-keychain'
+// import {openDatabase} from 'react-native-sqlite-storage';
+import SQLiteServices from '../../../Service/SQLiteServices'
+
 
 class NoteScreen extends Component {
 
@@ -17,14 +20,21 @@ constructor(props) {
         listView : true,
         showEmptyNoteSnackbar : false,
         showDeletedNoteSnackbar : false,
-        showProfileModal : false
+        showProfileModal : false,
+        photo : '',
+        userId : ''
     }
 }
 
- componentDidMount() {
+ componentDidMount = async () => {
+    const credential = await Keychain.getGenericPassword();
+    const UserCredential = JSON.parse(credential.password);
+     this.setState({
+        userId : UserCredential.user.uid
+    })
     if(this.props.route.params != undefined) {
         if(this.props.route.params.isEmptyNote != undefined) {
-            this.setState({
+           this.setState({
                 showEmptyNoteSnackbar : true
             })
         }
@@ -64,8 +74,9 @@ constructor(props) {
 
     restoreNotes = async() => {
         const {onPress} = this.props
-        UserNotesServices.restoreNoteInFirebase(this.props.route.params.userId, this.props.route.params.noteKey, this.props.route.params.title, this.props.route.params.note)
-            .then(() => this.props.navigation.navigate('Home', {screen : 'Notes'}))
+        SQLiteServices.restoreNoteinSQliteStorage(this.props.route.params.noteKey)
+        UserNotesServices.restoreNoteInFirebase(this.props.route.params.userId, this.props.route.params.noteKey)
+            .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
             .catch(error => console.log(error))
         // onPress();
     }
@@ -75,7 +86,7 @@ constructor(props) {
         await this.setState({
             showProfileModal : true
         })
-        //onPress();
+        // onPress();
     }
 
     hideModal = async() => {
@@ -83,16 +94,24 @@ constructor(props) {
         await this.setState({
             showProfileModal : false
         })
-        //onDismiss();
+        // onDismiss();
     }
 
     render() {
         return (
             <Provider>
             <View style={NoteScreenStyle.container}>
-            <HeaderBar navigation = {this.props.navigation} onPressView = {this.selectView} listView = {this.state.listView} onPressProfile = {this.showModal}/>
-            <NoteView navigation = {this.props.navigation} listView = {this.state.listView} />
-            <BottomBar navigation = {this.props.navigation}/>
+            <HeaderBar 
+                photo = {this.state.photo}
+                navigation = {this.props.navigation} 
+                onPressView = {this.selectView} 
+                listView = {this.state.listView} 
+                onPressProfile = {this.showModal}/>
+            <NoteView 
+                navigation = {this.props.navigation} 
+                listView = {this.state.listView} />
+            <BottomBar 
+                navigation = {this.props.navigation}/>
             <Snackbar
                 style = {{marginBottom : 100}}
                 visible={this.state.showEmptyNoteSnackbar}
@@ -104,7 +123,7 @@ constructor(props) {
                 style = {{marginBottom : 100}}
                 visible={this.state.showDeletedNoteSnackbar}
                 onDismiss={this.deletedNoteSnackbarHandler}
-                duration = {1000}
+                duration = {10000}
                 action = {{
                     label : 'Undo',
                     onPress : this.restoreNotes
@@ -116,7 +135,10 @@ constructor(props) {
                     visible={this.state.showProfileModal} 
                     onDismiss={this.hideModal} 
                     contentContainerStyle={NoteScreenStyle.modal_container_style}>
-                    <ProfileScreen navigation = {this.props.navigation}/>
+                    <ProfileScreen 
+                        navigation = {this.props.navigation}
+                        photo = {this.state.photo}
+                        changeImage = {this.changeImage}/>
                 </Modal>
             </Portal>
         </View>

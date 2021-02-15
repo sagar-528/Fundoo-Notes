@@ -12,13 +12,21 @@ const ProfileStyle = StyleSheet.create({
     },
 
     text_style : {
-        fontWeight : 'bold'
+        fontWeight : 'bold',
+        alignSelf : 'center',
+        fontSize : 16
     },
 
     logout_button_styles : {
         width : 200,
         backgroundColor : "#339EFF",
         borderRadius : 20,
+    },
+
+    edit_button_style : {
+        flex : 1, 
+        justifyContent : 'flex-end', 
+        alignItems : 'flex-end'
     }
 
 })

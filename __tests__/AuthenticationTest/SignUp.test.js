@@ -117,7 +117,7 @@ describe('test SignUp', () => {
         expect(instance.state.passwordEmpty).toBe(true)
     })
 
-    it('When onPress event of sign up button when all fields are valid it will navigate to Login Screen', async() => {
+    it('When onPress event of sign up button when all fields are valid it will navigate to SignIn Screen', async() => {
         const navigation = { navigate : jest.fn() }
         const onPressEvent = jest.fn();
         const component = shallow(<SignUp onPress = {onPressEvent} navigation = {navigation} />)

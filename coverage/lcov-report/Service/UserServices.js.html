@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.86% </span>
+                <span class="strong">55.32% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/37</span>
+                <span class='fraction'>26/47</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.25% </span>
+                <span class="strong">37.5% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/16</span>
+                <span class='fraction'>9/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.62% </span>
+                <span class="strong">48.72% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/29</span>
+                <span class='fraction'>19/39</span>
             </div>
         
             
@@ -117,7 +117,23 @@
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,6 +187,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -234,6 +266,22 @@ class UserServices {
         })
     }
 &nbsp;
+    readUserDataFromRealtimeDatabase <span class="fstat-no" title="function not covered" >= </span>(userid) =&gt; {
+<span class="cstat-no" title="statement not covered" >        return new Prom<span class="fstat-no" title="function not covered" >is</span>e((resolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            Firebase.database().ref('users/' + userid).once('value')</span>
+<span class="fstat-no" title="function not covered" ></span>                .then(snapshot =<span class="cstat-no" title="statement not covered" >&gt; resolve(snapshot.val()))</span>
+<span class="fstat-no" title="function not covered" ></span>                .catch(error =<span class="cstat-no" title="statement not covered" >&gt; reject(error))</span>
+        })
+    }
+    
+    signout <span class="fstat-no" title="function not covered" >= </span>() =&gt; {
+<span class="cstat-no" title="statement not covered" >        return new Prom<span class="fstat-no" title="function not covered" >is</span>e((resolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            Firebase.auth().signOut()</span>
+<span class="fstat-no" title="function not covered" ></span>                .then(()<span class="cstat-no" title="statement not covered" > =&gt; resolve('success') )</span>
+<span class="fstat-no" title="function not covered" ></span>                .catch(error =<span class="cstat-no" title="statement not covered" >&gt; reject(error))</span>
+        })
+    }
+&nbsp;
 }
 &nbsp;
 export default new UserServices();
@@ -244,7 +292,7 @@ export default new UserServices();
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Feb 09 2021 11:29:23 GMT+0530 (India Standard Time)
+                at Fri Feb 12 2021 13:03:00 GMT+0530 (India Standard Time)
             </div>
         </div>
         <script src="../prettify.js"></script>

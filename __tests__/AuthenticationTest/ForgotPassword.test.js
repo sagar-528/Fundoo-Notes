@@ -37,7 +37,7 @@ describe('test Forgot Password', () => {
         return UserServices.forgotPassword(instance.state.email).catch(error => expect(instance.state.invalidEmail).toBe(true))
     })
 
-    it('When onDismiss event of dialog button it will set visible state for dialog should be false', () => {
+    it('When onDismiss event of dialog button it will set visible state for dialog should be false', async() => {
         const onDismissEvent = jest.fn();
         const component = shallow(<ForgotPassword onDismiss = {onDismissEvent}/>)
         const instance = component.instance();
@@ -46,7 +46,7 @@ describe('test Forgot Password', () => {
         expect(instance.state.visible).toBe(false)
     })
 
-    it('When onPress event of dialog action button it will navigate to Login Screen', () => {
+    it('When onPress event of dialog action button it will navigate to Login Screen', async() => {
         const navigation = { navigate : jest.fn() }
         const onPressEvent = jest.fn();
         const component = shallow(<ForgotPassword onPress = {onPressEvent} navigation = {navigation} />)

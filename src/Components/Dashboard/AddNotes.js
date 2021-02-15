@@ -7,6 +7,7 @@ import UserNotesServices from '../../../Service/UserNotesServices'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import Icon from 'react-native-vector-icons/Ionicons'
 import DotVerticalMenu from '../Dashboard/DotVerticalMenu'
+import SQLiteServices from '../../../Service/SQLiteServices'
 
 export class AddNotes extends Component {
 
@@ -56,29 +57,38 @@ handleDotIconButton = () => {
     // onPress();
 }
 
-handleBackIconButton = () => {
-    // const {onPress} = this.props
+handleBackIconButton = async() => {
+    const {onPress} = this.props
     if(this.state.title != '' || this.state.note != '') {
         if(this.props.route.params == undefined) {
-            console.log(this.state.title)
-            UserNotesServices.storeNoteInDatabase(this.state.userId, this.state.title, this.state.note)
-                .then(() => this.props.navigation.navigate('Home', {screen : 'Notes'}))
+            await SQLiteServices.storeNoteinSQliteStorage(this.state.userId, this.state.title, this.state.note)
+            .then(results => {
+                this.setState({
+                    noteKey : results.insertId
+                })
+            })
+            await UserNotesServices.storeNoteInDatabase(this.state.userId, this.state.title, this.state.note, this.state.noteKey)
+                .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
                 .then(console.log('note Added'))
                 .catch(error => console.log(error)) 
         } 
         else {
+            SQLiteServices.updateNoteinSQliteStorage(this.state.noteKey, this.state.title, this.state.note)
+
             UserNotesServices.updateNoteInFirebase(this.state.userId, this.state.noteKey, this.state.title, this.state.note)
-                .then(() => this.props.navigation.navigate('Home', {screen : 'Notes'}))
+                .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
                 .catch(error => console.log(error))
         }
     }
     else{
         if(this.props.route.params == undefined) {
-            this.props.navigation.navigate('Home', { screen: 'Notes', params : {isEmptyNote : true}}) 
+            this.props.navigation.push('Home', { screen: 'Notes', params : {isEmptyNote : true}}) 
         } 
         else {
+            SQLiteServices.removeNoteinSQliteStorage(this.state.noteKey)
+
             UserNotesServices.removeNoteInFirebase(this.state.userId, this.state.noteKey)
-                .then(() => this.props.navigation.navigate('Home', {screen : 'Notes', params : {isEmptyNote : true}}))
+                .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isEmptyNote : true}}))
                 .catch(error => console.log(error))
         }
     }
@@ -93,12 +103,11 @@ handleDeleteButton = async() => {
         })
     }
     else {
-        UserNotesServices.deleteNoteInFirebase(this.state.userId, this.state.noteKey, this.state.title, this.state.note)
+        SQLiteServices.deleteNoteinSQliteStorage(this.state.noteKey)
+        UserNotesServices.deleteNoteInFirebase(this.state.userId, this.state.noteKey)
                 .then(() => this.props.navigation.push('Home', { screen : 'Notes', 
                                                                 params : {isNoteDeleted : true, 
                                                                         noteKey : this.state.noteKey,
-                                                                        title : this.state.title,
-                                                                        note : this.state.note,
                                                                         userId : this.state.userId}}))
                 .catch(error => console.log(error))
     }

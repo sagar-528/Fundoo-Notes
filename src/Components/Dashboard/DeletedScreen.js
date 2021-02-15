@@ -24,13 +24,32 @@ export class DeletedScreen extends Component {
     async componentDidMount() {
         const credential = await Keychain.getGenericPassword();
         const UserCredential = JSON.parse(credential.password);
-        UserNotesServices.getNoteFromDatabase(UserCredential.user.uid)
-            .then(async data => {
-                let notes = data ? data : {}
-                await this.setState({
-                    userNotes : notes
-                })
+        // UserNotesServices.getNoteFromDatabase(UserCredential.user.uid)
+        //     .then(async data => {
+        //         let notes = data ? data : {}
+        //         await this.setState({
+        //             userNotes : notes
+        //         })
+        //     })
+
+        SQLiteServices.selectNoteFromSQliteStorage(UserCredential.user.uid)
+            .then(async result => {
+                var temp = [];
+                if(result.rows.length != 0) {
+                    for (let i = 0; i < result.rows.length; ++i)
+                    temp.push(result.rows.item(i));
+                    await this.setState({
+                        userNotes : temp
+                    })
+                }                
             })
+            .catch(error => console.log(error))   
+    }
+
+    handleMenuButton = async () => {
+        const {onPress} = this.props
+        this.props.navigation.openDrawer();
+        //onPress();
     }
 
     render() {
@@ -50,7 +69,7 @@ export class DeletedScreen extends Component {
                 </Appbar>
             </View>
             <ScrollView>
-            <View>
+           {/* <View>
                 { noteID.length > 0 ?
                     noteID.reverse().map(key => ( 
                         <React.Fragment key = {key}>
@@ -72,7 +91,28 @@ export class DeletedScreen extends Component {
                     :
                     null
                 }
-            </View>
+            </View> */}
+                    <View>
+                        {this.state.userNotes.length > 0 ?
+                            this.state.userNotes.map(val => (
+                                <React.Fragment key = {val.note_id}>
+                                    {val.is_deleted == 1 ? (
+                                        <Card style = {DeletedScreenStyle.list_item_style}>
+                                            <Card.Content>
+                                                <Title>
+                                                    {val.title}
+                                                </Title>
+                                                <Paragraph>
+                                                    {val.note}
+                                                </Paragraph>
+                                            </Card.Content>  
+                                        </Card>
+                                        )
+                                    : null}
+                                </React.Fragment>
+                            ))
+                        : null}
+                    </View>
             </ScrollView>
         </View>
         )

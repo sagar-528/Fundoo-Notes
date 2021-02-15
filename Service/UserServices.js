@@ -63,6 +63,13 @@ class UserServices {
         })
     }
     
+    signout = () => {
+        return new Promise((resolve, reject) => {
+            Firebase.auth().signOut()
+                .then(() => resolve('success') )
+                .catch(error => reject(error))
+        })
+    }
 
 }
 

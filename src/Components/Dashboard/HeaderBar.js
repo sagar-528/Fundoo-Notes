@@ -33,7 +33,10 @@ class HeaderBar extends Component {
                     <TouchableOpacity
                     style = {HeaderBarStyle.avatar_style}
                     onPress = {this.props.onPressProfile} >
-                    <Avatar.Image size={25} source={require('../../Assets/profile.jpg')} />
+                    <Avatar.Image 
+                    size={25} 
+                    style = {{backgroundColor : 'white'}}
+                    source={(this.props.photo == '') ? require('../../Assets/profile.jpg') : {uri : this.props.photo}} />
                     </TouchableOpacity>
                 </Appbar.Header>
             </View>

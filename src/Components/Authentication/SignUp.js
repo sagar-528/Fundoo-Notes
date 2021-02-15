@@ -129,7 +129,7 @@ validatePassword = () => {
               visible : true
             })
             UserServices.writeUserDataInRealtimeDatabase(userCredential.user.uid, this.state.firstName, this.state.lastName, userCredential.user.email)
-              this.props.navigation.push("SignIn")
+              this.props.navigation.navigate("SignIn")
           })
           .catch(error => {
               if(error == 'Email Already Exist') {

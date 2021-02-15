@@ -2,14 +2,14 @@ import Firebase from '../Environment/Firebase'
 
 class UserNotesServices {
 
-    storeNoteInDatabase = (userid, title, note) => {
+    storeNoteInDatabase = (userid, title, note, noteKey) => {
         return new Promise((resolve, reject) => {
             const notes = {
                 title : title,
                 note : note,
-                isDeleted : false
+                isDeleted : 0
             }
-            Firebase.database().ref('UserNotes/' + userid).push({
+            Firebase.database().ref('UserNotes/' + userid + '/' + noteKey).set({
                 notes : notes
             })
             .then(() => resolve('success')) 
@@ -30,7 +30,7 @@ class UserNotesServices {
             const notes = {
                 title : title,
                 note : note,
-                isDeleted : false
+                isDeleted : 0
             }
             Firebase.database().ref('UserNotes/' + userid  + '/' + notekey).set({
                 notes : notes
@@ -40,30 +40,20 @@ class UserNotesServices {
         })
     }
 
-    deleteNoteInFirebase = (userid, notekey, title, note) => {
+    deleteNoteInFirebase = (userid, notekey) => {
         return new Promise((resolve, reject) => {
-            const notes = {
-                title : title,
-                note : note,
-                isDeleted : true
-            }
-            Firebase.database().ref('UserNotes/' + userid  + '/' + notekey).set({
-                notes : notes
+            Firebase.database().ref('UserNotes/' + userid  + '/' + notekey + '/' + 'notes').update({
+                isDeleted : 1
             })
             .then(() => resolve('success'))
             .catch(error => reject(error))
         })
     }
 
-    restoreNoteInFirebase = (userid, notekey, title, note) => {
+    restoreNoteInFirebase = (userid, notekey) => {
         return new Promise((resolve, reject) => {
-            const notes = {
-                title : title,
-                note : note,
-                isDeleted : false
-            }
-            Firebase.database().ref('UserNotes/' + userid  + '/' + notekey).set({
-                notes : notes
+            Firebase.database().ref('UserNotes/' + userid  + '/' + notekey + '/notes').update({
+                isDeleted : 0
             })
             .then(() => resolve('success'))
             .catch(error => reject(error))

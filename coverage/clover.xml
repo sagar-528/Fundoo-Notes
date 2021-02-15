@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1612850363494" clover="3.2.0">
-  <project timestamp="1612850363495" name="All files">
-    <metrics statements="210" coveredstatements="185" conditionals="559" coveredconditionals="323" methods="177" coveredmethods="128" elements="946" coveredelements="636" complexity="0" loc="210" ncloc="210" packages="7" files="13" classes="13"/>
+<coverage generated="1613115180315" clover="3.2.0">
+  <project timestamp="1613115180315" name="All files">
+    <metrics statements="222" coveredstatements="189" conditionals="561" coveredconditionals="324" methods="185" coveredmethods="128" elements="968" coveredelements="641" complexity="0" loc="222" ncloc="222" packages="6" files="13" classes="13"/>
     <package name="Environment">
       <metrics statements="4" coveredstatements="4" conditionals="28" coveredconditionals="3" methods="3" coveredmethods="1"/>
       <file name="Firebase.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\Environment\Firebase.js">
@@ -13,9 +13,9 @@
       </file>
     </package>
     <package name="Service">
-      <metrics statements="29" coveredstatements="17" conditionals="16" coveredconditionals="7" methods="16" coveredmethods="9"/>
+      <metrics statements="39" coveredstatements="19" conditionals="16" coveredconditionals="7" methods="24" coveredmethods="9"/>
       <file name="UserServices.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\Service\UserServices.js">
-        <metrics statements="29" coveredstatements="17" conditionals="16" coveredconditionals="7" methods="16" coveredmethods="9"/>
+        <metrics statements="39" coveredstatements="19" conditionals="16" coveredconditionals="7" methods="24" coveredmethods="9"/>
         <line num="1" count="4" type="cond" truecount="4" falsecount="2"/>
         <line num="3" count="4" type="stmt"/>
         <line num="6" count="4" type="stmt"/>
@@ -44,14 +44,17 @@
         <line num="45" count="2" type="stmt"/>
         <line num="48" count="4" type="stmt"/>
         <line num="51" count="0" type="stmt"/>
-        <line num="60" count="4" type="stmt"/>
-      </file>
-    </package>
-    <package name="src.Assets">
-      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="profile.jpg" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Assets\profile.jpg">
-        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
+        <line num="56" count="4" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="64" count="4" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="70" count="0" type="stmt"/>
+        <line num="76" count="4" type="stmt"/>
       </file>
     </package>
     <package name="src.Components.Authentication">
@@ -192,7 +195,7 @@
       </file>
     </package>
     <package name="src.Components.Dashboard">
-      <metrics statements="34" coveredstatements="34" conditionals="217" coveredconditionals="130" methods="64" coveredmethods="49"/>
+      <metrics statements="34" coveredstatements="34" conditionals="219" coveredconditionals="131" methods="64" coveredmethods="49"/>
       <file name="BottomBar.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Components\Dashboard\BottomBar.js">
         <metrics statements="12" coveredstatements="12" conditionals="73" coveredconditionals="44" methods="22" coveredmethods="17"/>
         <line num="1" count="1" type="stmt"/>
@@ -209,7 +212,7 @@
         <line num="34" count="1" type="stmt"/>
       </file>
       <file name="HeaderBar.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Components\Dashboard\HeaderBar.js">
-        <metrics statements="14" coveredstatements="14" conditionals="75" coveredconditionals="45" methods="22" coveredmethods="17"/>
+        <metrics statements="14" coveredstatements="14" conditionals="77" coveredconditionals="46" methods="22" coveredmethods="17"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -222,8 +225,8 @@
         <line num="15" count="1" type="stmt"/>
         <line num="16" count="2" type="stmt"/>
         <line num="19" count="2" type="stmt"/>
-        <line num="40" count="1" type="stmt"/>
         <line num="44" count="1" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
       </file>
       <file name="Reminder.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Components\Dashboard\Reminder.js">
         <metrics statements="8" coveredstatements="8" conditionals="69" coveredconditionals="41" methods="20" coveredmethods="15"/>
@@ -257,7 +260,13 @@
       </file>
     </package>
     <package name="src.Styles">
-      <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="BottomBar.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Styles\BottomBar.js">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+      </file>
       <file name="GlobalCss.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Styles\GlobalCss.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="5" type="stmt"/>
@@ -265,11 +274,11 @@
         <line num="6" count="5" type="stmt"/>
         <line num="119" count="5" type="stmt"/>
       </file>
-      <file name="NoteCss.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Styles\NoteCss.js">
+      <file name="HeaderBar.js" path="C:\Users\gupta\OneDrive\Desktop\Sagar Workspace\Projects\Native\Registration\src\Styles\HeaderBar.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="2" type="stmt"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="126" count="2" type="stmt"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
       </file>
     </package>
   </project>

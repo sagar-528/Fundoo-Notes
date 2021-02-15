@@ -11,7 +11,8 @@ const NoteScreenStyle = StyleSheet.create({
         backgroundColor: 'white', 
         padding: 20,
         width : 300,
-        alignSelf : 'center'
+        alignSelf : 'center',
+        marginBottom : 200
     }
 })
 
