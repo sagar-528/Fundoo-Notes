@@ -5,13 +5,13 @@ import * as Animatable from 'react-native-animatable';
 import NoteViewStyle from '../../Styles/NoteView'
 import NoteCard from './NoteCard'
 import SQLiteServices from '../../../Service/SQLiteServices'
+import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
 
 export default class NoteView extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userNotes : [],
-            connectionStatus : 'Offline'
        }
     }
 
@@ -19,6 +19,8 @@ export default class NoteView extends Component {
         const credential = await Keychain.getGenericPassword();
         const UserCredential = JSON.parse(credential.password);
        
+         await SQLiteServices.createTableInSQliteStorage(UserCredential.user.uid)
+    await NoteDataControllerServices.getNoteFromFirebaseToSqlite(UserCredential.user.uid)
         SQLiteServices.selectNoteFromSQliteStorage(UserCredential.user.uid)
             .then(async result => {
                 var temp = [];
@@ -41,7 +43,7 @@ export default class NoteView extends Component {
             style = {NoteViewStyle.list_conatiner}
             animation = "fadeInUpBig">
             {this.state.userNotes.length > 0 ?
-                this.state.userNotes.map(note => (
+                this.state.userNotes.reverse().map(note => (
                         <React.Fragment key = {note.note_id}>
                             {note.is_deleted == 0 ? (
                                     <NoteCard listView = {this.props.listView} notes = {note} noteKey = {note.note_id} navigation = {this.props.navigation}/>)

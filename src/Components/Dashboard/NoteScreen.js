@@ -4,11 +4,9 @@ import {Snackbar, Provider, Modal, Portal} from 'react-native-paper'
 import HeaderBar from './HeaderBar';
 import BottomBar from './BottomBar';
 import NoteView from './NoteView';
-import UserNotesServices from '../../../Service/UserNotesServices'
 import NoteScreenStyle from '../../Styles/NoteScreen'
 import ProfileScreen from './ProfileScreen'
 import * as Keychain from 'react-native-keychain'
-import SQLiteServices from '../../../Service/SQLiteServices'
 import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
 
 class NoteScreen extends Component {
@@ -31,9 +29,6 @@ constructor(props) {
      this.setState({
         userId : UserCredential.user.uid
     })
-
-    await SQLiteServices.createTableInSQliteStorage(UserCredential.user.uid)
-    await NoteDataControllerServices.getNoteFromFirebaseToSqlite(UserCredential.user.uid)
 
     if(this.props.route.params != undefined) {
         if(this.props.route.params.isEmptyNote != undefined) {

@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 import  { View, TouchableOpacity } from 'react-native'
-import { Appbar, FAB, Avatar } from 'react-native-paper';
+import { Appbar, FAB, Avatar, TouchableRipple} from 'react-native-paper';
 import HeaderBarStyle from '../../Styles/HeaderBar'
 
 class HeaderBar extends Component {
 
     constructor(props) {
         super(props)
+    }
+
+    handleSearchButton = () => {
+        const {onPress} = this.props
+        this.props.navigation.push('Home', { screen : 'SearchNote'})
+        // onPress();
     }
 
     handleMenuButton = () => {
@@ -25,6 +31,7 @@ class HeaderBar extends Component {
                     />
                     <Appbar.Content
                     style = {HeaderBarStyle.appbar_content_style}
+                    onPress = {this.handleSearchButton}
                     title = "Search your notes"/>
                     <Appbar.Action
                     icon = { (this.props.listView) ? 'view-grid-outline' : 'view-agenda-outline'}

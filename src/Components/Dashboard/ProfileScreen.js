@@ -19,6 +19,8 @@ constructor(props) {
         userDetails : '',
         photo : this.props.photo,
         userId : '',
+        showSubmit : false,
+        fullName : ''
     }
 }
 
@@ -31,7 +33,8 @@ componentDidMount = async() => {
     UserServices.readUserDataFromRealtimeDatabase(UserCredential.user.uid)
         .then(async data => {
             await this.setState({
-                userDetails : data
+                userDetails : data,
+                fullName : data.firstName + ' ' + data.lastName
             })
         })
 }
@@ -75,12 +78,8 @@ handleImageEditButton = () => {
 
                 <View style = {{marginTop : 20, marginBottom : 20}}>
                     <View style = {ProfileStyle.text_container_style}>
-                        <Text style = {ProfileStyle.text_style}>First Name : </Text>
-                        <Text style = {ProfileStyle.text_style}>{this.state.userDetails.firstName}</Text>
-                    </View>
-                    <View style = {ProfileStyle.text_container_style}>
-                        <Text style = {ProfileStyle.text_style}>Last Name : </Text>
-                        <Text style = {ProfileStyle.text_style}>{this.state.userDetails.lastName}</Text>
+                        <Text style = {ProfileStyle.text_style}>Full Name : </Text>
+                        <Text style = {ProfileStyle.text_style}>{this.state.fullName}</Text>
                     </View>
                     <View style = {ProfileStyle.text_container_style}>
                         <Text style = {ProfileStyle.text_style}>Email : </Text>

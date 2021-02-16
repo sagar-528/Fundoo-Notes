@@ -201,6 +201,10 @@ restoreSnackbarAction = () => {
                         onPress = {this.handleBackIconButton}
                     />
                     <Appbar.Content />
+
+                {
+                (this.state.isDeleted == 0) ? 
+                    <Appbar style = {{backgroundColor : 'transparent'}}>
                     <Appbar.Action
                         style = {AddNotesStyle.header_icon_style}                             
                         icon = 'pin-outline'/>
@@ -209,6 +213,10 @@ restoreSnackbarAction = () => {
                         icon = 'bell-plus-outline'/>
                     <Appbar.Action 
                         icon = 'archive-arrow-down-outline'/>
+                    </Appbar>
+                    :
+                    null
+                }
                 </Appbar>
             </View>
             <ScrollView style = {{marginBottom : 60}}> 
@@ -238,6 +246,9 @@ restoreSnackbarAction = () => {
                     <Appbar.Action 
                         icon = 'plus-box-outline'/>
                     <Appbar.Content/>
+            {
+                (this.state.isDeleted == 0) ? 
+                    <Appbar style = {{backgroundColor : 'transparent'}}>
                     <Appbar.Action 
                         icon = 'undo-variant'/>
                     <Appbar.Action 
@@ -246,7 +257,11 @@ restoreSnackbarAction = () => {
                     <Appbar.Action 
                         icon = 'dots-vertical'
                         onPress = {this.handleDotIconButton}/>
-                </Appbar>
+                    </Appbar>
+                :
+                null
+            }
+            </Appbar>
             </View>
             {this.state.isDeleted == 0 ?
             <RBSheet
