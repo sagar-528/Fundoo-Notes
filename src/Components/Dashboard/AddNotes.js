@@ -263,6 +263,7 @@ restoreSnackbarAction = () => {
             }
             </Appbar>
             </View>
+            
             {this.state.isDeleted == 0 ?
             <RBSheet
                     ref = {ref => {this.RBSheet = ref}}

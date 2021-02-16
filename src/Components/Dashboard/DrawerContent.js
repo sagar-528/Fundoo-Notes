@@ -23,6 +23,11 @@ export default class DrawerContent extends Component {
     // onPress();
   }
 
+  handleCreateNewLabelButton = () => {
+    this.props.navigation.navigation.closeDrawer();
+    this.props.navigation.navigation.navigate('CreateLabel')
+  }
+
   render(){
   return (
             <View style = {{flex: 1}}>
@@ -47,6 +52,7 @@ export default class DrawerContent extends Component {
                   style = {DrawerContentStyle.drawer_item_style}
                   icon = 'plus'
                   label = "Create New Label"
+                  onPress = {this.handleCreateNewLabelButton}
                 />
               </Drawer.Section>
   
