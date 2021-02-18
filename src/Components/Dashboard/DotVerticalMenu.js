@@ -29,7 +29,8 @@ export class DotVerticalMenu extends Component {
                         )} 
                         title="Collaborator"/>
                 </TouchableRipple>
-                <TouchableRipple>
+                <TouchableRipple
+                    onPress = {this.props.label}>
                     <Menu.Item icon="label-outline" title="Labels" />
                 </TouchableRipple>
             </View>

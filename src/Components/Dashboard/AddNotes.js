@@ -53,7 +53,6 @@ componentDidMount = async () => {
             isDeleted : this.props.route.params.notes.is_deleted
         })
     }
-    console.log(this.state.isDeleted)
 }
 
 handleDotIconButton = () => {
@@ -94,7 +93,6 @@ handleBackIconButton = async() => {
         else {
             NoteDataControllerServices.removeNote(this.state.userId, this.state.noteKey)
                 .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isEmptyNote : true}}))
-                console.log(this.generateNoteKey())
         }
     }
     //onPress(); 
@@ -113,6 +111,11 @@ handleDeleteButton = async() => {
                                                                                     noteKey : this.state.noteKey,
                                                                                     userId : this.state.userId}})) 
     }
+}
+
+handleLabelButton = () => {
+    this.RBSheet.close();
+    this.props.navigation.navigate('SelectLabel')
 }
 
 isNotAddedNoteDeletedSnackbarHandler = async () => {
@@ -279,7 +282,7 @@ restoreSnackbarAction = () => {
                             backgroundColor: "transparent",
                         },
                     }}>
-                  <DotVerticalMenu delete = {this.handleDeleteButton} />     
+                  <DotVerticalMenu delete = {this.handleDeleteButton} label = {this.handleLabelButton}/>     
                 </RBSheet>
                 :
                 <RBSheet
