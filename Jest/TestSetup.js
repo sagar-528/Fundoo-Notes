@@ -20,6 +20,14 @@ jest.mock('react-native-reanimated', () => {
 // Silence the warning: Animated: `useNativeDriver` is not supported because the native animated module is missing
 jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
 
+jest.mock('react-native-fetch-blob', () => {
+  return {
+    DocumentDir: () => {},
+    polyfill: () => {},
+  }
+});
+
+
 jest.mock('react-native-sqlite-storage', () => {
   // const mockSQLite = require('react-native-sqlite-storage');
   const mockSQLite = {

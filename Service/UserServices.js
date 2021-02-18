@@ -71,6 +71,13 @@ class UserServices {
         })
     }
 
+    addImageUrlToUser = (userid, photo) => {
+        console.log(photo)
+        Firebase.database().ref('users/' + userid).update({
+            photo : photo
+        })
+    }
+
 }
 
 export default new UserServices();

@@ -1,11 +1,13 @@
 import React from 'react'
 import NavigationStack  from './src/Navigation/NavigationStack'
-// import NoteScreen from '../Registration/src/Components/Dashboard/NoteScreen'
+import {Provider} from 'react-redux'
+import store from './src/Redux/store'
 
 const App = () => {
     return(
-      <NavigationStack  />
-      // <NoteScreen />
+      <Provider store = {store}>
+        <NavigationStack  />
+      </Provider>
     );
 };
 

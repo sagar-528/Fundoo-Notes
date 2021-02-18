@@ -139,8 +139,21 @@ handleFacebookLoginButton = async () => {
     const {onPress} = this.props;
     UserSocialServices.facebookLogin()
     .then( async UserCredential => {
-        UserSocialServices.writeUserDataInRealtimeDatabase(UserCredential.user.uid, UserCredential.additionalUserInfo.profile.first_name, UserCredential.additionalUserInfo.profile.last_name, UserCredential.additionalUserInfo.profile.email);
+        console.log(UserCredential.user)
+
+        UserServices.readUserDataFromRealtimeDatabase(UserCredential.user.uid)
+            .then(data =>{
+                if(data == null){
+                    UserServices.writeUserDataInRealtimeDatabase(
+                        UserCredential.user.uid, 
+                        UserCredential.additionalUserInfo.profile.first_name, 
+                        UserCredential.additionalUserInfo.profile.last_name, 
+                        UserCredential.additionalUserInfo.profile.email);
+                }
+            })
+       
         this.storeIteminAsyncStorage()
+        await Keychain.setGenericPassword('UserCredential', JSON.stringify(UserCredential));
         this.props.navigation.navigate('Home', { screen: 'Notes' })
     })
         .catch(error => {

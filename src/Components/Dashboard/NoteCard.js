@@ -6,7 +6,7 @@ export class NoteCard extends Component {
 
     constructor(props) {
         super(props)
-        console.log(this.props.notes)
+        // console.log(this.props.notes)
     }
     
     selectNote = (noteKey) => {

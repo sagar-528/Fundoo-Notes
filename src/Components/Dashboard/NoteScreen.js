@@ -8,6 +8,7 @@ import NoteScreenStyle from '../../Styles/NoteScreen'
 import ProfileScreen from './ProfileScreen'
 import * as Keychain from 'react-native-keychain'
 import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
+import UserServices from '../../../Service/UserServices'
 
 class NoteScreen extends Component {
 
@@ -41,7 +42,19 @@ constructor(props) {
                 showDeletedNoteSnackbar : true
             })
         }
-    } 
+    }
+    await this.readImage() 
+}
+
+readImage = async () => {
+    await UserServices.readUserDataFromRealtimeDatabase(this.state.userId)
+        .then(async data => {
+            if(data.photo != undefined){
+                await this.setState({
+                    photo : data.photo
+                })
+            }
+        })
 }
 
     selectView = () => {
@@ -91,6 +104,15 @@ constructor(props) {
             showProfileModal : false
         })
         // onDismiss();
+    }
+
+    changeImage = async () => {
+        const {onPress} = this.props
+        this.readImage()
+        await this.setState({
+            showProfileModal : false
+        })
+        //onPress()
     }
 
     render() {

@@ -21,6 +21,13 @@ const DrawerContentStyle = StyleSheet.create({
         borderBottomWidth : 0.6,
         borderColor : 'grey'
     },
+
+    label_edit_style : {
+        flexDirection : 'row', 
+        paddingLeft : 30, 
+        marginTop : 15, 
+        marginBottom : 10
+    }
 })
 
 export default DrawerContentStyle;

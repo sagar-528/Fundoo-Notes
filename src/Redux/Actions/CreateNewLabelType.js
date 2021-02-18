@@ -1,0 +1,2 @@
+export const STORE_USERID = 'STORE_USERID'
+export const STORE_USER_LABEL = 'STORE_USER_LABEL'

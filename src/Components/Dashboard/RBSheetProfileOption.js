@@ -14,6 +14,7 @@ export class RBSheetProfileOption extends Component {
             <View>
                 <View style = {RBSheetProfileOptionStyle.button_view_style}>
                     <Button
+                        onPress = {this.props.takePhoto}
                         style = {RBSheetProfileOptionStyle.button_style}
                         color = 'black'>
                             Take Photo
@@ -21,6 +22,7 @@ export class RBSheetProfileOption extends Component {
                 </View>
                 <View style = {RBSheetProfileOptionStyle.button_view_style}>
                     <Button
+                        onPress = {this.props.chooseFromLibrary}
                         style = {RBSheetProfileOptionStyle.button_style}
                         color = 'black'>
                             Choose From Library

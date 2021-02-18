@@ -6,6 +6,8 @@ import SignInScreen from '../Screens/SignInScreen';
 import SignUpScreen from '../Screens/SignUpScreen';
 import ForgotPasswordScreen from '../Screens/ForgotPasswordScreen';
 import DrawerNavigationStack from './DrawerNavigationStack';
+import AddNote from '../Components/Dashboard/AddNotes'
+import CreateNewLabels from '../Components/Dashboard/CreateNewLabels'
 
 const Stack = createStackNavigator();
 
@@ -19,7 +21,9 @@ const NavigationStack = () => {
             <Stack.Screen name = "SignIn" component = { SignInScreen } />
             <Stack.Screen name = "SignUp" component = { SignUpScreen } />
             <Stack.Screen name = "Home" component = { DrawerNavigationStack } />
+            <Stack.Screen name = 'AddNote' component = { AddNote } />
             <Stack.Screen name = "ForgotPassword" component = { ForgotPasswordScreen } />
+            <Stack.Screen name = "CreateLabel" component = { CreateNewLabels } />
         </Stack.Navigator>
         </NavigationContainer>
     )
