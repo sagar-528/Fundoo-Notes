@@ -2,9 +2,9 @@ import Firebase from '../Environment/Firebase'
 
 class UserLabelServices {
 
-    addLabelinDatabase = (userId, label) => {
+    addLabelinDatabase = (userId,  labelId, label) => {
         return new Promise((resolve, reject) => {
-            Firebase.database().ref('UserLabels/' + userId).push({
+            Firebase.database().ref('UserLabels/' + userId + '/' + labelId).set({
                 label : label
             })
             .then(() => resolve('success')) 

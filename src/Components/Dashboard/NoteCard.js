@@ -10,7 +10,7 @@ export class NoteCard extends Component {
     }
     
     selectNote = (noteKey) => {
-        this.props.navigation.navigate('AddNote', { noteKey : noteKey, notes : this.props.notes})
+        this.props.navigation.push('AddNote', { noteKey : noteKey, notes : this.props.notes})
     }
 
     render() {

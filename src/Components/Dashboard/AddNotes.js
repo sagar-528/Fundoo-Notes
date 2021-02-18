@@ -94,6 +94,7 @@ handleBackIconButton = async() => {
         else {
             NoteDataControllerServices.removeNote(this.state.userId, this.state.noteKey)
                 .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isEmptyNote : true}}))
+                console.log(this.generateNoteKey())
         }
     }
     //onPress(); 
@@ -253,14 +254,14 @@ restoreSnackbarAction = () => {
                         icon = 'undo-variant'/>
                     <Appbar.Action 
                         icon = 'redo-variant'/>
-                    <Appbar.Content/>
-                    <Appbar.Action 
-                        icon = 'dots-vertical'
-                        onPress = {this.handleDotIconButton}/>
                     </Appbar>
                 :
                 null
             }
+            <Appbar.Content/>
+            <Appbar.Action 
+                icon = 'dots-vertical'
+                onPress = {this.handleDotIconButton}/>
             </Appbar>
             </View>
             
@@ -272,8 +273,7 @@ restoreSnackbarAction = () => {
                         container : {
                             marginBottom : 50,
                             borderTopWidth : 1,
-                            borderColor : "#d3d3d3",
-                            
+                            borderColor : "#d3d3d3",   
                         },
                         wrapper: {
                             backgroundColor: "transparent",

@@ -6,6 +6,7 @@ import DrawerContentStyle from '../../Styles/DrawerContent';
 import * as Keychain from 'react-native-keychain'
 import {storeUserID, storeUserLabel} from '../../Redux/Actions/CreateNewLabelActions'
 import UserLabelServices from '../../../Service/UserLabelServices'
+import SQLiteLabelServices from '../../../Service/SQLiteLabelServices'
 import { connect } from 'react-redux'
 
 class DrawerContent extends Component {
@@ -18,11 +19,16 @@ class DrawerContent extends Component {
     const credential = await Keychain.getGenericPassword();
     const UserCredential = JSON.parse(credential.password);
     this.props.storeUserId(UserCredential.user.uid)
-    await UserLabelServices.getLabelFromDatabase(UserCredential.user.uid)
-        .then(async data => {
-            let labels = data ? data : {}
-            this.props.storeUserLabel(labels)
-        })
+    SQLiteLabelServices.selectLabelFromSQliteStorage(UserCredential.user.uid)
+        .then(async result => {
+          var temp = [];
+            if(result.rows.length != 0) {
+              for (let i = 0; i < result.rows.length; ++i)
+                temp.push(result.rows.item(i));
+                  this.props.storeUserLabel(temp)
+              }       
+      })
+      .catch(error => console.log(error))
   }
 
   handleNoteIconButton = () => {
@@ -70,7 +76,7 @@ class DrawerContent extends Component {
               <Drawer.Section style = {DrawerContentStyle.drawer_section_style}>
 
               {
-                (labelId.length > 0) ? 
+                (this.props.userLabel.length > 0) ? 
                 <View style = {DrawerContentStyle.label_edit_style}>
                   <Text>LABELS</Text>
                   <TouchableWithoutFeedback
@@ -82,14 +88,14 @@ class DrawerContent extends Component {
                 null
               }
               {
-                (labelId.length > 0)
+                (this.props.userLabel.length > 0)
                 ?    
-                  labelId.map(key => (
-                    <React.Fragment key = {key}>
+                this.props.userLabel.map(labels => (
+                    <React.Fragment key = {labels.label_id}>
                       <Drawer.Item
                         style = {DrawerContentStyle.drawer_item_style}
                         icon = 'label-outline'
-                        label = {this.props.userLabel[key].label}
+                        label = {labels.label}
                       />
                     </React.Fragment>
                   ))

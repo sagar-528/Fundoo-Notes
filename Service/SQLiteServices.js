@@ -17,14 +17,15 @@ const db = SQLite.openDatabase("user_notes.db", "1.0", "Test Database", 200000, 
 
 
 class SQLiteServices {
-    storeNoteinSQliteStorage = (userId, noteId, title, note) => {
+
+    storeNoteinSQliteStorage = (userId, noteId, title, note, isDeleted) => {
         
         return new Promise((resolve, reject) => {
             
             db.transaction(tx => {
                 tx.executeSql(
                     `INSERT INTO ${userId} (note_id, title, note, is_deleted) VALUES (?,?,?,?)`,
-                    [noteId, title, note, 0],
+                    [noteId, title, note, isDeleted],
                     (tx, results) => resolve('Note Store in Sqlite'),
                     error =>  reject(error)
                 );
@@ -108,6 +109,20 @@ class SQLiteServices {
                 (tx, results) => console.log('table Create in Sqlite if no table existed'),
                 error => console.log(error)
             )
+        })
+    }
+
+    updateNoteinSQliteStorageFromFirebase = (userId, noteId, title, note, isDeleted) => {
+        console.log(isDeleted)
+        return new Promise((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(
+                    `UPDATE ${userId} set title = ?, note = ?, is_deleted = ? where note_id = ?`,
+                    [title, note, isDeleted, noteId],
+                    (tx, results) => resolve('success'),
+                    error => reject(error)
+                );
+            });
         })
     }
 
