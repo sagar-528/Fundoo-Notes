@@ -14,23 +14,7 @@ class DrawerContent extends Component {
   constructor(props) {
     super(props)
   }
-  
-  componentDidMount = async () => {
-    const credential = await Keychain.getGenericPassword();
-    const UserCredential = JSON.parse(credential.password);
-    this.props.storeUserId(UserCredential.user.uid)
-    SQLiteLabelServices.selectLabelFromSQliteStorage(UserCredential.user.uid)
-        .then(async result => {
-          var temp = [];
-            if(result.rows.length != 0) {
-              for (let i = 0; i < result.rows.length; ++i)
-                temp.push(result.rows.item(i));
-                  this.props.storeUserLabel(temp)
-              }       
-      })
-      .catch(error => console.log(error))
-  }
-
+ 
   handleNoteIconButton = () => {
     const {onPress} = this.props
     this.props.navigation.navigation.push('Home', { screen : 'Notes'})
@@ -152,11 +136,4 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-      storeUserId : (userId) => dispatch(storeUserID(userId)),
-      storeUserLabel : (userLabel) => dispatch(storeUserLabel(userLabel))
-  }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(DrawerContent)
+export default connect(mapStateToProps)(DrawerContent)

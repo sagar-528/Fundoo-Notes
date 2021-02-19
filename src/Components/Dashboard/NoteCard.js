@@ -1,14 +1,28 @@
 import React, { Component } from 'react'
+import {Text, View} from 'react-native'
 import {Card, Title, Paragraph} from 'react-native-paper'
 import NoteCardStyle from '../../Styles/NoteCard'
+import { connect } from 'react-redux'
 
-export class NoteCard extends Component {
+class NoteCard extends Component {
 
     constructor(props) {
         super(props)
-        // console.log(this.props.notes)
+        this.state = {
+            labelName : ''
+        }
     }
     
+    componentDidMount = async () => {
+        await this.props.userLabel.map(async labels => {
+            if(labels.label_id == this.props.notes.label_id) {
+                await this.setState({
+                    labelName : labels.label
+                })
+            }
+        })
+    }
+
     selectNote = (noteKey) => {
         this.props.navigation.push('AddNote', { noteKey : noteKey, notes : this.props.notes})
     }
@@ -27,10 +41,25 @@ export class NoteCard extends Component {
                         style = {(this.props.notes.title == '') ? NoteCardStyle.list_note_title_empty_style : NoteCardStyle.note_description_style}>
                             {this.props.notes.note}
                     </Paragraph>
+                    {
+                        (this.state.labelName != '') ?
+                            <View style = {{flexWrap : 'wrap'}}>
+                                <Text style = {NoteCardStyle.label_text}>{this.state.labelName}</Text>
+                            </View>
+                            :
+                            null
+                    }
                 </Card.Content>  
             </Card>
         )
     }
 }
 
-export default NoteCard
+const mapStateToProps = state => {
+    return {
+        userId : state.createLabelReducer.userId,
+        userLabel : state.createLabelReducer.userLabel
+    }
+}
+
+export default connect(mapStateToProps)(NoteCard)

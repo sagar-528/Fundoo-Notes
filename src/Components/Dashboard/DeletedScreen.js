@@ -27,14 +27,14 @@ export class DeletedScreen extends Component {
         const credential = await Keychain.getGenericPassword();
         const UserCredential = JSON.parse(credential.password);
 
-        SQLiteServices.selectNoteFromSQliteStorage(UserCredential.user.uid)
+        SQLiteServices.selectNoteByDeletedFromSQliteStorage(UserCredential.user.uid, 1)
             .then(async result => {
                 var temp = [];
                 if(result.rows.length != 0) {
                     for (let i = 0; i < result.rows.length; ++i)
                     temp.push(result.rows.item(i));
                     await this.setState({
-                        userNotes : temp
+                        userNotes : temp.reverse()
                     })
                 }                
             })
@@ -65,12 +65,11 @@ export class DeletedScreen extends Component {
             <ScrollView>
              <View>
              {this.state.userNotes.length > 0 ?
-                this.state.userNotes.reverse().map(note => (
+                this.state.userNotes.map(note => (
                     <React.Fragment key = {note.note_id}>
-                    {note.is_deleted == 1 ? (
+                    {
                         <NoteCard listView = {true} notes = {note} noteKey = {note.note_id} navigation = {this.props.navigation}/>
-                        )
-                    : null}                    
+                    }                    
                 </React.Fragment>
                 ))
                 : null

@@ -6,22 +6,21 @@ export class SelectLabelAppbar extends Component {
 
     constructor(props) {
         super(props)
-    
-        this.state = {
-            checked : false
-        }
     }
     
-    handleCheckbox = () => {
-        this.setState({
-            checked : !this.state.checked
-        })
+    handleCheckbox = async() => {
+        if(this.props.activeLabel != this.props.labelKey) {
+            this.props.selectActiveLabel(this.props.labelKey)
+        }
+        else {
+            this.props.selectActiveLabel('')
+        }
     }
 
     render() {
         return (
             <View>
-            <TouchableRipple onPress = {() => console.log('press')}>
+            <TouchableRipple onPress = {this.handleCheckbox}>
                 <Appbar style = {{backgroundColor : 'transparent'}}>
                     <Appbar.Action 
                         style = {{marginLeft : 10}}
@@ -32,7 +31,7 @@ export class SelectLabelAppbar extends Component {
                     <View
                         style = {{marginRight : 10}}>
                         <Checkbox 
-                            status = {this.state.checked ? 'checked' : 'unchecked'}
+                            status = {(this.props.activeLabel == this.props.labelKey) ? 'checked' : 'unchecked'}
                             onPress = {this.handleCheckbox}
                             uncheckedColor = 'black'
                             color = '#4169E1'/>

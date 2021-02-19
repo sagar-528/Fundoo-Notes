@@ -4,6 +4,7 @@ import {Appbar} from 'react-native-paper';
 import {View, TextInput, ScrollView} from 'react-native'
 import SelectLabelAppbar from './SelectLabelAppbar' 
 import SelectLabelScreenStyle from '../../Styles/SelectLabelScreen'
+import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
 
 class SelectLabelScreen extends Component {
 
@@ -12,19 +13,55 @@ class SelectLabelScreen extends Component {
     
         this.state = {
             search : '',
-            userLabelAfterSearch : this.props.userLabel
+            userLabelAfterSearch : this.props.userLabel,
+            activeLabel : this.props.route.params.notes.labelId
         }
     }
 
+    selectActiveLabel = async (labelKey) => {
+        await this.setState({
+            activeLabel : labelKey,
+        })
+        const notes = {
+            title : this.props.route.params.notes.title,
+            note : this.props.route.params.notes.note,
+            isDeleted : this.props.route.params.notes.isDeleted,
+            labelId : this.state.activeLabel,
+            isArchived : this.props.route.params.notes.isArchived
+        }
+        if(this.props.route.params.newNote == undefined) {
+            NoteDataControllerServices.updateNoteLabel(this.props.userId, this.props.route.params.noteKey, notes)
+                .then(() => console.log('success'))
+                .catch(error => console.log(error))
+        } 
+        else {
+            NoteDataControllerServices.storeNote(this.props.route.params.noteKey, this.props.userId, notes)
+                .then(() => console.log('success'))
+                .catch(error => console.log(error))
+        }  
+    }
+
+
     handleBackIconButton = () => {
-        this.props.navigation.goBack();
+        const notes = {
+            title : this.props.route.params.notes.title,
+            note : this.props.route.params.notes.note,
+            is_deleted : this.props.route.params.notes.isDeleted,
+            label_id : this.state.activeLabel,
+            is_archived : this.props.route.params.notes.isArchived
+        }
+        if(this.props.route.params.newNote == undefined) {
+            this.props.navigation.push('AddNote', { noteKey : this.props.route.params.noteKey, notes : notes})
+        }
+        else {
+            this.props.navigation.push('AddNote', { noteKey : this.props.route.params.noteKey, notes : notes, newNote : true})
+        }
     }
 
     handleSearchTextInput = async (searchText) => {
         await this.setState({
             search : searchText,
         })
-        console.log(this.props.userLabel)
         if(this.state.search != '') {
             let temp = [];
             for(let i = 0; i < this.props.userLabel.length; i++) {
@@ -66,7 +103,7 @@ class SelectLabelScreen extends Component {
                             (this.state.userLabelAfterSearch.length > 0) ?
                                 this.state.userLabelAfterSearch.map(labels => (
                                     <React.Fragment key = {labels.label_id}>
-                                        <SelectLabelAppbar labelKey = {labels.label_id} labels = {labels}/>
+                                        <SelectLabelAppbar labelKey = {labels.label_id} labels = {labels} activeLabel = {this.state.activeLabel} selectActiveLabel = {this.selectActiveLabel}/>
                                     </React.Fragment>
                                 ))
                                 :

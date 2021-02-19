@@ -2,13 +2,8 @@ import Firebase from '../Environment/Firebase'
 
 class UserNotesServices {
 
-    storeNoteInDatabase = (userid, title, note, noteKey) => {
+    storeNoteInDatabase = (userid, notes, noteKey) => {
         return new Promise((resolve, reject) => {
-            const notes = {
-                title : title,
-                note : note,
-                isDeleted : 0
-            }
             Firebase.database().ref('UserNotes/' + userid + '/' + noteKey).set({
                 notes : notes
             })
@@ -25,13 +20,8 @@ class UserNotesServices {
         })
     }
 
-    updateNoteInFirebase = (userid, notekey, title, note) => {
+    updateNoteInFirebase = (userid, notekey, notes) => {
         return new Promise((resolve, reject) => {
-            const notes = {
-                title : title,
-                note : note,
-                isDeleted : 0
-            }
             Firebase.database().ref('UserNotes/' + userid  + '/' + notekey).set({
                 notes : notes
             })
@@ -40,9 +30,11 @@ class UserNotesServices {
         })
     }
 
-    deleteNoteInFirebase = (userid, notekey) => {
+    deleteNoteInFirebase = (userid, notekey, notes) => {
         return new Promise((resolve, reject) => {
             Firebase.database().ref('UserNotes/' + userid  + '/' + notekey + '/' + 'notes').update({
+                title : notes.title,
+                note : notes.note,
                 isDeleted : 1
             })
             .then(() => resolve('success'))
@@ -63,6 +55,18 @@ class UserNotesServices {
     removeNoteInFirebase = (userid, notekey) => {
         return new Promise((resolve, reject) => {
             Firebase.database().ref('UserNotes/' + userid  + '/' + notekey).remove()
+            .then(() => resolve('success'))
+            .catch(error => reject(error))
+        })
+    }
+
+    updateNoteLabelInFirebase = (userid, notekey, notes) => {
+        return new Promise((resolve, reject) => {
+            Firebase.database().ref('UserNotes/' + userid  + '/' + notekey + '/' + 'notes').update({
+                title : notes.title,
+                note : notes.note,
+                labelId : notes.labelId
+            })
             .then(() => resolve('success'))
             .catch(error => reject(error))
         })

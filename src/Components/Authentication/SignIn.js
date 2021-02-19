@@ -8,6 +8,9 @@ import UserServices from '../../../Service/UserServices';
 import UserSocialServices from '../../../Service/UserSocialServices';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Keychain from 'react-native-keychain'
+import { connect } from 'react-redux'
+import SQLiteLabelServices from '../../../Service/SQLiteLabelServices'
+import {storeUserID, storeUserLabel} from '../../Redux/Actions/CreateNewLabelActions'
 
 class SignIn extends React.Component {
 
@@ -30,7 +33,21 @@ async componentDidMount(){
     try {
         const isLoggedIn = JSON.parse(await AsyncStorage.getItem('isLoggedIn'))
         if(isLoggedIn) {
-          this.props.navigation.navigate("Home", { screen: 'Notes' })
+            const credential = await Keychain.getGenericPassword();
+            const UserCredential = JSON.parse(credential.password);
+            
+            this.props.storeUserId(UserCredential.user.uid)
+            SQLiteLabelServices.selectLabelFromSQliteStorage(UserCredential.user.uid)
+                .then(async result => {
+                    var temp = [];
+                    if(result.rows.length != 0) {
+                        for (let i = 0; i < result.rows.length; ++i)
+                            temp.push(result.rows.item(i));
+                        this.props.storeUserLabel(temp)
+                    }                
+                })
+                .catch(error => console.log(error))
+            this.props.navigation.push('Home', { screen: 'Notes' })
         }
       } 
       catch(e) {
@@ -276,4 +293,18 @@ render(){
     )};
 };
 
-export default SignIn
+const mapStateToProps = state => {
+    return {
+        userId : state.createLabelReducer.userId,
+        userLabel : state.createLabelReducer.userLabel
+    }
+  }
+
+  const mapDispatchToProps = dispatch => {
+    return {
+        storeUserId : (userId) => dispatch(storeUserID(userId)),
+        storeUserLabel : (userLabel) => dispatch(storeUserLabel(userLabel))
+    }
+  }
+
+export default connect(mapStateToProps,mapDispatchToProps)(SignIn)

@@ -13,18 +13,31 @@ export class BottomBar extends Component {
 
     render() {
         return (
-            <View>
-                <Appbar
-                style = {BottomBarStyle.bottom}>
-                    <Appbar.Action icon = "check-box-outline" />
-                    <Appbar.Action icon = "brush"  />
-                    <Appbar.Action icon = "microphone-outline"  />
-                    <Appbar.Action icon = "panorama"  />
+            <View style = {BottomBarStyle.bottombar_view}>
+                <Appbar style = {BottomBarStyle.bottombar}>
+                    <Appbar.Action
+                        style = {BottomBarStyle.bottom_bar_action_style}
+                        icon = 'check-box-outline'
+                        />
+                    <Appbar.Action
+                        style = {BottomBarStyle.bottom_bar_action_style}
+                        icon = 'brush'
+                        />
+                    <Appbar.Action
+                        style = {BottomBarStyle.bottom_bar_action_style}
+                        icon = 'microphone-outline'
+                        />
+                    <Appbar.Action
+                        style = {BottomBarStyle.bottom_bar_action_style}
+                        icon = 'panorama'
+                        />
+                    <Appbar.Content/>
+                    <Appbar.Action  
+                        style = {BottomBarStyle.plus_button_style} 
+                        icon = 'plus'
+                        onPress = {this.handlePlusIconButton}
+                        />
                 </Appbar>
-                <FAB icon = "plus"  
-                style = {BottomBarStyle.fab}
-                onPress = {this.handlePlusIconButton}
-                />
             </View>
         )
     }

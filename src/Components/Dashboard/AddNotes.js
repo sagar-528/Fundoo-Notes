@@ -7,22 +7,27 @@ import RBSheet from 'react-native-raw-bottom-sheet'
 import DotVerticalMenu from '../Dashboard/DotVerticalMenu'
 import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
 import DotsVerticalRestoreRBSheetMenu from './DotsVerticalRestoreRBSheetMenu'
+import { connect } from 'react-redux'
 
-export class AddNotes extends Component {
+
+class AddNotes extends Component {
 
 constructor(props) {
     super(props)
 
     this.state = {
-        noteKey : '',
+        noteKey : this.generateNoteKey(),
         title : '',
         note : '' ,
         userId : '',
-        isDeleted : '',
+        isDeleted : 0,
+        labelId : '',
+        isArchived : 0,
         isNoteNotAddedDeleted : false,
         deleteForeverDialog : false, 
         restoreDeleteSnackbar : false,
-        restoreSnackbar : false 
+        restoreSnackbar : false,
+        lableName : ''
     }
 }
 
@@ -50,9 +55,18 @@ componentDidMount = async () => {
             noteKey : this.props.route.params.noteKey,
             title : this.props.route.params.notes.title,
             note : this.props.route.params.notes.note,
-            isDeleted : this.props.route.params.notes.is_deleted
+            isDeleted : this.props.route.params.notes.is_deleted,
+            labelId : this.props.route.params.notes.label_id,
+            isArchived : this.props.route.params.notes.is_archived,
         })
     }
+    this.props.userLabel.map(async labels => {
+        if(labels.label_id == this.state.labelId) {
+            await this.setState({
+                labelName : labels.label
+            })
+        }
+    })
 }
 
 handleDotIconButton = () => {
@@ -72,14 +86,21 @@ generateNoteKey = () => {
 
 handleBackIconButton = async() => {
      // const {onPress} = this.props
+     const notes = {
+        title : this.state.title,
+        note : this.state.note,
+        isDeleted : this.state.isDeleted,
+        labelId : this.state.labelId,
+        isArchived : this.state.isArchived
+    }
+
      if(this.state.title != '' || this.state.note != '') {
         if(this.props.route.params == undefined) {
-            var noteKey = this.generateNoteKey()
-            NoteDataControllerServices.storeNote(noteKey, this.state.userId, this.state.title, this.state.note)
+            NoteDataControllerServices.storeNote(this.state.noteKey, this.state.userId, notes)
                 .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
         } 
         else if(this.state.isDeleted == 0){
-            NoteDataControllerServices.updateNote(this.state.userId, this.state.noteKey, this.state.title, this.state.note)
+            NoteDataControllerServices.updateNote(this.state.userId, this.state.noteKey, notes)
                 .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
         }
         else {
@@ -100,13 +121,21 @@ handleBackIconButton = async() => {
 
 handleDeleteButton = async() => {
     this.RBSheet.close()
-    if(this.props.route.params == undefined){
+    
+    const notes = {
+        title : this.state.title,
+        note : this.state.note,
+        isDeleted : this.state.isDeleted,
+        labelId : this.state.labelId,
+        isArchived : this.state.isArchived
+    }
+    if(this.props.route.params == undefined || this.props.route.params.newNote){
         await this.setState({
             isNoteNotAddedDeleted : true
         })
     }
     else {
-        NoteDataControllerServices.deleteNote(this.state.userId, this.state.noteKey)
+        NoteDataControllerServices.deleteNote(this.state.userId, this.state.noteKey, notes)
         .then(() => this.props.navigation.push('Home', { screen : 'Notes', params : {isNoteDeleted : true, 
                                                                                     noteKey : this.state.noteKey,
                                                                                     userId : this.state.userId}})) 
@@ -115,7 +144,19 @@ handleDeleteButton = async() => {
 
 handleLabelButton = () => {
     this.RBSheet.close();
-    this.props.navigation.navigate('SelectLabel')
+    const notes = {
+        title : this.state.title,
+        note : this.state.note,
+        isDeleted : this.state.isDeleted,
+        labelId : this.state.labelId,
+        isArchived : this.state.isArchived
+    }
+    if(this.props.route.params == undefined) {
+        this.props.navigation.push('SelectLabel', { noteKey : this.state.noteKey, notes : notes, newNote : true})
+    }
+    else {
+        this.props.navigation.push('SelectLabel', { noteKey : this.state.noteKey, notes : notes})
+    }
 }
 
 isNotAddedNoteDeletedSnackbarHandler = async () => {
@@ -162,7 +203,15 @@ restoreDeleteSnackbarDismiss = () => {
 }
 
 restoreDeleteSnackbarAction = () => {
-    NoteDataControllerServices.deleteNote(this.state.userId, this.state.noteKey)
+    const notes = {
+        title : this.state.title,
+        note : this.state.note,
+        isDeleted : this.state.isDeleted,
+        labelId : this.state.labelId,
+        isArchived : this.state.isArchived
+    }
+
+    NoteDataControllerServices.deleteNote(this.state.userId, this.state.noteKey, notes)
         .then(() => {
             this.setState({
                 isDeleted : 1
@@ -242,6 +291,18 @@ restoreSnackbarAction = () => {
                         value = {this.state.note}
                         editable = {(this.state.isDeleted == 1) ? false : true}
                     />
+
+                    {
+                        (this.state.labelName != '') ?
+                            <TouchableWithoutFeedback onPress = {this.handleLabelButton}>
+                                <View style = {AddNotesStyle.label_text_container}>
+                                    <Text style = {AddNotesStyle.label_text}>Add Label</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        :
+                        null
+                    }
+
                 </View>
             </TouchableWithoutFeedback>    
             </ScrollView>
@@ -347,4 +408,11 @@ restoreSnackbarAction = () => {
     }
 }
 
-export default AddNotes
+const mapStateToProps = state => {
+    return {
+        userId : state.createLabelReducer.userId,
+        userLabel : state.createLabelReducer.userLabel
+    }
+}
+
+export default connect(mapStateToProps)(AddNotes)
