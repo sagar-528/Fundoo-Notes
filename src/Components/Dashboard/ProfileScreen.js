@@ -7,21 +7,21 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Keychain from 'react-native-keychain'
 import {launchImageLibrary, launchCamera} from 'react-native-image-picker'
-// import RNFetchBlob from 'react-native-fetch-blob'
+import RNFetchBlob from 'react-native-fetch-blob'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import RBSheetProfileOption from './RBSheetProfileOption'
 import Firebase from '../../../Environment/Firebase'
 
-// const Blob = RNFetchBlob.polyfill.Blob
-// const fs = RNFetchBlob.fs
-// window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-// window.Blob = Blob
-// const Fetch = RNFetchBlob.polyfill.Fetch
+const Blob = RNFetchBlob.polyfill.Blob
+const fs = RNFetchBlob.fs
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+window.Blob = Blob
+const Fetch = RNFetchBlob.polyfill.Fetch
 
-// window.fetch = new Fetch({
-//     auto : true,
-//     binaryContentTypes : ['image/']
-// }).build()
+window.fetch = new Fetch({
+    auto : true,
+    binaryContentTypes : ['image/']
+}).build()
 
 export class ProfileScreen extends Component {
 
