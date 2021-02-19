@@ -14,31 +14,25 @@ class SelectLabelScreen extends Component {
         this.state = {
             search : '',
             userLabelAfterSearch : this.props.userLabel,
-            activeLabel : this.props.route.params.notes.labelId
+            selectedLabel : this.props.route.params.notes.labelId
         }
     }
 
-    selectActiveLabel = async (labelKey) => {
-        await this.setState({
-            activeLabel : labelKey,
-        })
-        const notes = {
-            title : this.props.route.params.notes.title,
-            note : this.props.route.params.notes.note,
-            isDeleted : this.props.route.params.notes.isDeleted,
-            labelId : this.state.activeLabel,
-            isArchived : this.props.route.params.notes.isArchived
+    handleSelectedLabel = async (labelKey, operation) => {
+        var labels = this.state.selectedLabel
+        if(operation == 'add') {
+            labels.push(labelKey)
+            await this.setState({
+                selectedLabel : labels
+            })
         }
-        if(this.props.route.params.newNote == undefined) {
-            NoteDataControllerServices.updateNoteLabel(this.props.userId, this.props.route.params.noteKey, notes)
-                .then(() => console.log('success'))
-                .catch(error => console.log(error))
-        } 
         else {
-            NoteDataControllerServices.storeNote(this.props.route.params.noteKey, this.props.userId, notes)
-                .then(() => console.log('success'))
-                .catch(error => console.log(error))
-        }  
+            let index = labels.indexOf(labelKey)
+            labels.splice(index, 1)
+            await this.setState({
+                selectedLabel : labels
+            })
+        }
     }
 
 
@@ -47,7 +41,7 @@ class SelectLabelScreen extends Component {
             title : this.props.route.params.notes.title,
             note : this.props.route.params.notes.note,
             is_deleted : this.props.route.params.notes.isDeleted,
-            label_id : this.state.activeLabel,
+            label_id : JSON.stringify(this.state.selectedLabel),
             is_archived : this.props.route.params.notes.isArchived
         }
         if(this.props.route.params.newNote == undefined) {
@@ -103,7 +97,12 @@ class SelectLabelScreen extends Component {
                             (this.state.userLabelAfterSearch.length > 0) ?
                                 this.state.userLabelAfterSearch.map(labels => (
                                     <React.Fragment key = {labels.label_id}>
-                                        <SelectLabelAppbar labelKey = {labels.label_id} labels = {labels} activeLabel = {this.state.activeLabel} selectActiveLabel = {this.selectActiveLabel}/>
+                                        <SelectLabelAppbar 
+                                            labelKey = {labels.label_id} 
+                                            labels = {labels} 
+                                            selectedLabel = {this.state.selectedLabel}
+                                            handleSelectedLabel = {this.handleSelectedLabel}
+                                        />
                                     </React.Fragment>
                                 ))
                                 :

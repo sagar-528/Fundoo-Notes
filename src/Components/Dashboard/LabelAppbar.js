@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {TextInput, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {Appbar, Dialog, Paragraph, Portal, Button} from 'react-native-paper';
 import { connect } from 'react-redux'
-import UserLabelServices from '../../../Service/UserLabelServices'
 import LabelAppBarStyle from '../../Styles/LabelAppbar'
 import {storeUserLabel} from '../../Redux/Actions/CreateNewLabelActions'
 import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
@@ -104,6 +103,17 @@ class LabelAppbar extends Component {
                 .catch(error => console.log(error))
             })
             .catch(error => console.log(error))
+
+            if(this.props.userNotes.length > 0) {
+                this.props.userNotes.map(notes => {
+                    let labelId = JSON.parse(notes.label_id)
+                    if(labelId.includes(this.props.labelKey)) {
+                        let index = labelId.indexOf(this.props.labelKey)
+                        labelId.splice(index, 1)
+                        NoteDataControllerServices.updateNoteLabel(this.props.userId, notes.note_id, JSON.stringify(labelId))
+                    }
+                })
+            }   
     }
 
     handleDialogDissmiss = () => {
@@ -132,7 +142,8 @@ class LabelAppbar extends Component {
                     <View style = {{flexDirection :'column', width : '65%'}}>
                         <TextInput
                             style = {(this.state.errorMsg || this.state.emptyMsg) ? LabelAppBarStyle.textinput_error_style : LabelAppBarStyle.textinput_style}
-                            autoFocus = {true}
+                            onFocus = {this.handleEditButton}
+                            autoFocus = {this.props.activeLabel == this.props.labelKey ? true : false}
                             onChangeText = {this.handleEditTextInput}
                             value = {this.state.editTextInput}
                         />

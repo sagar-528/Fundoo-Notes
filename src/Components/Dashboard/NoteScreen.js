@@ -18,9 +18,11 @@ constructor(props) {
         listView : true,
         showEmptyNoteSnackbar : false,
         showDeletedNoteSnackbar : false,
+        showArchivedNoteSnackbar : false,
         showProfileModal : false,
         photo : '',
-        userId : ''
+        userId : '',
+        render : true
     }
 }
 
@@ -40,6 +42,11 @@ constructor(props) {
         if(this.props.route.params.isNoteDeleted != undefined) {
             this.setState({
                 showDeletedNoteSnackbar : true
+            })
+        }
+        if(this.props.route.params.isNoteArchived != undefined) {
+             this.setState({
+                showArchivedNoteSnackbar : true
             })
         }
     }
@@ -70,7 +77,7 @@ readImage = async () => {
         await this.setState({ 
             showEmptyNoteSnackbar : false
         })
-        this.props.navigation.setParams({isEmptyNote : false})
+        this.props.navigation.setParams({isEmptyNote : undefined})
         // onDismiss();
     }
 
@@ -79,8 +86,15 @@ readImage = async () => {
         await this.setState({ 
             showDeletedNoteSnackbar : false
         })
-        this.props.navigation.setParams({isNoteDeleted : false})
+        this.props.navigation.setParams({isNoteDeleted : undefined})
         // onDismiss();
+    }
+
+    archivedNoteSnackbarHandler = async () => {
+        await this.setState({ 
+            showArchivedNoteSnackbar : false
+        })
+        this.props.navigation.setParams({isNoteArchived : undefined})
     }
 
     restoreNotes = async() => {
@@ -88,6 +102,11 @@ readImage = async () => {
         NoteDataControllerServices.restoreNote(this.props.route.params.userId, this.props.route.params.noteKey)
             .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
         // onPress();
+    }
+
+    unArchivedNote = async() => {
+        NoteDataControllerServices.updateNoteArchive(this.props.route.params.noteKey, this.props.route.params.userId, this.props.route.params.notes)
+            .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
     }
 
     showModal = async() => {
@@ -148,6 +167,17 @@ readImage = async () => {
                 }}>
                 Note Moved to Bin!!!
         </Snackbar>
+        <Snackbar
+            style = {{marginBottom : 100}}
+            visible={this.state.showArchivedNoteSnackbar}
+            onDismiss={this.archivedNoteSnackbarHandler}
+            duration = {10000}
+            action = {{
+                label : 'Undo',
+                onPress : this.unArchivedNote
+            }}>
+                Note Archived
+        </Snackbar>       
             <Portal>
                 <Modal 
                     visible={this.state.showProfileModal} 

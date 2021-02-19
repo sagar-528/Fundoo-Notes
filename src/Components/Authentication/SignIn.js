@@ -37,16 +37,7 @@ async componentDidMount(){
             const UserCredential = JSON.parse(credential.password);
             
             this.props.storeUserId(UserCredential.user.uid)
-            SQLiteLabelServices.selectLabelFromSQliteStorage(UserCredential.user.uid)
-                .then(async result => {
-                    var temp = [];
-                    if(result.rows.length != 0) {
-                        for (let i = 0; i < result.rows.length; ++i)
-                            temp.push(result.rows.item(i));
-                        this.props.storeUserLabel(temp)
-                    }                
-                })
-                .catch(error => console.log(error))
+            this.storeUserLabel(UserCredential.user.uid)
             this.props.navigation.push('Home', { screen: 'Notes' })
         }
       } 
@@ -55,6 +46,18 @@ async componentDidMount(){
       }
 }
 
+storeUserLabel = (userId) => {
+    SQLiteLabelServices.selectLabelFromSQliteStorage(userId)
+        .then(async result => {
+            var temp = [];
+            if(result.rows.length != 0) {
+                for (let i = 0; i < result.rows.length; ++i)
+                    temp.push(result.rows.item(i));
+                this.props.storeUserLabel(temp)
+            }                
+        })
+        .catch(error => console.log(error))
+}
 
 textInputChangeEmail = (val) =>{
      this.setState({
@@ -95,9 +98,12 @@ signInHandler = async () => {
     {
         await UserServices.SignIn(this.state.email, this.state.password)
                 .then( async (UserCredential) => {
+                        
                         this.storeIteminAsyncStorage()
-                        console.log("signIn");
+                        console.log("signIn");  
                         await Keychain.setGenericPassword('UserCredential', JSON.stringify(UserCredential));
+                        
+                        this.storeUserLabel(UserCredential.user.uid)
                         this.props.navigation.navigate('Home', { screen: 'Notes' })
                     })
                 .catch(error => {
@@ -156,7 +162,6 @@ handleFacebookLoginButton = async () => {
     const {onPress} = this.props;
     UserSocialServices.facebookLogin()
     .then( async UserCredential => {
-        console.log(UserCredential.user)
 
         UserServices.readUserDataFromRealtimeDatabase(UserCredential.user.uid)
             .then(data =>{
@@ -171,6 +176,8 @@ handleFacebookLoginButton = async () => {
        
         this.storeIteminAsyncStorage()
         await Keychain.setGenericPassword('UserCredential', JSON.stringify(UserCredential));
+        
+        this.storeUserLabel(UserCredential.user.uid)
         this.props.navigation.navigate('Home', { screen: 'Notes' })
     })
         .catch(error => {

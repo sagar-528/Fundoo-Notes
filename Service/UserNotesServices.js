@@ -2,12 +2,12 @@ import Firebase from '../Environment/Firebase'
 
 class UserNotesServices {
 
-    storeNoteInDatabase = (userid, notes, noteKey) => {
+    storeNoteInDatabase = (userid, noteKey, notes) => {
         return new Promise((resolve, reject) => {
             Firebase.database().ref('UserNotes/' + userid + '/' + noteKey).set({
                 notes : notes
             })
-            .then(() => resolve('success')) 
+            .then(() => resolve('note store in firebase')) 
             .catch((error) => reject(error))  
         }) 
     }
@@ -25,7 +25,7 @@ class UserNotesServices {
             Firebase.database().ref('UserNotes/' + userid  + '/' + notekey).set({
                 notes : notes
             })
-            .then(() => resolve('success'))
+            .then(() => resolve('update note in firebase'))
             .catch(error => reject(error))
         })
     }
@@ -37,7 +37,7 @@ class UserNotesServices {
                 note : notes.note,
                 isDeleted : 1
             })
-            .then(() => resolve('success'))
+            .then(() => resolve('deleted note from firebase'))
             .catch(error => reject(error))
         })
     }
@@ -47,7 +47,7 @@ class UserNotesServices {
             Firebase.database().ref('UserNotes/' + userid  + '/' + notekey + '/notes').update({
                 isDeleted : 0
             })
-            .then(() => resolve('success'))
+            .then(() => resolve('restore note from firebase'))
             .catch(error => reject(error))
         })
     }
@@ -55,19 +55,17 @@ class UserNotesServices {
     removeNoteInFirebase = (userid, notekey) => {
         return new Promise((resolve, reject) => {
             Firebase.database().ref('UserNotes/' + userid  + '/' + notekey).remove()
-            .then(() => resolve('success'))
+            .then(() => resolve('remove note from firebase'))
             .catch(error => reject(error))
         })
     }
 
-    updateNoteLabelInFirebase = (userid, notekey, notes) => {
+    updateNoteLabelInFirebase = (userid, notekey, labelId) => {
         return new Promise((resolve, reject) => {
             Firebase.database().ref('UserNotes/' + userid  + '/' + notekey + '/' + 'notes').update({
-                title : notes.title,
-                note : notes.note,
-                labelId : notes.labelId
+                labelId : labelId
             })
-            .then(() => resolve('success'))
+            .then(() => resolve('update label in firbase'))
             .catch(error => reject(error))
         })
     }

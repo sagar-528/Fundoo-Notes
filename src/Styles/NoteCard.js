@@ -47,7 +47,9 @@ const NoteCardStyle = StyleSheet.create({
         paddingRight : 10, 
         borderColor : 'grey', 
         borderRadius : 40,
-        marginTop : 8
+        marginTop : 8,
+        marginRight : 10,
+        marginBottom : 5
     }
 })
 

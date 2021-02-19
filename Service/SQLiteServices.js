@@ -118,35 +118,20 @@ class SQLiteServices {
             tx.executeSql(
                 `DROP TABLE ${userId}`,
                 [],
-                (tx, results) => console.log('table deleted'),
+                (tx, results) => console.log('table deleted from Sqlite'),
                 error => console.log(error)
             );
         });
     }
 
 
-    updateNoteLabelinSQliteStorage = (userId, noteId, notes) => {
+    updateNoteLabelinSQliteStorage = (userId, noteId, labelId) => {
         return new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(
-                    `UPDATE ${userId} set title = ?, note = ?, label_id = ? where note_id = ?`,
-                    [notes.title, notes.note, notes.labelId, noteId],
-                    (tx, results) => resolve('success'),
-                    error => reject(error)
-                );
-            });
-        })
-    }
-
-    selectNoteByLabelIdFromSQliteStorage = (userId, labelId, isDeleted) => {
-        return new Promise((resolve, reject) => {
-            db.transaction(tx => {
-                tx.executeSql(
-                    `SELECT * FROM ${userId} where label_id = ? AND is_deleted = ?`,
-                    [labelId, isDeleted],
-                    (tx, results) => {
-                        resolve(results)
-                    },
+                    `UPDATE ${userId} set label_id = ? where note_id = ?`,
+                    [labelId, noteId],
+                    (tx, results) => resolve('update note label from sqlite'),
                     error => reject(error)
                 );
             });
@@ -159,6 +144,21 @@ class SQLiteServices {
                 tx.executeSql(
                     `SELECT * FROM ${userId} where is_deleted = ?`,
                     [isDeleted],
+                    (tx, results) => {
+                        resolve(results)
+                    },
+                    error => reject(error)
+                );
+            });
+        })
+    }
+
+    selectNoteByArchiveFromSQliteStorage = (userId, isArchived, isDeleted) => {
+        return new Promise((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(
+                    `SELECT * FROM ${userId} where is_deleted = ? AND is_archived = ?`,
+                    [isDeleted, isArchived],
                     (tx, results) => {
                         resolve(results)
                     },

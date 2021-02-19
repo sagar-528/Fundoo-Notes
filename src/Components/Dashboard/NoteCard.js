@@ -9,19 +9,10 @@ class NoteCard extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            labelName : ''
+            labelId : JSON.parse(this.props.notes.label_id)
         }
     }
     
-    componentDidMount = async () => {
-        await this.props.userLabel.map(async labels => {
-            if(labels.label_id == this.props.notes.label_id) {
-                await this.setState({
-                    labelName : labels.label
-                })
-            }
-        })
-    }
 
     selectNote = (noteKey) => {
         this.props.navigation.push('AddNote', { noteKey : noteKey, notes : this.props.notes})
@@ -41,14 +32,23 @@ class NoteCard extends Component {
                         style = {(this.props.notes.title == '') ? NoteCardStyle.list_note_title_empty_style : NoteCardStyle.note_description_style}>
                             {this.props.notes.note}
                     </Paragraph>
-                    {
-                        (this.state.labelName != '') ?
-                            <View style = {{flexWrap : 'wrap'}}>
-                                <Text style = {NoteCardStyle.label_text}>{this.state.labelName}</Text>
-                            </View>
+                    <View style = {{flexWrap : 'wrap', flexDirection : 'row'}}>
+                        {
+                            (this.state.labelId.length > 0) ?
+                                this.props.userLabel.map(labels => (
+                                    this.state.labelId.includes(labels.label_id) ?
+                                        <React.Fragment key = {labels.label_id}>
+                                            <View>
+                                                <Text style = {NoteCardStyle.label_text}>{labels.label}</Text>
+                                            </View>
+                                        </React.Fragment>
+                                    :
+                                    null
+                                ))
                             :
                             null
                     }
+                    </View>
                 </Card.Content>  
             </Card>
         )

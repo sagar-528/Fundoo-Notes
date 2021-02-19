@@ -1,6 +1,19 @@
-import {openDatabase} from 'react-native-sqlite-storage';
+import SQLite from 'react-native-sqlite-storage';
 
-const db = openDatabase({name: 'user_notes.db', createFromLocation: 1});
+
+function errorCB(err) {
+    console.log("SQL Error: " + err);
+  }
+  
+  function successCB() {
+    console.log("SQL executed fine");
+  }
+  
+  function openCB() {
+    console.log("Database OPENED");
+  }
+
+const db = SQLite.openDatabase("user_notes.db", "1.0", "Test Database", 200000, openCB, errorCB);
 
 class SQLiteLabelServices {
     
@@ -9,7 +22,7 @@ class SQLiteLabelServices {
             tx.executeSql(
                 `CREATE TABLE IF NOT EXISTS '${userId}Label' (label_id TEXT PRIMARY KEY, label TEXT)`,
                 [],
-                (tx, results) => console.log('success'),
+                (tx, results) => console.log('create table label in sqlite'),
                 error => console.log(error)
             )
         })
@@ -34,7 +47,7 @@ class SQLiteLabelServices {
                 tx.executeSql(
                     `INSERT INTO '${userId}Label' (label_id, label) VALUES (?,?)`,
                     [labelId, label],
-                    (tx, results) => resolve('success'),
+                    (tx, results) => resolve('store label in sqlite'),
                     error => reject(error)
                 );
             });
@@ -47,7 +60,7 @@ class SQLiteLabelServices {
                 tx.executeSql(
                     `UPDATE '${userId}Label' set label = ? where label_id = ?`,
                     [label, labelId],
-                    (tx, results) => resolve('success'),
+                    (tx, results) => resolve('update label in sqlite'),
                     error => reject(error)
                 );
             });
@@ -60,7 +73,7 @@ class SQLiteLabelServices {
                 tx.executeSql(
                     `DELETE FROM '${userId}Label' where label_id = ?`,
                     [labelId],
-                    (tx, results) => resolve('success'),
+                    (tx, results) => resolve('remove label from Sqlite'),
                     error => reject(error)
                 );
             });
@@ -72,7 +85,7 @@ class SQLiteLabelServices {
                 tx.executeSql(
                     `DROP TABLE '${userId}Label'`,
                     [],
-                    (tx, results) => console.log('table deleted'),
+                    (tx, results) => console.log('table deleted from sqlite'),
                     error => console.log(error)
                 );
             });

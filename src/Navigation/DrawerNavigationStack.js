@@ -5,6 +5,7 @@ import DrawerContent from '../Components/Dashboard/DrawerContent'
 import DeletedScreen from '../Components/Dashboard/DeletedScreen'
 import SearchNoteScreen from '../Components/Dashboard/SearchNoteScreen'
 import LabelNoteScreen from '../Components/Dashboard/LabelNoteScreen'
+import ArchiveNoteScreen from '../Components/Dashboard/ArchiveNoteScreen'
 
 const Drawer = createDrawerNavigator();
 
@@ -15,6 +16,7 @@ function DrawerNavigationStack() {
             <Drawer.Screen name = 'Deleted' component = { DeletedScreen } />
             <Drawer.Screen name = 'SearchNote' component = { SearchNoteScreen } />  
             <Drawer.Screen name = 'labelNote' component = { LabelNoteScreen } />  
+            <Drawer.Screen name = 'archiveNote' component = { ArchiveNoteScreen } />
         </Drawer.Navigator>
     )
 }

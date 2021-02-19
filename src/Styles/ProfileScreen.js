@@ -13,7 +13,7 @@ const ProfileStyle = StyleSheet.create({
 
     text_style : {
         fontWeight : 'bold',
-        alignSelf : 'center',
+        color : 'black',
         fontSize : 16
     },
 

@@ -8,6 +8,7 @@ import UserLabelServices from '../../../Service/UserLabelServices'
 import LabelAppbar from './LabelAppbar'
 import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
 import SQLiteLabelServices from '../../../Service/SQLiteLabelServices'
+import SQLiteServices from '../../../Service/SQLiteServices'
 
 class CreateNewLabels extends Component {
 
@@ -18,8 +19,24 @@ class CreateNewLabels extends Component {
             createLabelText : '',
             labelAlreadyExistMsg : false,
             change : true,
-            activeLabel : ''
+            activeLabel : '',
+            userNotes : []
         }
+    }
+
+    componentDidMount = async () => {
+        await SQLiteServices.selectNoteFromSQliteStorage(this.props.userId)
+            .then(async result => {
+                var temp = [];
+                if(result.rows.length != 0) {
+                    for (let i = 0; i < result.rows.length; ++i)
+                        temp.push(result.rows.item(i));
+                    await this.setState({
+                        userNotes : temp.reverse()
+                    })
+                }                
+            })
+            .catch(error => console.log('Error', error))
     }
 
     handleBackIconButton = () => {
@@ -101,7 +118,6 @@ class CreateNewLabels extends Component {
     }
 
     render() {
-        let labelId = Object.keys(this.props.userLabel);
         return (
             <Provider>
             <View style = {CreateNewLabelStyle.mainContainer}>
@@ -175,9 +191,16 @@ class CreateNewLabels extends Component {
                     <View>
                         {
                             this.props.userLabel.length > 0 ?
-                                this.props.userLabel.map(labels => (
+                                this.props.userLabel.map(labels => 
+                                (
                                     <React.Fragment key = {labels.label_id}>
-                                        <LabelAppbar labelKey = {labels.label_id} labels = {labels} activeLabel = {this.state.activeLabel} selectActiveLabel = {this.selectActiveLabel} />
+                                        <LabelAppbar 
+                                            labelKey = {labels.label_id} 
+                                            labels = {labels} 
+                                            activeLabel = {this.state.activeLabel} 
+                                            selectActiveLabel = {this.selectActiveLabel}
+                                            userNotes = {this.state.userNotes} 
+                                        />
                                     </React.Fragment>
                                 ))
                                 :

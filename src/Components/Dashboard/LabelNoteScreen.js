@@ -14,23 +14,46 @@ class LabelNoteScreen extends Component {
 
         this.state = {
             listView : true,
-            userNotes : []
+            userArchivedNotes : [],
+            userUnArchivedNotes : [],
+            archivePresent : false
         }
     }
 
     componentDidMount = async () => {
-        await SQLiteServices.selectNoteByLabelIdFromSQliteStorage(this.props.userId, this.props.route.params.labels.label_id, 0)
+        await SQLiteServices.selectNoteByArchiveFromSQliteStorage(this.props.userId, 1, 0)
             .then(async result => {
                 var temp = [];
                 if(result.rows.length != 0) {
                     for (let i = 0; i < result.rows.length; ++i)
                         temp.push(result.rows.item(i));
                     await this.setState({
-                        userNotes : temp.reverse()
+                        userArchivedNotes : temp.reverse()
                     })
                 }                
             })
             .catch(error => console.log('Error', error))
+            await SQLiteServices.selectNoteByArchiveFromSQliteStorage(this.props.userId, 0, 0)
+            .then(async result => {
+                var temp = [];
+                if(result.rows.length != 0) {
+                    for (let i = 0; i < result.rows.length; ++i)
+                        temp.push(result.rows.item(i));
+                    await this.setState({
+                        userUnArchivedNotes : temp.reverse()
+                    })
+                }                
+            })
+            .catch(error => console.log('Error', error))
+        if(this.state.userArchivedNotes.length > 0) {
+            this.state.userArchivedNotes.map(async note => {
+                if(JSON.parse(note.label_id).includes(this.props.route.params.labels.label_id)){
+                    await this.setState({
+                        archivePresent : true
+                    })
+                }
+            })
+        }
     }
 
     selectView = async () => {
@@ -80,12 +103,40 @@ class LabelNoteScreen extends Component {
                 </View> 
                 <ScrollView style = {{marginBottom : 60}}>
                     <View style = {LabelNoteScreenStyle.list_container}>
-                        {this.state.userNotes.length > 0 ?
-                            this.state.userNotes.map(note => (
+                    {this.state.userUnArchivedNotes.length > 0 ?
+                        this.state.userUnArchivedNotes.map(note => 
+                            JSON.parse(note.label_id).includes(this.props.route.params.labels.label_id) ?
                                 <React.Fragment key = {note.note_id}>
                                     { <NoteCard listView = {this.state.listView} notes = {note} noteKey = {note.note_id} navigation = {this.props.navigation}/> }
                                 </React.Fragment>
-                            ))
+                            :
+                            null
+                        )
+                    : null}
+                </View>
+                <View>
+                    {this.state.archivePresent ?
+                        (
+                            <Text style = {LabelNoteScreenStyle.archive_text_style} >ARCHIVE</Text>
+                        )
+                        :
+                        null
+                    }
+                </View>
+                <View style = {LabelNoteScreenStyle.list_container}>
+                    {this.state.userArchivedNotes.length > 0 ?
+                        this.state.userArchivedNotes.map(note => 
+                            JSON.parse(note.label_id).includes(this.props.route.params.labels.label_id) ?
+                                <React.Fragment key = {note.note_id}>
+                                    { <NoteCard 
+                                        listView = {this.state.listView} 
+                                        notes = {note} 
+                                        noteKey = {note.note_id} 
+                                        navigation = {this.props.navigation}/> }
+                                </React.Fragment>
+                            :
+                            null
+                        )
                         : null}
                     </View>
                 </ScrollView>

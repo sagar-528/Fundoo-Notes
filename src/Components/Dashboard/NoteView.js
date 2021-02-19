@@ -6,6 +6,7 @@ import NoteViewStyle from '../../Styles/NoteView'
 import NoteCard from './NoteCard'
 import SQLiteServices from '../../../Service/SQLiteServices'
 import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
+import SQLiteLabelServices from '../../../Service/SQLiteLabelServices'
 
 export default class NoteView extends Component {
     constructor(props) {
@@ -15,12 +16,12 @@ export default class NoteView extends Component {
        }
     }
 
-     componentDidMount = async () =>{
+    async componentDidMount() {
         const credential = await Keychain.getGenericPassword();
         const UserCredential = JSON.parse(credential.password);
        
-      await  NoteDataControllerServices.retrieveDataFromFirebase(UserCredential.user.uid)
-      await  SQLiteServices.selectNoteByDeletedFromSQliteStorage(UserCredential.user.uid, 0)
+        NoteDataControllerServices.retrieveDataFromFirebase(UserCredential.user.uid)
+        SQLiteServices.selectNoteByArchiveFromSQliteStorage(UserCredential.user.uid, 0, 0)
                 .then(async result => {
                     var temp = [];
                     if(result.rows.length != 0) {
@@ -32,7 +33,6 @@ export default class NoteView extends Component {
                     }                
                 })
             .catch(error => console.log(error))
-            console.log(this.state.userNotes)
     }
 
     render() {

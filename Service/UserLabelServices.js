@@ -5,7 +5,7 @@ class UserLabelServices {
     addLabelinDatabase = (userId,  labelId, label) => {
         return new Promise((resolve, reject) => {
             Firebase.database().ref('UserLabels/' + userId + '/' + labelId).set({
-                label : label
+                label : label,
             })
             .then(() => resolve('success')) 
             .catch((error) => reject(error))  
