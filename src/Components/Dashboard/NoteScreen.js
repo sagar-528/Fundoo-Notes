@@ -131,7 +131,7 @@ readImage = async () => {
         await this.setState({
             showProfileModal : false
         })
-        //onPress()
+        // onPress();
     }
 
     render() {

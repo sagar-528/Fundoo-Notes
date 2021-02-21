@@ -34,7 +34,7 @@ class ArchiveNoteScreen extends Component {
     handleMenuButton = async () => {
         const {onPress} = this.props
         this.props.navigation.openDrawer();
-        //onPress();
+        // onPress();
     }
 
     handleSearchIconButton = () => {

@@ -5,9 +5,17 @@ import BottomBarStyle from '../../Styles/BottomBar'
 
 export class BottomBar extends Component {
 
+    constructor(props) {
+        super(props)
+    }
+    
     handlePlusIconButton = () => {
         const {onPress} = this.props;
-        this.props.navigation.push('AddNote')
+        if(this.props.labelId == undefined) {
+            this.props.navigation.push('AddNote', {newNote : true})
+        } else {
+            this.props.navigation.push('AddNote', {labelId : this.props.labelId, newNote : true})
+        }
         // onPress();
     }
 

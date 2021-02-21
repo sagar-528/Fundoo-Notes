@@ -51,7 +51,7 @@ componentDidMount = async () => {
         userId : UserCredential.user.uid
     })
 
-    if(this.props.route.params != undefined) {
+    if(this.props.route.params.newNote) {
         await this.setState({
             noteKey : this.props.route.params.noteKey,
             title : this.props.route.params.notes.title,
@@ -62,9 +62,27 @@ componentDidMount = async () => {
         })
     }
     else {
-        await this.setState({
-            noteKey : this.generateNoteKey()
-        })
+        if(this.props.route.params.labelId == undefined) {
+            if (this.props.route.params.notes != undefined) {
+                await this.setState({
+                    noteKey : this.props.route.params.noteKey,
+                    title : this.props.route.params.notes.title,
+                    note : this.props.route.params.notes.note,
+                    isDeleted : this.props.route.params.notes.is_deleted,
+                    labelId : JSON.parse(this.props.route.params.notes.label_id),
+                    isArchived : this.props.route.params.notes.is_archived,
+                })
+            } else {
+                await this.setState({
+                    noteKey : this.generateNoteKey()
+                })
+            }
+        } else {
+            await this.setState({
+                noteKey : this.generateNoteKey(),
+                labelId : JSON.parse(this.props.route.params.labelId)
+            })
+        }
     }
 }
 
@@ -84,7 +102,7 @@ generateNoteKey = () => {
 }
 
 handleBackIconButton = async() => {
-     // const {onPress} = this.props
+     const {onPress} = this.props
      const notes = {
         title : this.state.title,
         note : this.state.note,
@@ -94,7 +112,7 @@ handleBackIconButton = async() => {
     }
 
      if(this.state.title != '' || this.state.note != '') {
-        if(this.props.route.params == undefined || this.props.route.params.newNote != undefined) {
+        if(this.props.route.params.newNote) {
 
             NoteDataControllerServices.storeNote(this.state.noteKey, this.state.userId, notes)
                 .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
@@ -116,7 +134,7 @@ handleBackIconButton = async() => {
     }
 
     else{
-        if(this.props.route.params == undefined) {
+        if(this.props.route.params.newNote) {
             this.props.navigation.push('Home', { screen: 'Notes', params : {isEmptyNote : true}}) 
         } 
         else {
@@ -124,7 +142,7 @@ handleBackIconButton = async() => {
                 .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isEmptyNote : true}}))
         }
     }
-    //onPress(); 
+    // onPress(); 
 }
 
 handleDeleteButton = async() => {
@@ -141,7 +159,7 @@ handleDeleteButton = async() => {
         labelId : JSON.stringify(this.state.labelId),
         isArchived : this.state.isArchived
     }
-    if(this.props.route.params == undefined || this.props.route.params.newNote != undefined){
+    if(this.props.route.params.newNote){
         await this.setState({
             isNoteNotAddedDeleted : true
         })
@@ -163,11 +181,11 @@ handleLabelButton = () => {
         labelId : this.state.labelId,
         isArchived : this.state.isArchived
     }
-    if(this.props.route.params == undefined || this.props.route.params.newNote != undefined) {
+    if(this.props.route.params.newNote) {
         this.props.navigation.push('SelectLabel', { noteKey : this.state.noteKey, notes : notes, newNote : true})
     }
     else {
-        this.props.navigation.push('SelectLabel', { noteKey : this.state.noteKey, notes : notes})
+        this.props.navigation.push('SelectLabel', { noteKey : this.state.noteKey, notes : notes, newNote : false})
     }
 }
 
@@ -180,16 +198,20 @@ isNotAddedNoteDeletedSnackbarHandler = async () => {
 }
 
 handleDeleteForeverDialogDismiss = async () => {
+    const {onDismiss} = this.props
     await this.setState({
         deleteForeverDialog : false
     })
+    // onDismiss();
 }
 
 handleDeleteForeverButton = async () => {
+    const {onDismiss} = this.props
     this.RBSheet.close()
     await this.setState({
         deleteForeverDialog : true
     })
+    // onDismiss();
 }
 
 handleRestoreButton = () => {
@@ -230,11 +252,13 @@ restoreDeleteSnackbarAction = async() => {
 }
 
 handlePressDisabledTextInput = () => {
+    const {onPress} = this.props;
     if(this.state.isDeleted == 1) {
         this.setState({
             restoreSnackbar : true
         })
     }
+    // onPress();
 }
 
 restoreSnackbarDismiss = () => {
@@ -264,7 +288,7 @@ handleArchiveDownButton = async () => {
         isArchived : this.state.isArchived
     }
     if(this.state.title != '' || this.state.note != '') {
-        if(this.props.route.params == undefined || this.props.route.params.newNote != undefined) {
+        if(this.props.route.params.newNote) {
             NoteDataControllerServices.storeNote(this.state.noteKey, this.state.userId, notes)
                 .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isNoteArchived : true, 
                                                                                             noteKey : this.state.noteKey,
@@ -280,7 +304,7 @@ handleArchiveDownButton = async () => {
         }
     }
     else{
-        if(this.props.route.params == undefined) {
+        if(this.props.route.params.newNote) {
             this.props.navigation.push('Home', { screen: 'Notes', params : {isEmptyNote : true}}) 
         } 
         else {
@@ -288,7 +312,7 @@ handleArchiveDownButton = async () => {
                 .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isEmptyNote : true}}))
         }
     }
-    //onPress();
+    // onPress();
 }
 
 handleArchiveUpButton = async () => {

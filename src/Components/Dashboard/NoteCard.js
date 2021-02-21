@@ -15,7 +15,9 @@ class NoteCard extends Component {
     
 
     selectNote = (noteKey) => {
-        this.props.navigation.push('AddNote', { noteKey : noteKey, notes : this.props.notes})
+        const {onPress} = this.props
+        this.props.navigation.push('AddNote', { noteKey : noteKey, notes : this.props.notes, newNote : false })
+        // onPress();
     }
 
     render() {
@@ -47,7 +49,7 @@ class NoteCard extends Component {
                                 ))
                             :
                             null
-                    }
+                        }
                     </View>
                 </Card.Content>  
             </Card>

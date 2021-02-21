@@ -44,11 +44,11 @@ class SelectLabelScreen extends Component {
             label_id : JSON.stringify(this.state.selectedLabel),
             is_archived : this.props.route.params.notes.isArchived
         }
-        if(this.props.route.params.newNote == undefined) {
-            this.props.navigation.push('AddNote', { noteKey : this.props.route.params.noteKey, notes : notes})
+        if(this.props.route.params.newNote) {
+            this.props.navigation.push('AddNote', { noteKey : this.props.route.params.noteKey, notes : notes, newNote : true})
         }
         else {
-            this.props.navigation.push('AddNote', { noteKey : this.props.route.params.noteKey, notes : notes, newNote : true})
+            this.props.navigation.push('AddNote', { noteKey : this.props.route.params.noteKey, notes : notes, newNote : false})
         }
     }
 

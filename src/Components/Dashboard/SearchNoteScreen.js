@@ -41,7 +41,7 @@ export class SearchNoteScreen extends Component {
     handleBackIconButton = () => {
         const {onPress} = this.props
         this.props.navigation.navigate('Home', {screen : 'Notes'})
-        //onPress()
+        // onPress();
     }
 
     handleSearchTextInput = async (searchText) => {
@@ -73,13 +73,13 @@ export class SearchNoteScreen extends Component {
             search : '',
             userNotesAfterSearch : []
         })
-        //onPress()
+        // onPress();
     }
 
     selectNote = (note) => {
         const {onPress} = this.props
-        this.props.navigation.navigate('AddNote', { noteKey : note.note_id, notes : note})
-        //onPress();
+        this.props.navigation.push('AddNote', { noteKey : note.note_id, notes : note})
+        // onPress();
     }
 
     render() {

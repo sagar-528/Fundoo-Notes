@@ -16,9 +16,17 @@ class LabelNoteScreen extends Component {
             listView : true,
             userArchivedNotes : [],
             userUnArchivedNotes : [],
-            archivePresent : false
+            archivePresent : false,
+            labelId : this.getLabelId()
         }
     }
+
+    getLabelId = () => {
+        var temp = []
+        temp.push(this.props.route.params.labels.label_id)
+        return temp
+    }
+
 
     componentDidMount = async () => {
         await SQLiteServices.selectNoteByArchiveFromSQliteStorage(this.props.userId, 1, 0)
@@ -66,7 +74,7 @@ class LabelNoteScreen extends Component {
     selectNote = (note) => {
         const {onPress} = this.props
         this.props.navigation.push('AddNote', { noteKey : note.note_id, notes : note})
-        //onPress();
+        // onPress();
     }
 
     handleMenuIconButton = () => {
@@ -124,7 +132,7 @@ class LabelNoteScreen extends Component {
                     }
                 </View>
                 <View style = {LabelNoteScreenStyle.list_container}>
-                    {this.state.userArchivedNotes.length > 0 ?
+                    {this.state.archivePresent ?
                         this.state.userArchivedNotes.map(note => 
                             JSON.parse(note.label_id).includes(this.props.route.params.labels.label_id) ?
                                 <React.Fragment key = {note.note_id}>
@@ -140,7 +148,7 @@ class LabelNoteScreen extends Component {
                         : null}
                     </View>
                 </ScrollView>
-                <BottomBar navigation = {this.props.navigation}/>
+                <BottomBar navigation = {this.props.navigation} labelId = {JSON.stringify(this.state.labelId)}/>
             </View>
         )
     }

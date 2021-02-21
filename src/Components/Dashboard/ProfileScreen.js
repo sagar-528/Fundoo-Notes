@@ -58,7 +58,7 @@ handleLogoutButton = async () => {
     UserServices.signout()
     .then(() => this.props.navigation.navigate('SignIn'))
     .catch(error => console.log(error))
-    // onPress()
+    // onPress();
 }
 
 handleChoosePhotoFromLibrary = () => {
