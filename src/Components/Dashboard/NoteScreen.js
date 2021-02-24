@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import  { View, Text } from 'react-native'
+import  { View } from 'react-native'
 import {Snackbar, Provider, Modal, Portal} from 'react-native-paper'
 import HeaderBar from './HeaderBar';
 import BottomBar from './BottomBar';
@@ -9,6 +9,8 @@ import ProfileScreen from './ProfileScreen'
 import * as Keychain from 'react-native-keychain'
 import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
 import UserServices from '../../../Service/UserServices'
+import { connect } from 'react-redux'
+import { storeNavigationScreen } from '../../Redux/Actions/CreateNewLabelActions'
 
 class NoteScreen extends Component {
 
@@ -21,12 +23,12 @@ constructor(props) {
         showArchivedNoteSnackbar : false,
         showProfileModal : false,
         photo : '',
-        userId : '',
-        render : true
+        userId : ''
     }
 }
 
  componentDidMount = async () => {
+    this.props.storeNavigationScreen('Notes')
     const credential = await Keychain.getGenericPassword();
     const UserCredential = JSON.parse(credential.password);
      this.setState({
@@ -100,13 +102,13 @@ readImage = async () => {
     restoreNotes = async() => {
         const {onPress} = this.props
         NoteDataControllerServices.restoreNote(this.props.route.params.userId, this.props.route.params.noteKey)
-            .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
+            .then(() => this.props.navigation.push('Home', {screen : this.props.screenName}))
         // onPress();
     }
 
     unArchivedNote = async() => {
         NoteDataControllerServices.updateNoteArchive(this.props.route.params.noteKey, this.props.route.params.userId, this.props.route.params.notes)
-            .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
+            .then(() => this.props.navigation.push('Home', {screen : this.props.screenName}))
     }
 
     showModal = async() => {
@@ -195,4 +197,18 @@ readImage = async () => {
     }
 }
 
-export default NoteScreen
+const mapStateToProps = state => {
+    return {
+        userId : state.createLabelReducer.userId,
+        userLabel : state.createLabelReducer.userLabel,
+        screenName : state.createLabelReducer.screenName,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        storeNavigationScreen : (screenName) => dispatch(storeNavigationScreen(screenName))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(NoteScreen)

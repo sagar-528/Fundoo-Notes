@@ -71,12 +71,17 @@ class LabelAppbar extends Component {
             await this.setState({
                 emptyMsg : false
             })
-            if(temp.includes(this.state.editTextInput.toLowerCase())){
-                await this.setState({
-                    errorMsg : true,
-                })
-            }
-            else {
+            if(temp.includes(this.state.editTextInput.toLowerCase())) {
+                if(this.state.editTextInput.toLowerCase() == this.props.labels.label_name.toLowerCase()) {
+                    await this.setState({
+                        errorMsg : false,
+                    })
+                } else {
+                    await this.setState({
+                        errorMsg : true,
+                    })
+                }
+            } else {
                 await this.setState({
                     errorMsg : false,
                 })

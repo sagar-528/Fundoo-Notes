@@ -118,36 +118,55 @@ handleBackIconButton = async() => {
             
             this.updateNoteIdInLabel()
             NoteDataControllerServices.storeNote(this.state.noteKey, this.state.userId, notes)
-                .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
-        } 
-
-        else if(this.state.isDeleted == 1){
-            this.props.navigation.push('Home', {screen : 'Deleted'})
-        }
-
-        else if(this.state.isArchived == 1) {
-
-            this.updateNoteIdInLabel();
-            NoteDataControllerServices.updateNote(this.state.noteKey, this.state.userId, notes)
-            .then(() => this.props.navigation.push('Home', {screen : 'archiveNote'}))
+            .then(() => {
+                if(this.props.screenName != 'labelNote') {
+                    this.props.navigation.push('Home', {screen : this.props.screenName})
+                } else {
+                    this.props.navigation.push('Home', { screen : this.props.screenName, 
+                                                         params : {labels : this.props.labelKey}})
+                }
+            })
         }
 
         else {
 
             this.updateNoteIdInLabel();
             NoteDataControllerServices.updateNote(this.state.noteKey, this.state.userId, notes)
-            .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
+            .then(() => {
+                if(this.props.screenName != 'labelNote') {
+                    this.props.navigation.push('Home', { screen : this.props.screenName })
+                } else {
+                    this.props.navigation.push('Home', { screen : this.props.screenName, 
+                                                         params : { labels : this.props.labelKey }})
+                }
+            })
         }
     }
 
     else{
         if(this.props.route.params.newNote) {
-            this.props.navigation.push('Home', { screen: 'Notes', params : {isEmptyNote : true}}) 
+            if(this.props.screenName != 'labelNote') {
+                this.props.navigation.push('Home', { screen: this.props.screenName, 
+                                                     params : {isEmptyNote : true}}) 
+            } else {
+                this.props.navigation.push('Home', { screen : this.props.screenName, 
+                                                     params : { labels : this.props.labelKey,
+                                                                isEmptyNote : true }})
+            }
         } 
         else {
             this.removeNoteIdinLabel();
             NoteDataControllerServices.removeNote(this.state.userId, this.state.noteKey)
-                .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isEmptyNote : true}}))
+            .then(() => {
+                if(this.props.screenName != 'labelNote') {
+                    this.props.navigation.push('Home', { screen: this.props.screenName, 
+                                                         params : {isEmptyNote : true}}) 
+                } else {
+                    this.props.navigation.push('Home', { screen : this.props.screenName, 
+                                                         params : { labels : this.props.labelKey,
+                                                                    isEmptyNote : true }})
+                }
+            })
         }
     }
     // onPress(); 
@@ -175,9 +194,20 @@ handleDeleteButton = async() => {
     else {
         this.updateNoteIdInLabel();
         NoteDataControllerServices.deleteNote(this.state.userId, this.state.noteKey, notes)
-        .then(() => this.props.navigation.push('Home', { screen : 'Notes', params : {isNoteDeleted : true, 
-                                                                                    noteKey : this.state.noteKey,
-                                                                                    userId : this.state.userId}})) 
+        .then(() => {
+            if(this.props.screenName != 'labelNote') {
+                this.props.navigation.push('Home', { screen: this.props.screenName, 
+                                                     params : {isNoteDeleted : true, 
+                                                               noteKey : this.state.noteKey,
+                                                               userId : this.state.userId}}) 
+            } else {
+                this.props.navigation.push('Home', { screen : this.props.screenName, 
+                                                     params : { labels : this.props.labelKey,
+                                                                isNoteDeleted : true, 
+                                                                noteKey : this.state.noteKey,
+                                                                userId : this.state.userId}})
+            }                               
+        })    
     }
 }
 
@@ -302,28 +332,68 @@ handleArchiveDownButton = async () => {
         if(this.props.route.params.newNote) {
             this.updateNoteIdInLabel()
             NoteDataControllerServices.storeNote(this.state.noteKey, this.state.userId, notes)
-                .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isNoteArchived : true, 
-                                                                                            noteKey : this.state.noteKey,
-                                                                                            userId : this.state.userId,
-                                                                                            notes : notes}}))
+            .then(() => {
+                if(this.props.screenName != 'labelNote') {
+                    this.props.navigation.push('Home', {screen : this.props.screenName, 
+                                                        params : {isNoteArchived : true, 
+                                                                  noteKey : this.state.noteKey,
+                                                                  userId : this.state.userId,
+                                                                  notes : notes}})
+                } else {
+                    this.props.navigation.push('Home', { screen : this.props.screenName, 
+                                                         params : {labels : this.props.labelKey,
+                                                                    isNoteArchived : true, 
+                                                                    noteKey : this.state.noteKey,
+                                                                    userId : this.state.userId,
+                                                                    notes : notes}})
+                }
+            })
         } 
         else {
             this.updateNoteIdInLabel()
             NoteDataControllerServices.updateNote(this.state.noteKey, this.state.userId, notes)
-                .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isNoteArchived : true, 
-                                                                                            noteKey : this.state.noteKey,
-                                                                                            userId : this.state.userId,
-                                                                                            notes : notes}}))
+            .then(() => {
+                if(this.props.screenName != 'labelNote') {
+                    this.props.navigation.push('Home', {screen : this.props.screenName, 
+                                                        params : {isNoteArchived : true, 
+                                                                  noteKey : this.state.noteKey,
+                                                                  userId : this.state.userId,
+                                                                  notes : notes}})
+                } else {
+                    this.props.navigation.push('Home', { screen : this.props.screenName, 
+                                                         params : { labels : this.props.labelKey,
+                                                                    isNoteArchived : true, 
+                                                                    noteKey : this.state.noteKey,
+                                                                    userId : this.state.userId,
+                                                                    notes : notes}})
+                }
+            }) 
         }
     }
     else{
         if(this.props.route.params.newNote) {
-            this.props.navigation.push('Home', { screen: 'Notes', params : {isEmptyNote : true}}) 
+            if(this.props.screenName != 'labelNote') {
+                this.props.navigation.push('Home', { screen: this.props.screenName, 
+                                                     params : {isEmptyNote : true}}) 
+            } else {
+                this.props.navigation.push('Home', { screen : this.props.screenName, 
+                                                     params : { labels : this.props.labelKey,
+                                                                isEmptyNote : true }})
+            } 
         } 
         else {
             this.removeNoteIdinLabel();
             NoteDataControllerServices.removeNote(this.state.userId, this.state.noteKey)
-                .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isEmptyNote : true}}))
+            .then(() => {
+                if(this.props.screenName != 'labelNote') {
+                    this.props.navigation.push('Home', { screen: this.props.screenName, 
+                                                         params : {isEmptyNote : true}}) 
+                } else {
+                    this.props.navigation.push('Home', { screen : this.props.screenName, 
+                                                         params : { labels : this.props.labelKey,
+                                                                    isEmptyNote : true }})
+                }
+            })
         }
     }
     // onPress();
@@ -640,7 +710,9 @@ updateLabelinReduxStore = () => {
 const mapStateToProps = state => {
     return {
         userId : state.createLabelReducer.userId,
-        userLabel : state.createLabelReducer.userLabel
+        userLabel : state.createLabelReducer.userLabel,
+        screenName : state.createLabelReducer.screenName,
+        labelKey : state.createLabelReducer.labelKey,
     }
 }
 

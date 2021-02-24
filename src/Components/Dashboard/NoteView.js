@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import {ScrollView, View, Text} from 'react-native';
+import {ScrollView} from 'react-native';
 import * as Keychain from 'react-native-keychain';
 import * as Animatable from 'react-native-animatable';
 import NoteViewStyle from '../../Styles/NoteView'
 import NoteCard from './NoteCard'
 import SQLiteServices from '../../../Service/SQLiteServices'
-import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
-import SQLiteLabelServices from '../../../Service/SQLiteLabelServices'
 
 export default class NoteView extends Component {
     constructor(props) {
@@ -45,7 +43,11 @@ export default class NoteView extends Component {
                 this.state.userNotes.map(note => (
                         <React.Fragment key = {note.note_id}>
                             {
-                                    <NoteCard listView = {this.props.listView} notes = {note} noteKey = {note.note_id} navigation = {this.props.navigation}/>
+                                <NoteCard 
+                                    listView = {this.props.listView} 
+                                    notes = {note} 
+                                    noteKey = {note.note_id} 
+                                    navigation = {this.props.navigation}/>
                             }
                         </React.Fragment>
                     )) 

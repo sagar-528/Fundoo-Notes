@@ -1,8 +1,10 @@
-import { STORE_USERID, STORE_USER_LABEL } from '../Actions/CreateNewLabelType'
+import { STORE_USERID, STORE_USER_LABEL, STORE_LABELID, STORE_NAVIGATION_SCREEN } from '../Actions/CreateNewLabelType'
 
 const initialState = {
     userId : '',
-    userLabel : []
+    userLabel : [],
+    screenName : '',
+    labelKey : ''
 }
 
 const CreateNewLabelReducer = (state = initialState, action) => {
@@ -16,6 +18,17 @@ const CreateNewLabelReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userLabel : action.payload
+            }
+        case STORE_NAVIGATION_SCREEN :
+            return {
+                ...state,
+                screenName : action.payload,
+                labelKey : ''
+            }
+        case STORE_LABELID :
+            return {
+                ...state,
+                labelKey : action.payload
             }
         default:
             return state;

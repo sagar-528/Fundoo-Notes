@@ -50,6 +50,19 @@ const SearchNoteScreenStyle = StyleSheet.create({
 
     list_note_title_empty_style : {
         marginTop : -25
+    },
+
+    label_text: {
+        borderWidth : 1, 
+        paddingTop: 3, 
+        paddingBottom : 3, 
+        paddingLeft : 10, 
+        paddingRight : 10, 
+        borderColor : 'grey', 
+        borderRadius : 40,
+        marginTop : 8,
+        marginRight : 10,
+        marginBottom : 5,
     }
 
 })

@@ -3,6 +3,7 @@ import {Text, View} from 'react-native'
 import {Card, Title, Paragraph} from 'react-native-paper'
 import NoteCardStyle from '../../Styles/NoteCard'
 import { connect } from 'react-redux'
+// import { storeNavigationScreen } from '../../Redux/Actions/CreateNewLabelActions'
 
 class NoteCard extends Component {
 
