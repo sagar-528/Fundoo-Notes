@@ -17,7 +17,9 @@ class SearchNoteScreen extends Component {
             userNotesAfterSearch : [],
             userId : '',
             userId : '',
-            label : false
+            label : false,
+            archivePresent : false,
+            archivePresentCheck : false,
         }
     }
 
@@ -49,7 +51,9 @@ class SearchNoteScreen extends Component {
 
     handleSearchTextInput = async (searchText) => {
         await this.setState({
-            search : searchText
+            search : searchText,
+            archivePresent : false,
+            archivePresentCheck : false
         })
         if(this.state.search != '') {
             let temp = []
@@ -72,9 +76,17 @@ class SearchNoteScreen extends Component {
                     label : false
                 })
             }
-            this.setState({
+           await this.setState({
                 userNotesAfterSearch: temp,
             })
+            for(let i = 0; i < this.state.userNotesAfterSearch.length; i++) {
+                if(this.state.userNotesAfterSearch[i].is_archived == 1 || this.state.archivePresentCheck) {
+                    await this.setState({
+                        archivePresent : true,
+                        archivePresentCheck : true
+                    })
+                }
+            }
         }
         else {
             await this.setState({
@@ -129,7 +141,7 @@ class SearchNoteScreen extends Component {
                         {this.state.userNotesAfterSearch.length > 0 ?
                             this.state.userNotesAfterSearch.reverse().map(note => (
                                 <React.Fragment key = {note.note_id}>
-                                    {note.is_deleted == 0 ?
+                                    {note.is_deleted == 0 && note.is_archived == 0 ?
                                     <Card
                                         style = {SearchNoteScreenStyle.list_item_style}
                                         onPress = {() => this.selectNote(note)}>
@@ -175,6 +187,65 @@ class SearchNoteScreen extends Component {
                             : null
                         }
                     </View>
+
+                    <View>
+                        {this.state.archivePresent ?
+                            <Text style = {SearchNoteScreenStyle.archive_text_style}>ARCHIVE</Text>
+                        :
+                            null
+                        }
+                    </View>
+                    <View>
+                        {this.state.userNotesAfterSearch.length > 0 ?
+                            this.state.userNotesAfterSearch.reverse().map(note => (
+                                <React.Fragment key = {note.note_id}>
+                                    {note.is_deleted == 0 && note.is_archived == 1 ?
+                                    <Card
+                                        style = {SearchNoteScreenStyle.list_item_style}
+                                        onPress = {() => this.selectNote(note)}>
+                                        <Card.Content>
+                                            <Title 
+                                                style = {(note.note == '') ? SearchNoteScreenStyle.list_title_note_empty_style : SearchNoteScreenStyle.list_title_style}>
+                                                    <Highlighter
+                                                        highlightStyle = {{backgroundColor: 'yellow'}}
+                                                        searchWords = {[this.state.search]}
+                                                        textToHighlight = {note.title}/>
+                                            </Title>
+                                            <Paragraph
+                                                style = {(note.title == '') ? SearchNoteScreenStyle.list_note_title_empty_style : SearchNoteScreenStyle.note_description_style}>
+                                                    <Highlighter
+                                                        highlightStyle = {{backgroundColor: 'yellow'}}
+                                                        searchWords = {[this.state.search]}
+                                                        textToHighlight = {note.note}/>
+                                            </Paragraph>
+                                            <View style = {{flexWrap : 'wrap', flexDirection : 'row'}}>
+                                                {
+                                                    (JSON.parse(note.label_id).length > 0) ?
+                                                        this.props.userLabel.map(labels => (
+                                                            JSON.parse(note.label_id).includes(labels.label_id) ?
+                                                                <React.Fragment key = {labels.label_id}>
+                                                                    <View>
+                                                                        <Text style = {SearchNoteScreenStyle.label_text}>{labels.label_name}</Text>
+                                                                    </View>
+                                                                </React.Fragment>
+                                                            :
+                                                            null
+                                                        ))
+                                                    :
+                                                    null
+                                                }
+                                            </View>
+                                        </Card.Content>
+                                    </Card> 
+                                    :
+                                    null
+                                    }                 
+                                </React.Fragment>
+                            ))
+                            : null
+                        }
+                    </View>
+                    
                 </ScrollView>
             </View>
         )

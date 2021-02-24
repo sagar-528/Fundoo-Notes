@@ -63,6 +63,12 @@ const SearchNoteScreenStyle = StyleSheet.create({
         marginTop : 8,
         marginRight : 10,
         marginBottom : 5,
+    },
+
+    archive_text_style : {
+        marginLeft : 20,
+        marginTop : 15,
+        marginBottom : 10
     }
 
 })
