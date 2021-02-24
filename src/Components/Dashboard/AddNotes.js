@@ -7,6 +7,8 @@ import RBSheet from 'react-native-raw-bottom-sheet'
 import DotVerticalMenu from '../Dashboard/DotVerticalMenu'
 import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
 import DotsVerticalRestoreRBSheetMenu from './DotsVerticalRestoreRBSheetMenu'
+import {storeUserLabel} from '../../Redux/Actions/CreateNewLabelActions'
+import SQLiteLabelServices from '../../../Service/SQLiteLabelServices'
 import { connect } from 'react-redux'
 
 
@@ -28,7 +30,6 @@ constructor(props) {
         restoreDeleteSnackbar : false,
         noteUnArchivedSnackbar : false,
         restoreSnackbar : false,
-        lableName : ''
     }
 }
 
@@ -51,7 +52,7 @@ componentDidMount = async () => {
         userId : UserCredential.user.uid
     })
 
-    if(this.props.route.params.newNote) {
+    if(!this.props.route.params.newNote) {
         await this.setState({
             noteKey : this.props.route.params.noteKey,
             title : this.props.route.params.notes.title,
@@ -103,6 +104,7 @@ generateNoteKey = () => {
 
 handleBackIconButton = async() => {
      const {onPress} = this.props
+     
      const notes = {
         title : this.state.title,
         note : this.state.note,
@@ -113,7 +115,8 @@ handleBackIconButton = async() => {
 
      if(this.state.title != '' || this.state.note != '') {
         if(this.props.route.params.newNote) {
-
+            
+            this.updateNoteIdInLabel()
             NoteDataControllerServices.storeNote(this.state.noteKey, this.state.userId, notes)
                 .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
         } 
@@ -123,11 +126,15 @@ handleBackIconButton = async() => {
         }
 
         else if(this.state.isArchived == 1) {
+
+            this.updateNoteIdInLabel();
             NoteDataControllerServices.updateNote(this.state.noteKey, this.state.userId, notes)
-            .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
+            .then(() => this.props.navigation.push('Home', {screen : 'archiveNote'}))
         }
 
         else {
+
+            this.updateNoteIdInLabel();
             NoteDataControllerServices.updateNote(this.state.noteKey, this.state.userId, notes)
             .then(() => this.props.navigation.push('Home', {screen : 'Notes'}))
         }
@@ -138,6 +145,7 @@ handleBackIconButton = async() => {
             this.props.navigation.push('Home', { screen: 'Notes', params : {isEmptyNote : true}}) 
         } 
         else {
+            this.removeNoteIdinLabel();
             NoteDataControllerServices.removeNote(this.state.userId, this.state.noteKey)
                 .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isEmptyNote : true}}))
         }
@@ -165,6 +173,7 @@ handleDeleteButton = async() => {
         })
     }
     else {
+        this.updateNoteIdInLabel();
         NoteDataControllerServices.deleteNote(this.state.userId, this.state.noteKey, notes)
         .then(() => this.props.navigation.push('Home', { screen : 'Notes', params : {isNoteDeleted : true, 
                                                                                     noteKey : this.state.noteKey,
@@ -226,6 +235,7 @@ handleRestoreButton = () => {
 }
 
 handleDeleteForeverActionButton = () => {
+    this.removeNoteIdinLabel();
     NoteDataControllerServices.removeNote(this.state.userId, this.state.noteKey)
         .then(() => this.props.navigation.push('Home', {screen : 'Deleted'}))
 }
@@ -248,6 +258,7 @@ restoreDeleteSnackbarAction = async() => {
         labelId : JSON.stringify(this.state.labelId),
         isArchived : this.state.isArchived
     }
+    this.updateNoteIdInLabel()
     NoteDataControllerServices.deleteNote(this.state.userId, this.state.noteKey, notes)
 }
 
@@ -289,6 +300,7 @@ handleArchiveDownButton = async () => {
     }
     if(this.state.title != '' || this.state.note != '') {
         if(this.props.route.params.newNote) {
+            this.updateNoteIdInLabel()
             NoteDataControllerServices.storeNote(this.state.noteKey, this.state.userId, notes)
                 .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isNoteArchived : true, 
                                                                                             noteKey : this.state.noteKey,
@@ -296,6 +308,7 @@ handleArchiveDownButton = async () => {
                                                                                             notes : notes}}))
         } 
         else {
+            this.updateNoteIdInLabel()
             NoteDataControllerServices.updateNote(this.state.noteKey, this.state.userId, notes)
                 .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isNoteArchived : true, 
                                                                                             noteKey : this.state.noteKey,
@@ -308,6 +321,7 @@ handleArchiveDownButton = async () => {
             this.props.navigation.push('Home', { screen: 'Notes', params : {isEmptyNote : true}}) 
         } 
         else {
+            this.removeNoteIdinLabel();
             NoteDataControllerServices.removeNote(this.state.userId, this.state.noteKey)
                 .then(() => this.props.navigation.push('Home', {screen : 'Notes', params : {isEmptyNote : true}}))
         }
@@ -327,6 +341,7 @@ handleArchiveUpButton = async () => {
         labelId : JSON.stringify(this.state.labelId),
         isArchived : this.state.isArchived
     }
+    this.updateNoteIdInLabel()
     NoteDataControllerServices.updateNote(this.state.noteKey, this.state.userId, notes)
 }
 
@@ -347,7 +362,85 @@ archiveSnackbarAction = async () => {
         labelId : JSON.stringify(this.state.labelId),
         isArchived : this.state.isArchived
     }
+    
+    this.updateNoteIdInLabel()
     NoteDataControllerServices.updateNote(this.state.noteKey, this.state.userId, notes)
+}
+
+updateNoteIdInLabel = () => {
+    let noteId
+    if(this.state.labelId.length > 0) {
+        this.props.userLabel.map(label => {
+            if(this.state.labelId.includes(label.label_id)){
+                noteId = JSON.parse(label.note_id)
+                if(!noteId.includes(this.state.noteKey)) {
+                    noteId.push(this.state.noteKey)
+                    const labels = {
+                        labelName : label.label_name,
+                        noteId : JSON.stringify(noteId)
+                    }
+                    NoteDataControllerServices.updateLabel(this.props.userId, label.label_id, labels)
+                    this.updateLabelinReduxStore();
+                }
+            } else {
+                noteId = JSON.parse(label.note_id)
+                if(noteId.includes(this.state.noteKey)){
+                    let index = noteId.indexOf(this.state.noteKey)
+                    noteId.splice(index, 1)
+                    const labels = {
+                        labelName : label.label_name,
+                        noteId : JSON.stringify(noteId)
+                    }
+                    NoteDataControllerServices.updateLabel(this.props.userId, label.label_id, labels)
+                    this.updateLabelinReduxStore()
+                }
+            }
+        })  
+    } else {
+        this.props.userLabel.map(label => {
+            noteId = JSON.parse(label.note_id);
+            if(noteId.includes(this.state.noteKey)) {
+                let index = noteId.indexOf(this.state.noteKey)
+                noteId.splice(index, 1)
+                const labels = {
+                    labelName : label.label_name,
+                    noteId : JSON.stringify(noteId)
+                }
+                NoteDataControllerServices.updateLabel(this.props.userId, label.label_id, labels)
+                this.updateLabelinReduxStore();
+            }
+        })
+    }
+}
+
+removeNoteIdinLabel = () => {
+    let noteId
+    this.props.userLabel.map(label => {
+        noteId = JSON.parse(label.note_id);
+        if(noteId.includes(this.state.noteKey)) {
+            let index = noteId.indexOf(this.state.noteKey)
+            noteId.splice(index, 1)
+            const labels = {
+                labelName : label.label_name,
+                noteId : JSON.stringify(noteId)
+            }
+            NoteDataControllerServices.updateLabel(this.props.userId, label.label_id, labels)
+            this.updateLabelinReduxStore();
+        }
+    })        
+}
+
+updateLabelinReduxStore = () => {
+    SQLiteLabelServices.selectLabelFromSQliteStorage(this.props.userId)
+        .then(async result => {
+            var temp = [];
+            if(result.rows.length != 0) {
+                for (let i = 0; i < result.rows.length; ++i)
+                    temp.push(result.rows.item(i));
+            }
+            this.props.storeUserLabel(temp)
+        })
+        .catch(error => console.log(error))
 }
 
     render() {
@@ -417,7 +510,7 @@ archiveSnackbarAction = async () => {
                                <React.Fragment key = {labels.label_id}>
                                     <TouchableWithoutFeedback onPress = {this.handleLabelButton}>
                                         <View>
-                                            <Text style = {AddNotesStyle.label_text}>{labels.label}</Text>
+                                            <Text style = {AddNotesStyle.label_text}>{labels.label_name}</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
                                 </React.Fragment>
@@ -551,4 +644,10 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(AddNotes)
+const mapDispatchToProps = dispatch => {
+    return {
+        storeUserLabel : (userLabel) => dispatch(storeUserLabel(userLabel))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddNotes)

@@ -59,7 +59,7 @@ class SelectLabelScreen extends Component {
         if(this.state.search != '') {
             let temp = [];
             for(let i = 0; i < this.props.userLabel.length; i++) {
-                if(this.props.userLabel[i].label.toLowerCase().includes(searchText.toLowerCase())) {
+                if(this.props.userLabel[i].label_name.toLowerCase().includes(searchText.toLowerCase())) {
                     temp.push(this.props.userLabel[i])
                 }
             }

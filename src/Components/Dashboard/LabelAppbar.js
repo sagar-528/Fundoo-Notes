@@ -12,7 +12,7 @@ class LabelAppbar extends Component {
         super(props)
         this.state = {
             edit : false,
-            editTextInput : this.props.labels.label,
+            editTextInput : this.props.labels.label_name,
             emptyMsg : false,
             errorMsg : false,
             dialogVisible : false
@@ -20,8 +20,13 @@ class LabelAppbar extends Component {
     }
     
     handleCheckButton = async () => {
+        const label = {
+            labelName : this.state.editTextInput,
+            noteId : this.props.labels.note_id
+        }
+
         if(!this.state.errorMsg && !this.state.emptyMsg) {
-            NoteDataControllerServices.updateLabel(this.props.userId, this.props.labelKey, this.state.editTextInput)
+            NoteDataControllerServices.updateLabel(this.props.userId, this.props.labelKey, label)
                 .then(() => {
                     SQLiteLabelServices.selectLabelFromSQliteStorage(this.props.userId)
                         .then(async result => {
@@ -30,6 +35,7 @@ class LabelAppbar extends Component {
                                 for (let i = 0; i < result.rows.length; ++i)
                                     temp.push(result.rows.item(i));
                             }
+                            console.log('updated', temp)
                             this.props.storeUserLabel(temp)
                             this.props.selectActiveLabel('')
                         }) 
@@ -42,7 +48,7 @@ class LabelAppbar extends Component {
     handleEditButton = () => {
         this.props.selectActiveLabel(this.props.labelKey)
         this.setState({
-            editTextInput : this.props.labels.label
+            editTextInput : this.props.labels.label_name
         })
     }
 
@@ -50,7 +56,7 @@ class LabelAppbar extends Component {
         let temp = []
         if(this.props.userLabel.length > 0) {
             this.props.userLabel.map(labels => {
-                temp.push(labels.label.toLowerCase())
+                temp.push(labels.label_name.toLowerCase())
             })
         }
         await this.setState({
@@ -166,7 +172,7 @@ class LabelAppbar extends Component {
                         <View style = {{width : '65%'}}>
                             <Text
                                 style = {LabelAppBarStyle.text_style}>
-                                {this.props.labels.label}
+                                {this.props.labels.label_name}
                             </Text>
                         </View>
                     </TouchableWithoutFeedback>

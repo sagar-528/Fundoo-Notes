@@ -146,19 +146,19 @@ handleImageEditButton = () => {
     render() {
         return (
             <View>
-               <View style = {ProfileStyle.image_container_style}>
+                <View style = {ProfileStyle.image_container_style}>
                     <ImageBackground
-                        source = {(this.state.photo == '') ? require('../../../src/Assets/profile.jpg') :{uri : this.state.photo}}
+                        source = {(this.state.photo == '') ? require('../../Assets/avatar.png') :{uri : this.state.photo}}
                         style = {{height : 100, width : 100}}>
-                        <View style = {ProfileStyle.edit_button_style}>
-                        <TouchableOpacity
-                            onPress = {this.handleImageEditButton}>
-                            <Icon name="edit" size={24} />
+                            <View style = {ProfileStyle.edit_button_style}>
+                                <TouchableOpacity
+                                    onPress = {this.handleImageEditButton}>
+                                        <Icon name="edit" size={24} />
                                 </TouchableOpacity>
                             </View>
                     </ImageBackground>
-                    </View> 
-                <View style = {{marginTop : 20, marginBottom : 20}}>
+                </View>
+                <View style = {{marginTop : 20, marginBottom : 10}}>
                     <View style = {ProfileStyle.text_container_style}>
                         <Text style = {ProfileStyle.text_style}>{this.state.fullName}</Text>
                     </View>
@@ -166,7 +166,6 @@ handleImageEditButton = () => {
                         <Text style = {ProfileStyle.text_style}>{this.state.userDetails.email}</Text>
                     </View>
                 </View>
-                
                 <View style = {{alignSelf : 'center', marginBottom : 10, marginTop : 10}}>
                     {(this.state.showSubmit) ? (
                     <Button 
@@ -177,7 +176,6 @@ handleImageEditButton = () => {
                     </Button> 
                     ) : null}
                 </View>
-
                 <View style = {{alignSelf : 'center'}}>
                     <Button 
                         style = {ProfileStyle.logout_button_styles}
@@ -185,7 +183,7 @@ handleImageEditButton = () => {
                         onPress = {this.handleLogoutButton}>
                             logout
                     </Button> 
-                </View>
+                </View>              
                 <RBSheet
                     ref = {ref => {this.RBSheet = ref}}
                     height = {150}
@@ -199,9 +197,9 @@ handleImageEditButton = () => {
                             backgroundColor: "transparent",
                         },
                     }}>
-                        <RBSheetProfileOption
+                        <RBSheetProfileOption 
                             takePhoto = {this.handleTakePhoto} 
-                            chooseFromLibrary = {this.handleChoosePhotoFromLibrary} 
+                            chooseFromLibrary = {this.handleChoosePhotoFromLibrary}
                             cancel = {this.handleCancel}/>
                 </RBSheet>
             </View>

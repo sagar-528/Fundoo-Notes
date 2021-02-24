@@ -41,7 +41,7 @@ class NoteCard extends Component {
                                     this.state.labelId.includes(labels.label_id) ?
                                         <React.Fragment key = {labels.label_id}>
                                             <View>
-                                                <Text style = {NoteCardStyle.label_text}>{labels.label}</Text>
+                                                <Text style = {NoteCardStyle.label_text}>{labels.label_name}</Text>
                                             </View>
                                         </React.Fragment>
                                     :

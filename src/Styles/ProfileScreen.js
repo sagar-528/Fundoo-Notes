@@ -7,7 +7,6 @@ const ProfileStyle = StyleSheet.create({
     },
 
     text_container_style : {
-        flexDirection : "row", 
         marginTop : 10
     },
 
@@ -24,7 +23,7 @@ const ProfileStyle = StyleSheet.create({
     },
 
     edit_button_style : {
-        flex : 1, 
+        // flex : 1, 
         justifyContent : 'flex-end', 
         alignItems : 'flex-end'
     }

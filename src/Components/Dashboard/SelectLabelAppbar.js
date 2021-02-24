@@ -26,7 +26,7 @@ export class SelectLabelAppbar extends Component {
                         style = {{marginLeft : 10}}
                         icon = 'label-outline' />
                     <Appbar.Content
-                        title = {this.props.labels.label}
+                        title = {this.props.labels.label_name}
                         titleStyle = {{fontSize : 18}} />
                     <View
                         style = {{marginRight : 10}}>

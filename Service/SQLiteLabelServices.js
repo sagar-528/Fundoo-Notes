@@ -20,7 +20,7 @@ class SQLiteLabelServices {
     createTableInSQliteStorage = (userId) => {
         db.transaction(tx => {
             tx.executeSql(
-                `CREATE TABLE IF NOT EXISTS '${userId}Label' (label_id TEXT PRIMARY KEY, label TEXT)`,
+                `CREATE TABLE IF NOT EXISTS '${userId}Label' (label_id TEXT PRIMARY KEY, label_name TEXT, note_id TEXT)`,
                 [],
                 (tx, results) => console.log('create table label in sqlite'),
                 error => console.log(error)
@@ -45,8 +45,8 @@ class SQLiteLabelServices {
         return new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(
-                    `INSERT INTO '${userId}Label' (label_id, label) VALUES (?,?)`,
-                    [labelId, label],
+                    `INSERT INTO '${userId}Label' (label_id, label_name, note_id) VALUES (?,?,?)`,
+                    [labelId, label.labelName, label.noteId],
                     (tx, results) => resolve('store label in sqlite'),
                     error => reject(error)
                 );
@@ -58,8 +58,8 @@ class SQLiteLabelServices {
         return new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(
-                    `UPDATE '${userId}Label' set label = ? where label_id = ?`,
-                    [label, labelId],
+                    `UPDATE '${userId}Label' set label_name = ?, note_id = ? where label_id = ?`,
+                    [label.labelName, label.noteId, labelId],
                     (tx, results) => resolve('update label in sqlite'),
                     error => reject(error)
                 );

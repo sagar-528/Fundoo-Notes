@@ -95,7 +95,7 @@ class LabelNoteScreen extends Component {
                             icon = 'menu'
                             onPress = {this.handleMenuIconButton}/>
                         <Appbar.Content 
-                            title = {this.props.route.params.labels.label}/>
+                            title = {this.props.route.params.labels.label_name}/>
                         <Appbar.Action
                             style = {{marginRight : 10}}
                             icon = 'magnify'

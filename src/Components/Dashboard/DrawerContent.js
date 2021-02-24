@@ -77,7 +77,7 @@ class DrawerContent extends Component {
                       <Drawer.Item
                         style = {DrawerContentStyle.drawer_item_style}
                         icon = 'label-outline'
-                        label = {labels.label}
+                        label = {labels.label_name}
                         onPress = {() => this.props.navigation.navigation.push('Home', { screen : 'labelNote', params : {labels : labels}})}
                       />
                     </React.Fragment>
