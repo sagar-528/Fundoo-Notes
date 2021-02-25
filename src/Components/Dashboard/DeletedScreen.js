@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {View, ScrollView} from 'react-native'
+import {View, ScrollView, FlatList} from 'react-native'
 import { Appbar, Snackbar } from 'react-native-paper'
 import * as Keychain from 'react-native-keychain';
 import UserNotesServices from '../../../Service/UserNotesServices'
@@ -49,10 +49,7 @@ class DeletedScreen extends Component {
             }
         }
 
-        const credential = await Keychain.getGenericPassword();
-        const UserCredential = JSON.parse(credential.password);
-
-        SQLiteServices.selectNoteByDeletedFromSQliteStorage(UserCredential.user.uid, 1)
+        SQLiteServices.selectNoteByDeletedFromSQliteStorage(this.props.userId, 1)
             .then(async result => {
                 var temp = [];
                 if(result.rows.length != 0) {
@@ -63,7 +60,16 @@ class DeletedScreen extends Component {
                     })
                 }                
             })
-            .catch(error => console.log(error))   
+            .catch(error => console.log(error))  
+            let tempNotes = []
+            let loadingIndex
+            for(loadingIndex = 0; loadingIndex < 10 && loadingIndex < this.state.userNotes.length ; loadingIndex++) {
+                tempNotes.push(this.state.userNotes[loadingIndex])
+            }
+            await this.setState({
+                showNotes: tempNotes,
+                index: loadingIndex
+            }) 
             this.props.storeNavigationScreen('Deleted')
     }
 
@@ -100,14 +106,26 @@ class DeletedScreen extends Component {
 
     restoreNotes = async() => {
         const {onPress} = this.props
-        NoteDataControllerServices.restoreNote(this.props.route.params.userId, this.props.route.params.noteKey)
+        NoteDataControllerServices.restoreNote(this.props.userId, this.props.route.params.noteKey)
             .then(() => this.props.navigation.push('Home', {screen : this.props.screenName}))
         //onPress()
     }
 
     unArchivedNote = async() => {
-        NoteDataControllerServices.updateNoteArchive(this.props.route.params.noteKey, this.props.route.params.userId, this.props.route.params.notes)
+        NoteDataControllerServices.updateNoteArchive(this.props.route.params.noteKey, this.props.userId, this.props.route.params.notes)
             .then(() => this.props.navigation.push('Home', {screen : this.props.screenName}))
+    }
+
+    loadData = async (addIndex) => {
+        for(let i = 0; i < addIndex; i++) {
+            if(this.state.index == this.state.userNotes.length) {
+                await this.setState({
+                    index: 0,
+                })
+            }
+            this.state.showNotes.push(this.state.userNotes[this.state.index])
+            this.state.index ++
+        }
     }
 
     render() {
@@ -125,24 +143,31 @@ class DeletedScreen extends Component {
                     }
                 </Appbar>
             </View>
-            <ScrollView>
-             <View>
-             {this.state.userNotes.length > 0 ?
-                this.state.userNotes.map(note => (
-                    <React.Fragment key = {note.note_id}>
-                    {
-                        <NoteCard 
-                            listView = {true} 
-                            notes = {note} 
-                            noteKey = {note.note_id} 
-                            navigation = {this.props.navigation}/>
-                    }                    
-                </React.Fragment>
-                ))
-                : null
+                  <FlatList
+                    keyExtractor = {(item, index) => JSON.stringify(index)}
+                    data = {this.state.userNotes}
+                    onEndReached = {async () => {
+                        await this.setState({
+                            endReached : true
+                        })
+                    }}
+                    onScroll = {async () => {
+                        if (this.state.endReached) {
+                            this.loadData(5)
+                            await this.setState({
+                                endReached : false
+                            })
                 }
-            </View> 
-            </ScrollView>
+            }}
+            onEndReachedThreshold={0.1}
+            renderItem = {({ item }) => ( 
+                <NoteCard 
+                    listView = {true} 
+                    notes = {item} 
+                    noteKey = {item.note_id} 
+                    navigation = {this.props.navigation} />       
+                )}   
+            />
             <Snackbar
                     style = {{marginBottom : 100}}
                     visible={this.state.showEmptyNoteSnackbar}
@@ -182,6 +207,7 @@ const mapStateToProps = state => {
         userId : state.createLabelReducer.userId,
         userLabel : state.createLabelReducer.userLabel,
         screenName : state.createLabelReducer.screenName,
+        labelKey : state.createLabelReducer.labelKey
     }
 }
 

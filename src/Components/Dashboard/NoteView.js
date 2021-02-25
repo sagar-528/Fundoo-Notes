@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import {ScrollView} from 'react-native';
+import {ScrollView, FlatList} from 'react-native';
 import * as Keychain from 'react-native-keychain';
-import * as Animatable from 'react-native-animatable';
 import NoteViewStyle from '../../Styles/NoteView'
 import NoteCard from './NoteCard'
 import SQLiteServices from '../../../Service/SQLiteServices'
@@ -11,6 +10,9 @@ export default class NoteView extends Component {
         super(props);
         this.state = {
             userNotes : [],
+            showNotes: [],
+            index: 0,
+            endReached : false
        }
     }
 
@@ -30,32 +32,61 @@ export default class NoteView extends Component {
                     }                
                 })
             .catch(error => console.log(error))
-    }
+            let tempNotes = []
+            let loadingIndex
+            for(loadingIndex = 0; loadingIndex < 10 && loadingIndex < this.state.userNotes.length ; loadingIndex++) {
+                tempNotes.push(this.state.userNotes[loadingIndex])
+            }
+            await this.setState({
+                showNotes: tempNotes,
+                index: loadingIndex
+            })
+    
+        }
+    
+        loadData = async (addIndex) => {
+            for(let i = 0; i < addIndex; i++) {
+                if(this.state.index == this.state.userNotes.length) {
+                    await this.setState({
+                        index: 0,
+                    })
+                }
+                this.state.showNotes.push(this.state.userNotes[this.state.index])
+                this.state.index ++
+            }
+        }
 
     render() {
 
         return (
-            <ScrollView style = {NoteViewStyle.container}>
-            <Animatable.View 
-            style = {NoteViewStyle.list_conatiner}
-            animation = "fadeInUpBig">
-            {this.state.userNotes.length > 0 ?
-                this.state.userNotes.map(note => (
-                        <React.Fragment key = {note.note_id}>
-                            {
-                                <NoteCard 
-                                    listView = {this.props.listView} 
-                                    notes = {note} 
-                                    noteKey = {note.note_id} 
-                                    navigation = {this.props.navigation}/>
-                            }
-                        </React.Fragment>
-                    )) 
-                    :
-                    null
-                }
-            </Animatable.View>
-        </ScrollView>
+            <FlatList
+                numColumns = {this.props.listView ? 1 : 2}
+                keyExtractor = {(item, index) => JSON.stringify(index)}
+                key = {this.props.listView ? 1 : 2}
+                data = {this.state.showNotes}
+                onEndReached = {async () => {
+                    await this.setState({
+                        endReached : true
+                    })
+                }}
+                onScroll = {async () => {
+                    if (this.state.endReached) {
+                        this.loadData(5)
+                        await this.setState({
+                            endReached : false
+                        })
+                    }
+                }}
+                onEndReachedThreshold={0.1}
+                renderItem = {({ item }) => ( 
+                    <NoteCard 
+                        listView = {this.props.listView}
+                        notes = {item} 
+                        noteKey = {item.note_id} 
+                        navigation = {this.props.navigation}/>        
+                )}  
+                contentContainerStyle={{ paddingBottom: 60}} 
+            />
         )
     }
 }

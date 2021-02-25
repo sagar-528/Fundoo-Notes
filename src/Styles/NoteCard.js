@@ -18,7 +18,7 @@ const NoteCardStyle = StyleSheet.create({
         marginBottom : 10, 
         borderRadius : 10, 
         borderColor : "#bdbdbd",
-        width : '45%',
+        width : '44.5%',
     },
 
     list_title_style : { 

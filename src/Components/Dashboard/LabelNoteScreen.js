@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, ScrollView, Text } from 'react-native'
+import { View, ScrollView, Text, FlatList } from 'react-native'
 import { Appbar, Snackbar } from 'react-native-paper'
 import BottomBar from './BottomBar'
 import LabelNoteScreenStyle from '../../Styles/LabelNoteScreen'
@@ -138,14 +138,14 @@ class LabelNoteScreen extends Component {
 
     restoreNotes = async() => {
         const {onPress} = this.props
-        NoteDataControllerServices.restoreNote(this.props.route.params.userId, this.props.route.params.noteKey)
-            .then(() => this.props.navigation.push('Home', {screen : this.props.screenName}))
+        NoteDataControllerServices.restoreNote(this.props.userId, this.props.route.params.noteKey)
+            .then(() => this.props.navigation.push('Home', {screen : this.props.screenName, params : {labels : this.props.labelKey}}))
         //onPress()
     }
 
     unArchivedNote = async() => {
-        NoteDataControllerServices.updateNoteArchive(this.props.route.params.noteKey, this.props.route.params.userId, this.props.route.params.notes)
-            .then(() => this.props.navigation.push('Home', {screen : this.props.screenName}))
+        NoteDataControllerServices.updateNoteArchive(this.props.route.params.noteKey, this.props.userId, this.props.route.params.notes)
+            .then(() => this.props.navigation.push('Home', {screen : this.props.screenName, params : {labels : this.props.labelKey}}))
     }
 
     render() {

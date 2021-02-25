@@ -42,7 +42,8 @@ class SelectLabelScreen extends Component {
             note : this.props.route.params.notes.note,
             is_deleted : this.props.route.params.notes.isDeleted,
             label_id : JSON.stringify(this.state.selectedLabel),
-            is_archived : this.props.route.params.notes.isArchived
+            is_archived : this.props.route.params.notes.isArchived,
+            reminder : this.props.route.params.notes.reminder,
         }
         if(this.props.route.params.newNote) {
             this.props.navigation.push('AddNote', { noteKey : this.props.route.params.noteKey, notes : notes, newNote : true})

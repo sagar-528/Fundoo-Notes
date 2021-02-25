@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import AddNotesStyle from '../../Styles/AddNotes'
 import {View, ScrollView, TextInput, TouchableWithoutFeedback, Text} from 'react-native'
 import { Appbar, Snackbar, Provider, Portal, Dialog, Paragraph, Button } from 'react-native-paper'
-import * as Keychain from 'react-native-keychain'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import DotVerticalMenu from '../Dashboard/DotVerticalMenu'
 import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
@@ -10,7 +9,7 @@ import DotsVerticalRestoreRBSheetMenu from './DotsVerticalRestoreRBSheetMenu'
 import {storeUserLabel} from '../../Redux/Actions/CreateNewLabelActions'
 import SQLiteLabelServices from '../../../Service/SQLiteLabelServices'
 import { connect } from 'react-redux'
-
+import SQLiteServices from '../../../Service/SQLiteServices'
 
 class AddNotes extends Component {
 
@@ -21,7 +20,7 @@ constructor(props) {
         noteKey : '',
         title : '',
         note : '' ,
-        userId : '',
+        reminder : '',
         isDeleted : 0,
         labelId : [],
         isArchived : 0,
@@ -46,11 +45,6 @@ handleNotes = (note) => {
 }
 
 componentDidMount = async () => {
-    const credential = await Keychain.getGenericPassword();
-    const UserCredential = JSON.parse(credential.password);
-    await this.setState({
-        userId : UserCredential.user.uid
-    })
 
     if(!this.props.route.params.newNote) {
         await this.setState({
@@ -60,6 +54,7 @@ componentDidMount = async () => {
             isDeleted : this.props.route.params.notes.is_deleted,
             labelId : JSON.parse(this.props.route.params.notes.label_id),
             isArchived : this.props.route.params.notes.is_archived,
+            reminder : this.props.route.params.notes.reminder
         })
     }
     else {
@@ -72,6 +67,7 @@ componentDidMount = async () => {
                     isDeleted : this.props.route.params.notes.is_deleted,
                     labelId : JSON.parse(this.props.route.params.notes.label_id),
                     isArchived : this.props.route.params.notes.is_archived,
+                    reminder : this.props.route.params.notes.reminder
                 })
             } else {
                 await this.setState({
@@ -110,14 +106,15 @@ handleBackIconButton = async() => {
         note : this.state.note,
         isDeleted : this.state.isDeleted,
         labelId : JSON.stringify(this.state.labelId),
-        isArchived : this.state.isArchived
+        isArchived : this.state.isArchived,
+        reminder : this.state.reminder
     }
 
      if(this.state.title != '' || this.state.note != '') {
         if(this.props.route.params.newNote) {
             
             this.updateNoteIdInLabel()
-            NoteDataControllerServices.storeNote(this.state.noteKey, this.state.userId, notes)
+            NoteDataControllerServices.storeNote(this.state.noteKey, this.props.userId, notes)
             .then(() => {
                 if(this.props.screenName != 'labelNote') {
                     this.props.navigation.push('Home', {screen : this.props.screenName})
@@ -129,9 +126,8 @@ handleBackIconButton = async() => {
         }
 
         else {
-
             this.updateNoteIdInLabel();
-            NoteDataControllerServices.updateNote(this.state.noteKey, this.state.userId, notes)
+            NoteDataControllerServices.updateNote(this.state.noteKey, this.props.userId, notes)
             .then(() => {
                 if(this.props.screenName != 'labelNote') {
                     this.props.navigation.push('Home', { screen : this.props.screenName })
@@ -156,7 +152,7 @@ handleBackIconButton = async() => {
         } 
         else {
             this.removeNoteIdinLabel();
-            NoteDataControllerServices.removeNote(this.state.userId, this.state.noteKey)
+            NoteDataControllerServices.removeNote(this.props.userId, this.state.noteKey)
             .then(() => {
                 if(this.props.screenName != 'labelNote') {
                     this.props.navigation.push('Home', { screen: this.props.screenName, 
@@ -176,7 +172,7 @@ handleDeleteButton = async() => {
     this.RBSheet.close()
     
     await this.setState({
-        isDeleted : 0
+        isDeleted : 1
     })
 
     const notes = {
@@ -184,7 +180,8 @@ handleDeleteButton = async() => {
         note : this.state.note,
         isDeleted : this.state.isDeleted,
         labelId : JSON.stringify(this.state.labelId),
-        isArchived : this.state.isArchived
+        isArchived : this.state.isArchived,
+        reminder : this.state.reminder,
     }
     if(this.props.route.params.newNote){
         await this.setState({
@@ -193,19 +190,17 @@ handleDeleteButton = async() => {
     }
     else {
         this.updateNoteIdInLabel();
-        NoteDataControllerServices.deleteNote(this.state.userId, this.state.noteKey, notes)
+        NoteDataControllerServices.deleteNote(this.props.userId, this.state.noteKey, notes)
         .then(() => {
             if(this.props.screenName != 'labelNote') {
                 this.props.navigation.push('Home', { screen: this.props.screenName, 
                                                      params : {isNoteDeleted : true, 
-                                                               noteKey : this.state.noteKey,
-                                                               userId : this.state.userId}}) 
+                                                               noteKey : this.state.noteKey}}) 
             } else {
                 this.props.navigation.push('Home', { screen : this.props.screenName, 
                                                      params : { labels : this.props.labelKey,
                                                                 isNoteDeleted : true, 
-                                                                noteKey : this.state.noteKey,
-                                                                userId : this.state.userId}})
+                                                                noteKey : this.state.noteKey}})
             }                               
         })    
     }
@@ -218,7 +213,8 @@ handleLabelButton = () => {
         note : this.state.note,
         isDeleted : this.state.isDeleted,
         labelId : this.state.labelId,
-        isArchived : this.state.isArchived
+        isArchived : this.state.isArchived,
+        reminder : this.state.reminder,
     }
     if(this.props.route.params.newNote) {
         this.props.navigation.push('SelectLabel', { noteKey : this.state.noteKey, notes : notes, newNote : true})
@@ -255,7 +251,7 @@ handleDeleteForeverButton = async () => {
 
 handleRestoreButton = () => {
     this.RBSheet.close()
-    NoteDataControllerServices.restoreNote(this.state.userId, this.state.noteKey)
+    NoteDataControllerServices.restoreNote(this.props.userId, this.state.noteKey)
         .then(async () => {
             await this.setState({
                 isDeleted : 0,
@@ -266,7 +262,7 @@ handleRestoreButton = () => {
 
 handleDeleteForeverActionButton = () => {
     this.removeNoteIdinLabel();
-    NoteDataControllerServices.removeNote(this.state.userId, this.state.noteKey)
+    NoteDataControllerServices.removeNote(this.props.userId, this.state.noteKey)
         .then(() => this.props.navigation.push('Home', {screen : 'Deleted'}))
 }
 
@@ -286,10 +282,11 @@ restoreDeleteSnackbarAction = async() => {
         note : this.state.note,
         isDeleted : this.state.isDeleted,
         labelId : JSON.stringify(this.state.labelId),
-        isArchived : this.state.isArchived
+        isArchived : this.state.isArchived,
+        reminder : this.state.reminder,
     }
     this.updateNoteIdInLabel()
-    NoteDataControllerServices.deleteNote(this.state.userId, this.state.noteKey, notes)
+    NoteDataControllerServices.deleteNote(this.props.userId, this.state.noteKey, notes)
 }
 
 handlePressDisabledTextInput = () => {
@@ -309,7 +306,7 @@ restoreSnackbarDismiss = () => {
 }
 
 restoreSnackbarAction = () => {
-    NoteDataControllerServices.restoreNote(this.state.userId, this.state.noteKey)
+    NoteDataControllerServices.restoreNote(this.props.userId, this.state.noteKey)
         .then(() => {
             this.setState({
                 isDeleted : 0
@@ -326,45 +323,42 @@ handleArchiveDownButton = async () => {
         note : this.state.note,
         isDeleted : this.state.isDeleted,
         labelId : JSON.stringify(this.state.labelId),
-        isArchived : this.state.isArchived
+        isArchived : this.state.isArchived,
+        reminder : this.state.reminder,
     }
     if(this.state.title != '' || this.state.note != '') {
         if(this.props.route.params.newNote) {
             this.updateNoteIdInLabel()
-            NoteDataControllerServices.storeNote(this.state.noteKey, this.state.userId, notes)
+            NoteDataControllerServices.storeNote(this.state.noteKey, this.props.userId, notes)
             .then(() => {
                 if(this.props.screenName != 'labelNote') {
                     this.props.navigation.push('Home', {screen : this.props.screenName, 
                                                         params : {isNoteArchived : true, 
                                                                   noteKey : this.state.noteKey,
-                                                                  userId : this.state.userId,
                                                                   notes : notes}})
                 } else {
                     this.props.navigation.push('Home', { screen : this.props.screenName, 
                                                          params : {labels : this.props.labelKey,
                                                                     isNoteArchived : true, 
                                                                     noteKey : this.state.noteKey,
-                                                                    userId : this.state.userId,
                                                                     notes : notes}})
                 }
             })
         } 
         else {
             this.updateNoteIdInLabel()
-            NoteDataControllerServices.updateNote(this.state.noteKey, this.state.userId, notes)
+            NoteDataControllerServices.updateNote(this.state.noteKey, this.props.userId, notes)
             .then(() => {
                 if(this.props.screenName != 'labelNote') {
                     this.props.navigation.push('Home', {screen : this.props.screenName, 
                                                         params : {isNoteArchived : true, 
                                                                   noteKey : this.state.noteKey,
-                                                                  userId : this.state.userId,
                                                                   notes : notes}})
                 } else {
                     this.props.navigation.push('Home', { screen : this.props.screenName, 
                                                          params : { labels : this.props.labelKey,
                                                                     isNoteArchived : true, 
                                                                     noteKey : this.state.noteKey,
-                                                                    userId : this.state.userId,
                                                                     notes : notes}})
                 }
             }) 
@@ -383,7 +377,7 @@ handleArchiveDownButton = async () => {
         } 
         else {
             this.removeNoteIdinLabel();
-            NoteDataControllerServices.removeNote(this.state.userId, this.state.noteKey)
+            NoteDataControllerServices.removeNote(this.props.userId, this.state.noteKey)
             .then(() => {
                 if(this.props.screenName != 'labelNote') {
                     this.props.navigation.push('Home', { screen: this.props.screenName, 
@@ -409,10 +403,11 @@ handleArchiveUpButton = async () => {
         note : this.state.note,
         isDeleted : this.state.isDeleted,
         labelId : JSON.stringify(this.state.labelId),
-        isArchived : this.state.isArchived
+        isArchived : this.state.isArchived,
+        reminder : this.state.reminder,
     }
     this.updateNoteIdInLabel()
-    NoteDataControllerServices.updateNote(this.state.noteKey, this.state.userId, notes)
+    NoteDataControllerServices.updateNote(this.state.noteKey, this.props.userId, notes)
 }
 
 unArchiveSnackbarDismiss = () => {
@@ -430,11 +425,23 @@ archiveSnackbarAction = async () => {
         note : this.state.note,
         isDeleted : this.state.isDeleted,
         labelId : JSON.stringify(this.state.labelId),
-        isArchived : this.state.isArchived
+        isArchived : this.state.isArchived,
+        reminder : this.state.reminder,
     }
     
     this.updateNoteIdInLabel()
-    NoteDataControllerServices.updateNote(this.state.noteKey, this.state.userId, notes)
+    NoteDataControllerServices.updateNote(this.state.noteKey, this.props.userId, notes)
+}
+
+removeNoteId = (noteId, label) => {
+    let index = noteId.indexOf(this.state.noteKey)
+    noteId.splice(index, 1)
+    const labels = {
+        labelName : label.label_name,
+        noteId : JSON.stringify(noteId)
+    }
+    NoteDataControllerServices.updateLabel(this.props.userId, label.label_id, labels)
+    this.updateLabelinReduxStore();
 }
 
 updateNoteIdInLabel = () => {
