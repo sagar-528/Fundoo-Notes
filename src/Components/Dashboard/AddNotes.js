@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import AddNotesStyle from '../../Styles/AddNotes'
 import {View, ScrollView, TextInput, TouchableWithoutFeedback, Text} from 'react-native'
-import { Appbar, Snackbar, Provider, Portal, Dialog, Paragraph, Button } from 'react-native-paper'
+import { Appbar, Snackbar, Provider, Portal, Dialog, Paragraph, Button, Modal, Chip } from 'react-native-paper'
 import RBSheet from 'react-native-raw-bottom-sheet'
-import DotVerticalMenu from '../Dashboard/DotVerticalMenu'
+import DotVerticalMenu from './DotVerticalMenu'
 import NoteDataControllerServices from '../../../Service/NoteDataControllerServices'
 import DotsVerticalRestoreRBSheetMenu from './DotsVerticalRestoreRBSheetMenu'
 import {storeUserLabel} from '../../Redux/Actions/CreateNewLabelActions'
 import SQLiteLabelServices from '../../../Service/SQLiteLabelServices'
 import { connect } from 'react-redux'
-import SQLiteServices from '../../../Service/SQLiteServices'
+import AddReminder from './AddReminder'
+import moment from 'moment'
 
 class AddNotes extends Component {
 
@@ -29,6 +30,11 @@ constructor(props) {
         restoreDeleteSnackbar : false,
         noteUnArchivedSnackbar : false,
         restoreSnackbar : false,
+        showReminderModal : false,
+        date : '',
+        mode : 'date',
+        show : false,
+        errorDate : false
     }
 }
 
@@ -45,6 +51,12 @@ handleNotes = (note) => {
 }
 
 componentDidMount = async () => {
+    let today = new Date();
+    today.setHours(today.getHours() + 4 );
+    today.setMinutes(0)
+    await this.setState({
+        date : today
+    })
 
     if(!this.props.route.params.newNote) {
         await this.setState({
@@ -54,7 +66,7 @@ componentDidMount = async () => {
             isDeleted : this.props.route.params.notes.is_deleted,
             labelId : JSON.parse(this.props.route.params.notes.label_id),
             isArchived : this.props.route.params.notes.is_archived,
-            reminder : this.props.route.params.notes.reminder
+            reminder : JSON.parse(this.props.route.params.notes.reminder)
         })
     }
     else {
@@ -67,7 +79,7 @@ componentDidMount = async () => {
                     isDeleted : this.props.route.params.notes.is_deleted,
                     labelId : JSON.parse(this.props.route.params.notes.label_id),
                     isArchived : this.props.route.params.notes.is_archived,
-                    reminder : this.props.route.params.notes.reminder
+                    reminder : JSON.parse(this.props.route.params.notes.reminder)
                 })
             } else {
                 await this.setState({
@@ -99,47 +111,41 @@ generateNoteKey = () => {
 }
 
 handleBackIconButton = async() => {
-     const {onPress} = this.props
+    //  const {onPress} = this.props
      
-     const notes = {
+    const notes = {
         title : this.state.title,
         note : this.state.note,
         isDeleted : this.state.isDeleted,
         labelId : JSON.stringify(this.state.labelId),
         isArchived : this.state.isArchived,
-        reminder : this.state.reminder
+        reminder : JSON.stringify(this.state.reminder)
     }
-
-     if(this.state.title != '' || this.state.note != '') {
+    if(this.state.title != '' || this.state.note != '') {
         if(this.props.route.params.newNote) {
-            
-            this.updateNoteIdInLabel()
+            this.updateNoteIdInLabel();
             NoteDataControllerServices.storeNote(this.state.noteKey, this.props.userId, notes)
-            .then(() => {
-                if(this.props.screenName != 'labelNote') {
-                    this.props.navigation.push('Home', {screen : this.props.screenName})
-                } else {
-                    this.props.navigation.push('Home', { screen : this.props.screenName, 
-                                                         params : {labels : this.props.labelKey}})
-                }
-            })
-        }
-
-        else {
+                .then(() => {
+                    if(this.props.screenName != 'labelNote') {
+                        this.props.navigation.push('Home', {screen : this.props.screenName})
+                    } else {
+                        this.props.navigation.push('Home', { screen : this.props.screenName, 
+                                                             params : {labels : this.props.labelKey}})
+                    }
+                })
+        } else {
             this.updateNoteIdInLabel();
             NoteDataControllerServices.updateNote(this.state.noteKey, this.props.userId, notes)
-            .then(() => {
-                if(this.props.screenName != 'labelNote') {
-                    this.props.navigation.push('Home', { screen : this.props.screenName })
-                } else {
-                    this.props.navigation.push('Home', { screen : this.props.screenName, 
-                                                         params : { labels : this.props.labelKey }})
-                }
-            })
+                .then(() => {
+                    if(this.props.screenName != 'labelNote') {
+                        this.props.navigation.push('Home', { screen : this.props.screenName })
+                    } else {
+                        this.props.navigation.push('Home', { screen : this.props.screenName, 
+                                                             params : { labels : this.props.labelKey }})
+                    }
+                })
         }
-    }
-
-    else{
+    } else {
         if(this.props.route.params.newNote) {
             if(this.props.screenName != 'labelNote') {
                 this.props.navigation.push('Home', { screen: this.props.screenName, 
@@ -149,20 +155,19 @@ handleBackIconButton = async() => {
                                                      params : { labels : this.props.labelKey,
                                                                 isEmptyNote : true }})
             }
-        } 
-        else {
+        } else {
             this.removeNoteIdinLabel();
             NoteDataControllerServices.removeNote(this.props.userId, this.state.noteKey)
-            .then(() => {
-                if(this.props.screenName != 'labelNote') {
-                    this.props.navigation.push('Home', { screen: this.props.screenName, 
-                                                         params : {isEmptyNote : true}}) 
-                } else {
-                    this.props.navigation.push('Home', { screen : this.props.screenName, 
-                                                         params : { labels : this.props.labelKey,
-                                                                    isEmptyNote : true }})
-                }
-            })
+                .then(() => {
+                    if(this.props.screenName != 'labelNote') {
+                        this.props.navigation.push('Home', { screen: this.props.screenName, 
+                                                             params : {isEmptyNote : true}}) 
+                    } else {
+                        this.props.navigation.push('Home', { screen : this.props.screenName, 
+                                                             params : { labels : this.props.labelKey,
+                                                                        isEmptyNote : true }})
+                    }
+                })
         }
     }
     // onPress(); 
@@ -181,7 +186,7 @@ handleDeleteButton = async() => {
         isDeleted : this.state.isDeleted,
         labelId : JSON.stringify(this.state.labelId),
         isArchived : this.state.isArchived,
-        reminder : this.state.reminder,
+        reminder :  JSON.stringify(""),
     }
     if(this.props.route.params.newNote){
         await this.setState({
@@ -195,12 +200,16 @@ handleDeleteButton = async() => {
             if(this.props.screenName != 'labelNote') {
                 this.props.navigation.push('Home', { screen: this.props.screenName, 
                                                      params : {isNoteDeleted : true, 
-                                                               noteKey : this.state.noteKey}}) 
+                                                               noteKey : this.state.noteKey,
+                                                               reminder : JSON.stringify(this.state.reminder),
+                                                               notes : notes}}) 
             } else {
                 this.props.navigation.push('Home', { screen : this.props.screenName, 
                                                      params : { labels : this.props.labelKey,
                                                                 isNoteDeleted : true, 
-                                                                noteKey : this.state.noteKey}})
+                                                                noteKey : this.state.noteKey,
+                                                                reminder : JSON.stringify(this.state.reminder),
+                                                                notes : notes}})
             }                               
         })    
     }
@@ -214,7 +223,7 @@ handleLabelButton = () => {
         isDeleted : this.state.isDeleted,
         labelId : this.state.labelId,
         isArchived : this.state.isArchived,
-        reminder : this.state.reminder,
+        reminder : JSON.stringify(this.state.reminder),
     }
     if(this.props.route.params.newNote) {
         this.props.navigation.push('SelectLabel', { noteKey : this.state.noteKey, notes : notes, newNote : true})
@@ -283,7 +292,7 @@ restoreDeleteSnackbarAction = async() => {
         isDeleted : this.state.isDeleted,
         labelId : JSON.stringify(this.state.labelId),
         isArchived : this.state.isArchived,
-        reminder : this.state.reminder,
+        reminder :  JSON.stringify(this.state.reminder),
     }
     this.updateNoteIdInLabel()
     NoteDataControllerServices.deleteNote(this.props.userId, this.state.noteKey, notes)
@@ -324,7 +333,7 @@ handleArchiveDownButton = async () => {
         isDeleted : this.state.isDeleted,
         labelId : JSON.stringify(this.state.labelId),
         isArchived : this.state.isArchived,
-        reminder : this.state.reminder,
+        reminder :  JSON.stringify(this.state.reminder),
     }
     if(this.state.title != '' || this.state.note != '') {
         if(this.props.route.params.newNote) {
@@ -404,7 +413,7 @@ handleArchiveUpButton = async () => {
         isDeleted : this.state.isDeleted,
         labelId : JSON.stringify(this.state.labelId),
         isArchived : this.state.isArchived,
-        reminder : this.state.reminder,
+        reminder :  JSON.stringify(this.state.reminder),
     }
     this.updateNoteIdInLabel()
     NoteDataControllerServices.updateNote(this.state.noteKey, this.props.userId, notes)
@@ -431,17 +440,6 @@ archiveSnackbarAction = async () => {
     
     this.updateNoteIdInLabel()
     NoteDataControllerServices.updateNote(this.state.noteKey, this.props.userId, notes)
-}
-
-removeNoteId = (noteId, label) => {
-    let index = noteId.indexOf(this.state.noteKey)
-    noteId.splice(index, 1)
-    const labels = {
-        labelName : label.label_name,
-        noteId : JSON.stringify(noteId)
-    }
-    NoteDataControllerServices.updateLabel(this.props.userId, label.label_id, labels)
-    this.updateLabelinReduxStore();
 }
 
 updateNoteIdInLabel = () => {
@@ -520,6 +518,90 @@ updateLabelinReduxStore = () => {
         .catch(error => console.log(error))
 }
 
+handleReminderModalDismiss = async () => {
+    let today = new Date();
+    today.setHours(today.getHours() + 3 );
+    await this.setState({
+        date : today,
+        showReminderModal : false,
+        errorDate : false
+    })
+}
+
+handleReminderIconButton = async () => {
+    if(this.state.reminder != '') {
+       await this.setState({
+           date : new Date(this.state.reminder)
+       })
+    }
+    await this.setState({
+        showReminderModal : true, 
+    })
+}
+
+handleDateChange = async (event, selectedDate) => {
+    let now = new Date()
+    var selected = new Date(selectedDate)
+    if (now.getTime() > selected.getTime()) {
+        await this.setState({
+            errorDate : true
+        })
+    } else {
+        await this.setState({
+            errorDate : false
+        })
+    }
+    if(event.type != 'dismissed') {
+        await this.setState({
+            date : selectedDate,
+            show : false
+        })
+    } else {
+        await this.setState({
+            show : false
+        })
+    }
+    console.log(this.state.date)
+}
+
+handleSaveButton = async() => {
+    if(!this.state.errorDate) {
+        await this.setState({
+            reminder : this.state.date,
+            showReminderModal : false,
+            errorDate : false
+        })
+    }
+}
+
+showMode = async(currentMode) => {
+    await this.setState({
+        show : true,
+        mode : currentMode
+    })
+};
+
+showDatepicker = () => {
+    this.showMode('date');
+};
+
+showTimepicker = () => {
+    this.showMode('time');
+};
+
+handleDeleteReminderButton = async () => {
+    let today = new Date();
+    today.setHours(today.getHours() + 4 );
+    today.setMinutes(0)
+    await this.setState({
+        date : today,
+        reminder : '',
+        showReminderModal : false,
+        errorDate : false
+    })
+}
+
+
     render() {
         return (
             <Provider>
@@ -541,7 +623,8 @@ updateLabelinReduxStore = () => {
                         icon = 'pin-outline'/>
                     <Appbar.Action    
                         style = {AddNotesStyle.header_icon_style}                          
-                        icon = 'bell-plus-outline'/>
+                        icon = 'bell-plus-outline'
+                        onPress = {this.handleReminderIconButton}/>
                     
                         {
                             (this.state.isArchived == 0) ?
@@ -581,15 +664,26 @@ updateLabelinReduxStore = () => {
                     />
                     <View style = {AddNotesStyle.label_text_container}>
                     {
+                        (this.state.reminder != '') ?
+                            <Chip 
+                                icon = 'alarm'
+                                onPress = {this.handleReminderIconButton}
+                                style = {AddNotesStyle.reminder_text}>
+                                    {moment(this.state.reminder).format('D MMM, h.mm a')}
+                            </Chip>
+                            :
+                            null
+                    }
+                    {
                         (this.state.labelId.length > 0) ?
                         this.props.userLabel.map(labels => (
                             this.state.labelId.includes(labels.label_id) ?
                                <React.Fragment key = {labels.label_id}>
-                                    <TouchableWithoutFeedback onPress = {this.handleLabelButton}>
-                                        <View>
-                                            <Text style = {AddNotesStyle.label_text}>{labels.label_name}</Text>
-                                        </View>
-                                    </TouchableWithoutFeedback>
+                                    <Chip 
+                                        onPress = {this.handleLabelButton}
+                                        style = {AddNotesStyle.reminder_text}>
+                                        {labels.label_name}
+                                    </Chip>
                                 </React.Fragment>
                             :
                             null
@@ -638,7 +732,9 @@ updateLabelinReduxStore = () => {
                             backgroundColor: "transparent",
                         },
                     }}>
-                  <DotVerticalMenu delete = {this.handleDeleteButton} label = {this.handleLabelButton}/>     
+                    <DotVerticalMenu 
+                        delete = {this.handleDeleteButton} 
+                        label = {this.handleLabelButton}/>    
                 </RBSheet>
                 :
                 <RBSheet
@@ -707,6 +803,27 @@ updateLabelinReduxStore = () => {
                         <Button color = 'blue' onPress = {this.handleDeleteForeverActionButton}>Delete</Button>
                     </Dialog.Actions>
                 </Dialog>
+            </Portal>
+            <Portal>
+                <Modal 
+                    visible={this.state.showReminderModal} 
+                    onDismiss={this.handleReminderModalDismiss} 
+                    contentContainerStyle={AddNotesStyle.modal_container_style}
+                >
+                        <AddReminder 
+                            dismissModal = {this.handleReminderModalDismiss}
+                            date = {this.state.date}
+                            show = {this.state.show}
+                            changeDate = {this.handleDateChange}
+                            mode = {this.state.mode}
+                            showDatepicker = {this.showDatepicker}
+                            showTimepicker = {this.showTimepicker}
+                            saveReminder = {this.handleSaveButton}
+                            reminder = {this.state.reminder}
+                            deleteReminder = {this.handleDeleteReminderButton}
+                            errorDate = {this.state.errorDate}
+                        />
+                </Modal>
             </Portal>
         </View>
         </Provider>

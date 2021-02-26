@@ -13,26 +13,13 @@ function errorCB(err) {
     console.log("Database OPENED");
   }
 
-const db = SQLite.openDatabase("user_notes.db", "1.0", "Test Database", 200000, openCB, errorCB);
+const db = SQLite.openDatabase("user_notes.db", "1.0", "Test Database", 200000);
 
 
 class SQLiteServices {
 
-    createTableInSQliteStorage = (userId) => {
-        db.transaction(tx => {
-            tx.executeSql(
-                `CREATE TABLE IF NOT EXISTS ${userId} (note_id TEXT PRIMARY KEY, title TEXT, note TEXT, is_deleted INTEGER, label_id TEXT, is_archived INTEGER, reminder TEXT)`,
-                [],
-                (tx, results) => console.log('table create in SQLite For Reminder'),
-                error => console.log(error)
-            )
-        })
-    }
-
     storeNoteinSQliteStorage = (userId, noteId, notes) => {
-        
-        return new Promise((resolve, reject) => {
-            
+        return new Promise((resolve, reject) => {    
             db.transaction(tx => {
                 tx.executeSql(
                     `INSERT INTO ${userId} (note_id, title, note, is_deleted, label_id, is_archived, reminder) VALUES (?,?,?,?,?,?,?)`,
@@ -50,12 +37,24 @@ class SQLiteServices {
                 tx.executeSql(
                     `UPDATE ${userId} set title = ?, note = ?, is_deleted = ?, label_id = ?, is_archived = ?, reminder = ? where note_id = ?`,
                     [notes.title, notes.note, notes.isDeleted, notes.labelId, notes.isArchived, notes.reminder, noteId],
+                    (tx, results) => resolve('success'),
                     error => reject(error)
                 );
             });
         })
     }
 
+    createTableInSQliteStorage = (userId) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                `CREATE TABLE IF NOT EXISTS ${userId} (note_id TEXT PRIMARY KEY, title TEXT, note TEXT, is_deleted INTEGER, label_id TEXT, is_archived INTEGER, reminder TEXT)`,
+                [],
+                (tx, results) => console.log('table create in SQLite For Reminder'),
+                error => console.log(error)
+            )
+        })
+    }
+    
     deleteNoteinSQliteStorage = (userId, noteId, notes) => {
         return new Promise((resolve, reject) => {
             db.transaction(tx => {

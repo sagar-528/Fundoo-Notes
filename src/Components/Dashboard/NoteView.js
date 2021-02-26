@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {ScrollView, FlatList} from 'react-native';
+import { FlatList, ActivityIndicator } from 'react-native';
 import * as Keychain from 'react-native-keychain';
 import NoteViewStyle from '../../Styles/NoteView'
 import NoteCard from './NoteCard'
@@ -12,35 +12,34 @@ export default class NoteView extends Component {
             userNotes : [],
             showNotes: [],
             index: 0,
-            endReached : false
-       }
+            endReached : false,
+            scroll : false       }
     }
 
     async componentDidMount() {
         const credential = await Keychain.getGenericPassword();
         const UserCredential = JSON.parse(credential.password);
-    
-        SQLiteServices.selectNoteByArchiveFromSQliteStorage(UserCredential.user.uid, 0, 0)
-                .then(async result => {
-                    var temp = [];
-                    if(result.rows.length != 0) {
-                        for (let i = 0; i < result.rows.length; ++i)
+        await SQLiteServices.selectNoteByArchiveFromSQliteStorage(UserCredential.user.uid, 0, 0)
+            .then(async result => {
+                var temp = [];
+                if(result.rows.length != 0) {
+                    for (let i = 0; i < result.rows.length; ++i)
                         temp.push(result.rows.item(i));
-                        await this.setState({
-                            userNotes : temp.reverse()
-                        })
-                    }                
-                })
-            .catch(error => console.log(error))
-            let tempNotes = []
-            let loadingIndex
-            for(loadingIndex = 0; loadingIndex < 10 && loadingIndex < this.state.userNotes.length ; loadingIndex++) {
-                tempNotes.push(this.state.userNotes[loadingIndex])
-            }
-            await this.setState({
-                showNotes: tempNotes,
-                index: loadingIndex
+                    await this.setState({
+                        userNotes : temp.reverse()
+                    })
+                }                
             })
+            .catch(error => console.log('Error', error))
+        let tempNotes = []
+        let loadingIndex
+        for(loadingIndex = 0; loadingIndex < 10 && loadingIndex < this.state.userNotes.length ; loadingIndex++) {
+            tempNotes.push(this.state.userNotes[loadingIndex])
+        }
+        await this.setState({
+            showNotes: tempNotes,
+            index: loadingIndex
+        })
     
         }
     
@@ -52,7 +51,9 @@ export default class NoteView extends Component {
                     })
                 }
                 this.state.showNotes.push(this.state.userNotes[this.state.index])
-                this.state.index ++
+                await this.setState({
+                    index: this.state.index + 1,
+                })
             }
         }
 
@@ -64,6 +65,10 @@ export default class NoteView extends Component {
                 keyExtractor = {(item, index) => JSON.stringify(index)}
                 key = {this.props.listView ? 1 : 2}
                 data = {this.state.showNotes}
+                ListFooterComponent = {() => 
+                    (this.state.endReached && this.state.scroll) ? 
+                        <ActivityIndicator size="large" color="grey" /> : 
+                        null}
                 onEndReached = {async () => {
                     await this.setState({
                         endReached : true
@@ -71,15 +76,16 @@ export default class NoteView extends Component {
                 }}
                 onScroll = {async () => {
                     if (this.state.endReached) {
-                        this.loadData(5)
-                        await this.setState({
-                            endReached : false
+                        this.loadData(6)
+                    await this.setState({
+                            endReached : false,
+                            scroll : true
                         })
                     }
                 }}
                 onEndReachedThreshold={0.1}
                 renderItem = {({ item }) => ( 
-                    <NoteCard 
+                    <NoteCard
                         listView = {this.props.listView}
                         notes = {item} 
                         noteKey = {item.note_id} 

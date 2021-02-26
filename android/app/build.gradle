@@ -201,7 +201,7 @@ dependencies {
 
 
     implementation 'com.android.support:multidex:1.0.3'
-    implementation project(':@react-native-async-storage')
+    // implementation project(':@react-native-async-storage')
 
     implementation project(':react-native-vector-icons')
 

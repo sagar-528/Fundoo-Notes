@@ -69,7 +69,15 @@ const SearchNoteScreenStyle = StyleSheet.create({
         marginLeft : 20,
         marginTop : 15,
         marginBottom : 10
-    }
+    },
+
+    chip_style : {
+        marginTop : 6, 
+        marginRight : 10, 
+        borderColor : 'grey', 
+        backgroundColor : 'white', 
+        borderWidth : 1
+    },
 
 })
 

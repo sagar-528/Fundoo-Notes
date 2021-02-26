@@ -95,7 +95,7 @@ readImage = async () => {
 
     restoreNotes = async() => {
         const {onPress} = this.props
-        NoteDataControllerServices.restoreNote(this.props.userId, this.props.route.params.noteKey)
+        NoteDataControllerServices.restoreNoteSnackbar(this.props.userId, this.props.route.params.noteKey, this.props.route.params.notes, this.props.route.params.reminder)
             .then(() => this.props.navigation.push('Home', {screen : this.props.screenName}))
         // onPress();
     }

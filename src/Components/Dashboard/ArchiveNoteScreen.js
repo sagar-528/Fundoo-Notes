@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {View, ScrollView, FlatList} from 'react-native'
+import {View, ActivityIndicator, FlatList} from 'react-native'
 import { Appbar, Snackbar } from 'react-native-paper'
 import { connect } from 'react-redux'
 import SQLiteServices from '../../../Service/SQLiteServices'
@@ -20,7 +20,8 @@ class ArchiveNoteScreen extends Component {
             userNotes : [],
             showNotes: [],
             index: 0,
-            endReached : false
+            endReached : false,
+            scroll : false
         }
     }
 
@@ -95,7 +96,7 @@ class ArchiveNoteScreen extends Component {
 
     restoreNotes = async() => {
         const {onPress} = this.props
-        NoteDataControllerServices.restoreNote(this.props.userId, this.props.route.params.noteKey)
+        NoteDataControllerServices.restoreNoteSnackbar(this.props.userId, this.props.route.params.noteKey, this.props.route.params.notes, this.props.route.params.reminder)
             .then(() => this.props.navigation.push('Home', {screen : this.props.screenName}))
         //onPress()
     }
@@ -159,7 +160,11 @@ class ArchiveNoteScreen extends Component {
                     numColumns = {this.state.listView ? 1 : 2}
                     keyExtractor = {(item, index) => JSON.stringify(index)}
                     key = {this.state.listView ? 1 : 2}
-                    data = {this.state.userNotes}
+                    data = {this.state.showNotes}
+                    ListFooterComponent = {() => 
+                        (this.state.endReached && this.state.scroll) ? 
+                            <ActivityIndicator size="large" color="grey" /> : 
+                            null}
                     onEndReached = {async () => {
                         await this.setState({
                             endReached : true
@@ -167,13 +172,14 @@ class ArchiveNoteScreen extends Component {
                     }}
                     onScroll = {async () => {
                         if (this.state.endReached) {
-                            this.loadData(5)
+                            this.loadData(6)
                             await this.setState({
-                                endReached : false
+                                endReached : false,
+                                scroll : true
                             })
                         }
                     }}
-                    onEndReachedThreshold={0.1}
+                    onEndReachedThreshold={0.1} 
                     renderItem = {({ item }) => ( 
                         <NoteCard 
                             listView = {this.state.listView} 

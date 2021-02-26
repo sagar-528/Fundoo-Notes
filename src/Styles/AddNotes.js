@@ -54,7 +54,21 @@ const AddNotesStyle = StyleSheet.create({
         borderColor : 'grey', 
         borderRadius : 40,
         marginRight : 10
-    }
+    },
+
+    reminder_text : {
+      borderWidth : 1,
+      borderColor : 'grey',
+      marginRight : 10,
+      backgroundColor : 'white'
+  },
+
+  modal_container_style : {
+      backgroundColor: 'white', 
+      padding: 25,
+      width : 350,
+      alignSelf : 'center',
+  }
 
 })
 

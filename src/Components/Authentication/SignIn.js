@@ -12,6 +12,7 @@ import { connect } from 'react-redux'
 import SQLiteLabelServices from '../../../Service/SQLiteLabelServices'
 import {storeUserID, storeUserLabel} from '../../Redux/Actions/CreateNewLabelActions'
 import NoteDataControllerServices from '../../../Service/NoteDataControllerServices';
+import SQLiteServices from '../../../Service/SQLiteServices'
 
 class SignIn extends React.Component {
 
@@ -99,8 +100,7 @@ signInHandler = async () => {
     if(this.state.email != '' && this.state.password != '')
     {
         await UserServices.SignIn(this.state.email, this.state.password)
-                .then( async (UserCredential) => {
-                        
+                .then( async (UserCredential) => {   
                         this.storeIteminAsyncStorage()
                         console.log("signIn");  
                         await Keychain.setGenericPassword('UserCredential', JSON.stringify(UserCredential));

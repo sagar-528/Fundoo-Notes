@@ -20,12 +20,12 @@ class UserNotesServices {
         })
     }
 
-    updateNoteInFirebase = (userid, notekey, notes) => {
+    updateNoteInFirebase = (userid, noteKey, notes) => {
         return new Promise((resolve, reject) => {
-            Firebase.database().ref('UserNotes/' + userid  + '/' + notekey).set({
+            Firebase.database().ref('UserNotes/' + userid  + '/' + noteKey).set({
                 notes : notes
             })
-            .then(() => resolve('update note in firebase'))
+            .then(() => resolve('success'))
             .catch(error => reject(error))
         })
     }

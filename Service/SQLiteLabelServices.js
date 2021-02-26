@@ -13,7 +13,7 @@ function errorCB(err) {
     console.log("Database OPENED");
   }
 
-const db = SQLite.openDatabase("user_notes.db", "1.0", "Test Database", 200000, openCB, errorCB);
+const db = SQLite.openDatabase("user_notes.db", "1.0", "Test Database", 200000);
 
 class SQLiteLabelServices {
     

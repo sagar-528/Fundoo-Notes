@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, ScrollView, Text, FlatList } from 'react-native'
+import { View, ScrollView, Text, FlatList, ActivityIndicator } from 'react-native'
 import { Appbar, Snackbar } from 'react-native-paper'
 import BottomBar from './BottomBar'
 import LabelNoteScreenStyle from '../../Styles/LabelNoteScreen'
@@ -18,11 +18,16 @@ class LabelNoteScreen extends Component {
             listView : true,
             userArchivedNotes : [],
             userUnArchivedNotes : [],
+            userNotes : [],
+            showNotes: [],
+            index: 0,
+            endReached : false,
             archivePresent : false,
             labelId : this.getLabelId(),
             showEmptyNoteSnackbar : false,
             showDeletedNoteSnackbar : false,
             showArchivedNoteSnackbar : false,
+            scroll : false
         }
     }
 
@@ -53,19 +58,7 @@ class LabelNoteScreen extends Component {
             }
         }
 
-        await SQLiteServices.selectNoteByArchiveFromSQliteStorage(this.props.userId, 1, 0)
-            .then(async result => {
-                var temp = [];
-                if(result.rows.length != 0) {
-                    for (let i = 0; i < result.rows.length; ++i)
-                        temp.push(result.rows.item(i));
-                    await this.setState({
-                        userArchivedNotes : temp.reverse()
-                    })
-                }                
-            })
-            .catch(error => console.log('Error', error))
-            await SQLiteServices.selectNoteByArchiveFromSQliteStorage(this.props.userId, 0, 0)
+        await SQLiteServices.selectNoteByArchiveFromSQliteStorage(this.props.userId, 0, 0)
             .then(async result => {
                 var temp = [];
                 if(result.rows.length != 0) {
@@ -73,6 +66,18 @@ class LabelNoteScreen extends Component {
                         temp.push(result.rows.item(i));
                     await this.setState({
                         userUnArchivedNotes : temp.reverse()
+                    })
+                }                
+            })
+            .catch(error => console.log('Error', error))
+            await SQLiteServices.selectNoteByArchiveFromSQliteStorage(this.props.userId, 1, 0)
+            .then(async result => {
+                var temp = [];
+                if(result.rows.length != 0) {
+                    for (let i = 0; i < result.rows.length; ++i)
+                        temp.push(result.rows.item(i));
+                    await this.setState({
+                        userArchivedNotes : temp.reverse()
                     })
                 }                
             })
@@ -88,6 +93,31 @@ class LabelNoteScreen extends Component {
         }
         this.props.storeNavigationScreen('labelNote')
         this.props.storeLabelId(this.props.route.params.labels)
+
+        await this.setState({
+            userNotes : this.state.userUnArchivedNotes.concat(this.state.userArchivedNotes)
+        })
+        let tempNotes = []
+        let loadingIndex
+        for(loadingIndex = 0; loadingIndex < 10 && loadingIndex < this.state.userNotes.length ; loadingIndex++) {
+            tempNotes.push(this.state.userNotes[loadingIndex])
+        }
+        await this.setState({
+            showNotes: tempNotes,
+            index: loadingIndex
+        })
+    }
+
+    loadData = async (addIndex) => {
+        for(let i = 0; i < addIndex; i++) {
+            if(this.state.index == this.state.userNotes.length) {
+                await this.setState({
+                    index: 0,
+                })
+            }
+            this.state.showNotes.push(this.state.userNotes[this.state.index])
+            this.state.index ++
+        }
     }
 
     selectView = async () => {
@@ -138,7 +168,7 @@ class LabelNoteScreen extends Component {
 
     restoreNotes = async() => {
         const {onPress} = this.props
-        NoteDataControllerServices.restoreNote(this.props.userId, this.props.route.params.noteKey)
+        NoteDataControllerServices.restoreNoteSnackbar(this.props.userId, this.props.route.params.noteKey, this.props.route.params.notes, this.props.route.params.reminder)
             .then(() => this.props.navigation.push('Home', {screen : this.props.screenName, params : {labels : this.props.labelKey}}))
         //onPress()
     }
@@ -172,49 +202,43 @@ class LabelNoteScreen extends Component {
                             icon = 'dots-vertical' />
                     </Appbar>
                 </View> 
-                <ScrollView style = {{marginBottom : 60}}>
-                    <View style = {LabelNoteScreenStyle.list_container}>
-                    {this.state.userUnArchivedNotes.length > 0 ?
-                        this.state.userUnArchivedNotes.map(note => 
-                            JSON.parse(note.label_id).includes(this.props.route.params.labels.label_id) ?
-                                <React.Fragment key = {note.note_id}>
-                                    { <NoteCard 
-                                        listView = {this.state.listView} 
-                                        notes = {note} 
-                                        noteKey = {note.note_id} 
-                                        navigation = {this.props.navigation}/> }
-                                </React.Fragment>
-                            :
-                            null
-                        )
-                    : null}
-                </View>
-                <View>
-                    {this.state.archivePresent ?
-                        (
-                            <Text style = {LabelNoteScreenStyle.archive_text_style} >ARCHIVE</Text>
-                        )
-                        :
-                        null
+                <FlatList
+                    numColumns = {this.state.listView ? 1 : 2}
+                    keyExtractor = {(item, index) => JSON.stringify(index)}
+                    key = {this.state.listView ? 1 : 2}
+                    data = {this.state.showNotes}
+                    ListFooterComponent = {() => 
+                        (this.state.endReached && this.state.scroll) ? 
+                            <ActivityIndicator size="large" color="grey" /> : 
+                            null}
+                    onEndReached = {async () => {
+                        await this.setState({
+                            endReached : true
+                        })
+                    }}
+                    onScroll = {async () => {
+                        if (this.state.endReached) {
+                            this.loadData(6)
+                            await this.setState({
+                                endReached : false,
+                                scroll : true
+                            })
                     }
-                </View>
-                <View style = {LabelNoteScreenStyle.list_container}>
-                    {this.state.archivePresent ?
-                        this.state.userArchivedNotes.map(note => 
-                            JSON.parse(note.label_id).includes(this.props.route.params.labels.label_id) ?
-                                <React.Fragment key = {note.note_id}>
-                                    { <NoteCard 
-                                        listView = {this.state.listView} 
-                                        notes = {note} 
-                                        noteKey = {note.note_id} 
-                                        navigation = {this.props.navigation}/> }
-                                </React.Fragment>
-                            :
-                            null
-                        )
-                        : null}
-                    </View>
-                </ScrollView>
+                }}
+                onEndReachedThreshold={0.1}
+                renderItem = {({ item }) => (
+                    JSON.parse(item.label_id).includes(this.props.route.params.labels.label_id) ? 
+                        (<NoteCard
+                            noteArchive = {item.is_archived == 1 ? true : undefined} 
+                            listView = {this.state.listView}
+                            notes = {item} 
+                            noteKey = {item.note_id} 
+                            navigation = {this.props.navigation}/>)
+                    :
+                    null
+                )}
+                contentContainerStyle={{ paddingBottom: 60}}                      
+            /> 
                 <BottomBar 
                     navigation = {this.props.navigation} 
                     labelId = {JSON.stringify(this.state.labelId)}/>

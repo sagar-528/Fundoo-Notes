@@ -19,10 +19,10 @@ class NoteDataControllerServices {
     updateNote = (noteId, userId, notes) => {
         return new Promise((resolve) => {
             SQLiteServices.updateNoteinSQliteStorage(userId, noteId, notes)
-            .then(() => resolve('success'))
-            .catch(error => console.log(error))
-        UserNotesServices.updateNoteInFirebase(userId, noteId, notes)
-            .then(() => console.log('updated'))
+                .then(() => resolve('success'))
+                .catch(error => console.log(error))
+            UserNotesServices.updateNoteInFirebase(userId, noteId, notes)
+                .then(() => console.log('updated'))
                 .catch(error => console.log(error))
         })
     }
@@ -177,6 +177,25 @@ class NoteDataControllerServices {
         });
     }
 
+    restoreNoteSnackbar = (userId, noteKey, usernotes, reminder) => {
+        const notes = {
+            title : usernotes.title,
+            note : usernotes.note,
+            isDeleted : 0,
+            labelId : usernotes.labelId,
+            isArchived : usernotes.isArchived,
+            reminder : reminder,
+        }
+        return new Promise((resolve) => {
+            SQLiteServices.updateNoteinSQliteStorage(userId, noteKey, notes)
+                .then(() => resolve('success'))
+                .catch(error => console.log(error))
+            UserNoteServices.updateNoteInFirebase(userId, noteKey, notes)
+                .then(() => console.log('restored'))
+                .catch(error => console.log(error))
+        })
+    }
+    
     retrieveDataFromFirebase = (userId) => {
         SQLiteServices.createTableInSQliteStorage(userId)
         this.getNoteFromFirebaseToSqlite(userId)

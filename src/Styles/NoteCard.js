@@ -50,7 +50,25 @@ const NoteCardStyle = StyleSheet.create({
         marginTop : 8,
         marginRight : 10,
         marginBottom : 5
+    },
+
+    chip_style : {
+        marginTop : 6, 
+        marginRight : 10, 
+        borderColor : 'grey', 
+        backgroundColor : 'white', 
+        borderWidth : 1,
+    },
+
+    archive_text : {
+        borderWidth : 1, 
+        paddingTop: 3, 
+        paddingBottom : 3, 
+        paddingLeft : 10, 
+        paddingRight : 10, 
+        borderColor : 'grey', 
     }
+    
 })
 
 export default NoteCardStyle; 

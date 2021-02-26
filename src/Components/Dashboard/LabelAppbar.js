@@ -24,7 +24,6 @@ class LabelAppbar extends Component {
             labelName : this.state.editTextInput,
             noteId : this.props.labels.note_id
         }
-
         if(!this.state.errorMsg && !this.state.emptyMsg) {
             NoteDataControllerServices.updateLabel(this.props.userId, this.props.labelKey, label)
                 .then(() => {
@@ -38,11 +37,11 @@ class LabelAppbar extends Component {
                             console.log('updated', temp)
                             this.props.storeUserLabel(temp)
                             this.props.selectActiveLabel('')
-                        }) 
-                    .catch(error => console.log(error)) 
+                        })
+                        .catch(error => console.log(error)) 
                 })
                 .catch(error => console.log(error))
-        }
+        } 
     }
 
     handleEditButton = () => {
