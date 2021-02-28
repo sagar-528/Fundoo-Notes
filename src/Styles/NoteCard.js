@@ -55,9 +55,19 @@ const NoteCardStyle = StyleSheet.create({
     chip_style : {
         marginTop : 6, 
         marginRight : 10, 
+        borderColor : 'black', 
+        backgroundColor : 'white', 
+        borderWidth : 1,
+        marginBottom : 3,
+    },
+
+    chip_faded_style : {
+        marginTop : 6, 
+        marginRight : 10, 
         borderColor : 'grey', 
         backgroundColor : 'white', 
         borderWidth : 1,
+        marginBottom : 3,
     },
 
     archive_text : {

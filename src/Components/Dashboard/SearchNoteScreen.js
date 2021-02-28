@@ -45,7 +45,7 @@ class SearchNoteScreen extends Component {
             this.props.navigation.push('Home', { screen : this.props.screenName, 
                                                  params : {labels : this.props.labelKey}})
         }
-        // onPress();
+        onPress();
     }
 
     handleSearchTextInput = async (searchText) => {
@@ -100,13 +100,13 @@ class SearchNoteScreen extends Component {
             search : '',
             userNotesAfterSearch : []
         })
-        // onPress();
+        onPress();
     }
 
     selectNote = (note) => {
         const {onPress} = this.props
         this.props.navigation.push('AddNote', { noteKey : note.note_id, notes : note})
-        // onPress();
+        onPress();
     }
 
     render() {
@@ -163,7 +163,9 @@ class SearchNoteScreen extends Component {
                                                 {
                                                     JSON.parse(note.reminder) != '' ?
                                                     <Chip
-                                                        textStyle = {{fontSize : 12}}
+                                                        textStyle = {new Date() < new Date(JSON.parse(note.reminder)) 
+                                                            ? {fontSize : 13}
+                                                            : {fontSize : 13, color : 'grey'}}
                                                         style = {SearchNoteScreenStyle.chip_style}
                                                         icon = 'alarm'>
                                                             {moment(JSON.parse(note.reminder)).format('D MMM, h.mm a')}
@@ -236,7 +238,9 @@ class SearchNoteScreen extends Component {
                                                 {
                                                     JSON.parse(note.reminder) != '' ?
                                                     <Chip
-                                                        textStyle = {{fontSize : 12}}
+                                                        textStyle = {new Date() < new Date(JSON.parse(note.reminder)) 
+                                                            ? {fontSize : 13}
+                                                            : {fontSize : 13, color : 'grey'}}
                                                         style = {SearchNoteScreenStyle.chip_style}
                                                         icon = 'alarm'>
                                                             {moment(JSON.parse(note.reminder)).format('D MMM, h.mm a')}

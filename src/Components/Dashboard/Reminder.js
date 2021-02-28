@@ -27,12 +27,14 @@ class Reminder extends Component {
     }
 
     componentDidMount = async () => {
+        
         if(this.props.route.params != undefined) {
             if(this.props.route.params.isEmptyNote != undefined) {
                 await this.setState({
                     showEmptyNoteSnackbar : true
                 })
             }
+
             if(this.props.route.params.isNoteDeleted != undefined) {
                 await this.setState({
                     showDeletedNoteSnackbar : true
@@ -49,7 +51,7 @@ class Reminder extends Component {
                 var temp = [];
                 if(result.rows.length != 0) {
                     for (let i = 0; i < result.rows.length; ++i)
-                        if(result.rows.item(i).reminder != '') {
+                        if(JSON.parse(result.rows.item(i).reminder) != '') {
                             temp.push(result.rows.item(i));
                         }
                     await this.setState({
@@ -73,7 +75,7 @@ class Reminder extends Component {
     handleMenuButton = async () => {
         const {onPress} = this.props
         this.props.navigation.openDrawer();
-        //onPress();
+        onPress();
     }
 
     handleSearchIconButton = () => {
@@ -92,7 +94,7 @@ class Reminder extends Component {
             showEmptyNoteSnackbar : false
         })
         this.props.navigation.setParams({isEmptyNote : undefined})
-        //onDismiss()
+        onDismiss();
     }
 
     deletedNoteSnackbarHandler = async () => {
@@ -101,7 +103,7 @@ class Reminder extends Component {
             showDeletedNoteSnackbar : false
         })
         this.props.navigation.setParams({isNoteDeleted : undefined})
-        //onDismiss()
+        onDismiss();
     }
 
     archivedNoteSnackbarHandler = async () => {
@@ -115,7 +117,7 @@ class Reminder extends Component {
         const {onPress} = this.props
         NoteDataControllerServices.restoreNote(this.props.userId, this.props.route.params.noteKey)
             .then(() => this.props.navigation.push('Home', {screen : this.props.screenName}))
-        //onPress()
+        onPress();
     }
 
     unArchivedNote = async() => {

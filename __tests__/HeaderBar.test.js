@@ -33,7 +33,7 @@ describe('test HeaderBar', () => {
         const instance = component.instance();
         await instance.handleSearchButton();
         expect(onPressEvent).toHaveBeenCalled();
-        expect(navigation.push).toHaveBeenCalled('SearchNote')
+        expect(navigation.push).toHaveBeenCalled()
     })
 
 })

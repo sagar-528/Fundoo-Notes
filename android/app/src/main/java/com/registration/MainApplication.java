@@ -14,6 +14,7 @@ import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 

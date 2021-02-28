@@ -18,7 +18,7 @@ class NoteCard extends Component {
     selectNote = (noteKey) => {
         const {onPress} = this.props
         this.props.navigation.push('AddNote', { noteKey : noteKey, notes : this.props.notes, newNote : false })
-        // onPress();
+        onPress();
     }
 
     render() {
@@ -39,10 +39,14 @@ class NoteCard extends Component {
                         {
                             JSON.parse(this.props.notes.reminder) != '' ?
                                 <Chip
-                                    textStyle = {{fontSize : 12}}
-                                    style = {NoteCardStyle.chip_style}
-                                    icon = 'alarm'>
-                                        {moment(JSON.parse(this.props.notes.reminder)).format('D MMM, h.mm a')}
+                                    textStyle = {new Date() < new Date(JSON.parse(this.props.notes.reminder)) 
+                                                    ? {fontSize : 13}
+                                                    : {fontSize : 13, color : 'grey'}}
+                                    style = {new Date() < new Date(JSON.parse(this.props.notes.reminder)) 
+                                                    ? NoteCardStyle.chip_style
+                                                    : NoteCardStyle.chip_faded_style}
+                                        icon = 'alarm'>
+                                            {moment(JSON.parse(this.props.notes.reminder)).format('D MMM, h.mm a')}
                                 </Chip>
                                 :
                                 null
@@ -53,7 +57,7 @@ class NoteCard extends Component {
                                     this.state.labelId.includes(labels.label_id) ?
                                         <React.Fragment key = {labels.label_id}>
                                             <Chip
-                                                textStyle = {{fontSize : 12}}
+                                                textStyle = {{fontSize : 13}}
                                                 style = {NoteCardStyle.chip_style}>
                                                 {labels.label_name}
                                             </Chip>

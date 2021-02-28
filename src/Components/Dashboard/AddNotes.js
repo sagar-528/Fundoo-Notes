@@ -11,6 +11,7 @@ import SQLiteLabelServices from '../../../Service/SQLiteLabelServices'
 import { connect } from 'react-redux'
 import AddReminder from './AddReminder'
 import moment from 'moment'
+import AddReminderStyle from '../../Styles/AddReminder'
 
 class AddNotes extends Component {
 
@@ -98,7 +99,7 @@ componentDidMount = async () => {
 handleDotIconButton = () => {
     const {onPress} = this.props
     this.RBSheet.open()
-    // onPress();
+    onPress();
 }
 
 generateNoteKey = () => {
@@ -111,7 +112,7 @@ generateNoteKey = () => {
 }
 
 handleBackIconButton = async() => {
-    //  const {onPress} = this.props
+     const {onPress} = this.props
      
     const notes = {
         title : this.state.title,
@@ -170,7 +171,7 @@ handleBackIconButton = async() => {
                 })
         }
     }
-    // onPress(); 
+    onPress(); 
 }
 
 handleDeleteButton = async() => {
@@ -238,7 +239,7 @@ isNotAddedNoteDeletedSnackbarHandler = async () => {
     await this.setState({ 
         isNoteNotAddedDeleted : false
     })
-    // onDismiss();
+    onDismiss();
 }
 
 handleDeleteForeverDialogDismiss = async () => {
@@ -246,7 +247,7 @@ handleDeleteForeverDialogDismiss = async () => {
     await this.setState({
         deleteForeverDialog : false
     })
-    // onDismiss();
+    onDismiss();
 }
 
 handleDeleteForeverButton = async () => {
@@ -255,7 +256,7 @@ handleDeleteForeverButton = async () => {
     await this.setState({
         deleteForeverDialog : true
     })
-    // onDismiss();
+    onDismiss();
 }
 
 handleRestoreButton = () => {
@@ -305,7 +306,7 @@ handlePressDisabledTextInput = () => {
             restoreSnackbar : true
         })
     }
-    // onPress();
+    onPress();
 }
 
 restoreSnackbarDismiss = () => {
@@ -399,7 +400,7 @@ handleArchiveDownButton = async () => {
             })
         }
     }
-    // onPress();
+    onPress();
 }
 
 handleArchiveUpButton = async () => {
@@ -668,8 +669,13 @@ handleDeleteReminderButton = async () => {
                             <Chip 
                                 icon = 'alarm'
                                 onPress = {this.handleReminderIconButton}
-                                style = {AddNotesStyle.reminder_text}>
-                                    {moment(this.state.reminder).format('D MMM, h.mm a')}
+                                style = {new Date() > new Date(this.state.reminder) 
+                                    ? AddNotesStyle.reminder_faded_text
+                                    : AddNotesStyle.reminder_text}
+                                textStyle = {new Date() > new Date(this.state.reminder) 
+                                    ? {color : 'grey'}
+                                    : null}>
+                                        {moment(this.state.reminder).format('D MMM, h.mm a')}
                             </Chip>
                             :
                             null

@@ -12,8 +12,8 @@ describe('test DotsVerticalRestoreRBSheetMenu', () => {
 
     it('When menu item in DotsVerticalRBSheetMenu component', () => {
         const component = shallow(<DotsVerticalRestoreRBSheetMenu />)
-        expect(component.find(Menu.item)).toHaveLength(2)
         expect(component.find(TouchableRipple)).toHaveLength(2)
+        expect(component.find(Menu.Item)).toHaveLength(2)
     })
 
 })

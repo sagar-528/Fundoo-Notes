@@ -16,7 +16,7 @@ export class BottomBar extends Component {
         } else {
             this.props.navigation.push('AddNote', {labelId : this.props.labelId, newNote : true})
         }
-        // onPress();
+        onPress();
     }
 
     render() {

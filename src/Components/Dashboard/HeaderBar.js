@@ -12,13 +12,13 @@ class HeaderBar extends Component {
     handleSearchButton = () => {
         const {onPress} = this.props
         this.props.navigation.push('Home', { screen : 'SearchNote'})
-        // onPress();
+        onPress();
     }
 
     handleMenuButton = () => {
         const {onPress} = this.props
         this.props.navigation.openDrawer();
-        // onPress();
+        onPress();
     }
 
     render() {

@@ -75,7 +75,7 @@ class ArchiveNoteScreen extends Component {
             showEmptyNoteSnackbar : false
         })
         this.props.navigation.setParams({isEmptyNote : undefined})
-        //onDismiss()
+        onDismiss();
     }
 
     deletedNoteSnackbarHandler = async () => {
@@ -84,7 +84,7 @@ class ArchiveNoteScreen extends Component {
             showDeletedNoteSnackbar : false
         })
         this.props.navigation.setParams({isNoteDeleted : undefined})
-        //onDismiss()
+        onDismiss();
     }
 
     archivedNoteSnackbarHandler = async () => {
@@ -98,7 +98,7 @@ class ArchiveNoteScreen extends Component {
         const {onPress} = this.props
         NoteDataControllerServices.restoreNoteSnackbar(this.props.userId, this.props.route.params.noteKey, this.props.route.params.notes, this.props.route.params.reminder)
             .then(() => this.props.navigation.push('Home', {screen : this.props.screenName}))
-        //onPress()
+        onPress();
     }
 
     unArchivedNote = async() => {
@@ -122,7 +122,7 @@ class ArchiveNoteScreen extends Component {
     handleMenuButton = async () => {
         const {onPress} = this.props
         this.props.navigation.openDrawer();
-        // onPress();
+        onPress();
     }
 
     handleSearchIconButton = () => {

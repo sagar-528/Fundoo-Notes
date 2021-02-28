@@ -8,6 +8,17 @@ target 'Registration' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
+  pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+
+
   target 'RegistrationTests' do
     inherit! :complete
     # Pods for testing

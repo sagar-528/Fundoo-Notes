@@ -200,6 +200,11 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
 
 
+    implementation "com.google.android.gms:play-services-base:15.0.0"
+    implementation "com.google.firebase:firebase-core:15.0.2"
+    implementation "com.google.firebase:firebase-messaging:15.0.2"
+    implementation project(':react-native-push-notification')
+
     implementation 'com.android.support:multidex:1.0.3'
     // implementation project(':@react-native-async-storage')
 

@@ -83,6 +83,19 @@
 //         return UserServices.SignIn(instance.state.email, instance.state.password).catch(error => expect(instance.state.invalidEmail).toBe(true))
 //     }, 10000)
 
+//     it('test onPress event of sign in button when email and password is valid it will navigate to Notes Screen', async () => {
+//         const navigation = { push : jest.fn() }
+//         const onPressEvent = jest.fn();
+//         const component = shallow(<SignIn onPress = {onPressEvent} navigation = {navigation} />)
+//         const instance = component.instance();
+//         instance.textInputChangeEmail('guptasagar528@gmail.com')
+//         instance.textInputChangePassword('Qwerty@111')
+//         await instance.signInHandler();
+//         expect(onPressEvent).toHaveBeenCalled();
+//         return UserServices.login(instance.state.email, instance.state.password).then(user => expect(navigation.push).toBeCalledWith('Home', {'screen': 'Notes'}))
+//     })
+    
+    
 //     it('When onPress event of facebook sign in button it will navigate to Note Screen', async() => {
 //         const navigation = { navigate : jest.fn() }
 //         const onPressEvent = jest.fn();
@@ -90,7 +103,7 @@
 //         const instance = component.instance();
 //         await instance.handleFacebookLoginButton();
 //         expect(onPressEvent).toHaveBeenCalled();
-//         return UserSocialServices.facebookLogin().then(userCredential => expect(navigation.navigate).toBeCalledWith('Notes'))
+//         return UserSocialServices.facebookLogin().then(userCredential => expect(navigation.push).toBeCalledWith('Home'))
 //     })
 
 // })

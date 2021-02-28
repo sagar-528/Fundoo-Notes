@@ -4,6 +4,10 @@ import SignUp from '../src/Components/Authentication/SignUp'
 import UserServices from '../Service/UserServices'
 
 describe('test SignUp', () => {
+
+     beforeEach(() => {
+        jest.setTimeout(30000);
+    });
     
     it('should match to snapshot', () => {
         const component = shallow(<SignUp />)

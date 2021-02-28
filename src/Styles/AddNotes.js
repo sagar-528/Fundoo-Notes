@@ -60,7 +60,16 @@ const AddNotesStyle = StyleSheet.create({
       borderWidth : 1,
       borderColor : 'grey',
       marginRight : 10,
-      backgroundColor : 'white'
+      backgroundColor : 'white',
+      marginBottom : 10
+  },
+
+  reminder_faded_text : {
+    borderWidth : 1,
+    borderColor : 'grey',
+    marginRight : 10,
+    backgroundColor : 'white',
+    marginBottom : 10
   },
 
   modal_container_style : {
