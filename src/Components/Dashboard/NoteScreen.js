@@ -64,7 +64,7 @@ readImage = async () => {
          this.setState({
             listView : !this.state.listView
         })
-        onPress();
+        // onPress();
     }
 
     emptyNoteSnackbarHandler = async () => {
@@ -73,7 +73,7 @@ readImage = async () => {
             showEmptyNoteSnackbar : false
         })
         this.props.navigation.setParams({isEmptyNote : undefined})
-        onDismiss();
+        // onDismiss();
     }
 
     deletedNoteSnackbarHandler = async () => {
@@ -82,7 +82,7 @@ readImage = async () => {
             showDeletedNoteSnackbar : false
         })
         this.props.navigation.setParams({isNoteDeleted : undefined})
-        onDismiss();
+        // onDismiss();
     }
 
     archivedNoteSnackbarHandler = async () => {
@@ -96,7 +96,7 @@ readImage = async () => {
         const {onPress} = this.props
         NoteDataControllerServices.restoreNoteSnackbar(this.props.userId, this.props.route.params.noteKey, this.props.route.params.notes, this.props.route.params.reminder)
             .then(() => this.props.navigation.push('Home', {screen : this.props.screenName}))
-        onPress();
+        // onPress();
     }
 
     unArchivedNote = async() => {
@@ -109,7 +109,7 @@ readImage = async () => {
         await this.setState({
             showProfileModal : true
         })
-        onPress();
+        // onPress();
     }
 
     hideModal = async() => {
@@ -117,7 +117,7 @@ readImage = async () => {
         await this.setState({
             showProfileModal : false
         })
-        onDismiss();
+        // onDismiss();
     }
 
     changeImage = async () => {
@@ -126,7 +126,7 @@ readImage = async () => {
         await this.setState({
             showProfileModal : false
         })
-        onPress();
+        // onPress();
     }
 
     render() {

@@ -58,7 +58,7 @@ handleLogoutButton = async () => {
     UserServices.signout()
     .then(() => this.props.navigation.navigate('SignIn'))
     .catch(error => console.log(error))
-    onPress();
+    // onPress();
 }
 
 handleChoosePhotoFromLibrary = () => {
@@ -134,13 +134,13 @@ uploadImage = (uri, mime = 'application/octet-stream') => {
 handleCancel = () => {
     const {onPress} = this.props
     this.RBSheet.close()
-    onPress();
+    // onPress();
 }
 
 handleImageEditButton = () => {
     const {onPress} = this.props
     this.RBSheet.open()
-    onPress();
+    // onPress();
 }
 
     render() {

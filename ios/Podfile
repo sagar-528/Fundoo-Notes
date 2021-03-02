@@ -19,6 +19,8 @@ target 'Registration' do
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 
 
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+
   target 'RegistrationTests' do
     inherit! :complete
     # Pods for testing

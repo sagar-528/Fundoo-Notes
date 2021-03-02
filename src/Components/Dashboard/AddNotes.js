@@ -99,7 +99,7 @@ componentDidMount = async () => {
 handleDotIconButton = () => {
     const {onPress} = this.props
     this.RBSheet.open()
-    onPress();
+    // onPress();
 }
 
 generateNoteKey = () => {
@@ -171,7 +171,7 @@ handleBackIconButton = async() => {
                 })
         }
     }
-    onPress(); 
+    // onPress(); 
 }
 
 handleDeleteButton = async() => {
@@ -239,7 +239,7 @@ isNotAddedNoteDeletedSnackbarHandler = async () => {
     await this.setState({ 
         isNoteNotAddedDeleted : false
     })
-    onDismiss();
+    // onDismiss();
 }
 
 handleDeleteForeverDialogDismiss = async () => {
@@ -247,7 +247,7 @@ handleDeleteForeverDialogDismiss = async () => {
     await this.setState({
         deleteForeverDialog : false
     })
-    onDismiss();
+    // onDismiss();
 }
 
 handleDeleteForeverButton = async () => {
@@ -256,7 +256,7 @@ handleDeleteForeverButton = async () => {
     await this.setState({
         deleteForeverDialog : true
     })
-    onDismiss();
+    // onDismiss();
 }
 
 handleRestoreButton = () => {
@@ -306,7 +306,7 @@ handlePressDisabledTextInput = () => {
             restoreSnackbar : true
         })
     }
-    onPress();
+    // onPress();
 }
 
 restoreSnackbarDismiss = () => {
@@ -400,7 +400,7 @@ handleArchiveDownButton = async () => {
             })
         }
     }
-    onPress();
+    // onPress();
 }
 
 handleArchiveUpButton = async () => {

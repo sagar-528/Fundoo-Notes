@@ -1,9 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import firebase from 'firebase'
+import firebase from 'react-native-firebase';
 
 class Notification {
     
     checkPermission = async () => {
+        console.log('start');
     const enabled = await firebase.messaging().hasPermission();
         console.log(enabled)
         if (enabled) {
@@ -15,10 +16,8 @@ class Notification {
 
     getToken = async() => {
         let fcmToken = await AsyncStorage.getItem('fcmToken');
-        console.log(fcmToken)
         if (!fcmToken) {
             fcmToken = await firebase.messaging().getToken();
-            console.log(fcmToken)
             if (fcmToken) {
                 await AsyncStorage.setItem('fcmToken', fcmToken);
             }
@@ -26,6 +25,7 @@ class Notification {
     }
 
     requestPermission  = async() => {
+        console.log('token')
         try {
             await firebase.messaging().requestPermission();
             this.getToken();

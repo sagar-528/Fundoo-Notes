@@ -130,7 +130,7 @@ class LabelNoteScreen extends Component {
     selectNote = (note) => {
         const {onPress} = this.props
         this.props.navigation.push('AddNote', { noteKey : note.note_id, notes : note})
-        onPress();
+        // onPress();
     }
 
     handleMenuIconButton = () => {
@@ -147,7 +147,7 @@ class LabelNoteScreen extends Component {
             showEmptyNoteSnackbar : false
         })
         this.props.navigation.setParams({isEmptyNote : undefined})
-        onDismiss();
+        // onDismiss();
     }
 
     deletedNoteSnackbarHandler = async () => {
@@ -156,7 +156,7 @@ class LabelNoteScreen extends Component {
             showDeletedNoteSnackbar : false
         })
         this.props.navigation.setParams({isNoteDeleted : undefined})
-        onDismiss();
+        // onDismiss();
     }
 
     archivedNoteSnackbarHandler = async () => {
@@ -170,7 +170,7 @@ class LabelNoteScreen extends Component {
         const {onPress} = this.props
         NoteDataControllerServices.restoreNoteSnackbar(this.props.userId, this.props.route.params.noteKey, this.props.route.params.notes, this.props.route.params.reminder)
             .then(() => this.props.navigation.push('Home', {screen : this.props.screenName, params : {labels : this.props.labelKey}}))
-        onPress();
+        // onPress();
     }
 
     unArchivedNote = async() => {

@@ -75,7 +75,7 @@ class Reminder extends Component {
     handleMenuButton = async () => {
         const {onPress} = this.props
         this.props.navigation.openDrawer();
-        onPress();
+        // onPress();
     }
 
     handleSearchIconButton = () => {
@@ -94,7 +94,7 @@ class Reminder extends Component {
             showEmptyNoteSnackbar : false
         })
         this.props.navigation.setParams({isEmptyNote : undefined})
-        onDismiss();
+        // onDismiss();
     }
 
     deletedNoteSnackbarHandler = async () => {
@@ -103,7 +103,7 @@ class Reminder extends Component {
             showDeletedNoteSnackbar : false
         })
         this.props.navigation.setParams({isNoteDeleted : undefined})
-        onDismiss();
+        // onDismiss();
     }
 
     archivedNoteSnackbarHandler = async () => {
@@ -117,7 +117,7 @@ class Reminder extends Component {
         const {onPress} = this.props
         NoteDataControllerServices.restoreNote(this.props.userId, this.props.route.params.noteKey)
             .then(() => this.props.navigation.push('Home', {screen : this.props.screenName}))
-        onPress();
+        // onPress();
     }
 
     unArchivedNote = async() => {

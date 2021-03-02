@@ -45,7 +45,7 @@ class SearchNoteScreen extends Component {
             this.props.navigation.push('Home', { screen : this.props.screenName, 
                                                  params : {labels : this.props.labelKey}})
         }
-        onPress();
+        // onPress();
     }
 
     handleSearchTextInput = async (searchText) => {
@@ -100,13 +100,13 @@ class SearchNoteScreen extends Component {
             search : '',
             userNotesAfterSearch : []
         })
-        onPress();
+        // onPress();
     }
 
     selectNote = (note) => {
         const {onPress} = this.props
         this.props.navigation.push('AddNote', { noteKey : note.note_id, notes : note})
-        onPress();
+        // onPress();
     }
 
     render() {
