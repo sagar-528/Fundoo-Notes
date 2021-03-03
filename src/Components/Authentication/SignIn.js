@@ -40,7 +40,7 @@ async componentDidMount(){
             await NoteDataControllerServices.retrieveDataFromFirebase(UserCredential.user.uid)
 
             this.props.storeUserId(UserCredential.user.uid)
-            this.storeUserLabel(UserCredential.user.uid)
+            this.storeUserLabels(UserCredential.user.uid)
             this.props.navigation.push('Home', { screen: 'Notes' })
         }
       } 
@@ -49,15 +49,15 @@ async componentDidMount(){
       }
 }
 
-storeUserLabel = (userId) => {
+storeUserLabels = (userId) => {
     SQLiteLabelServices.selectLabelFromSQliteStorage(userId)
         .then(async result => {
             var temp = [];
             if(result.rows.length != 0) {
                 for (let i = 0; i < result.rows.length; ++i)
                     temp.push(result.rows.item(i));
-                this.props.storeUserLabel(temp)
-            }                
+                } 
+                this.props.storeUserLabel(temp)                 
         })
         .catch(error => console.log(error))
 }
@@ -102,10 +102,12 @@ signInHandler = async () => {
         await UserServices.SignIn(this.state.email, this.state.password)
                 .then( async (UserCredential) => {   
                         this.storeIteminAsyncStorage()
-                        console.log("signIn");  
+                        console.log("signIn"); 
+                        await NoteDataControllerServices.retrieveDataFromFirebase(UserCredential.user.uid) 
                         await Keychain.setGenericPassword('UserCredential', JSON.stringify(UserCredential));
                         
-                        this.storeUserLabel(UserCredential.user.uid)
+                        await this.props.storeUserId(UserCredential.user.uid)
+                        await this.storeUserLabels(UserCredential.user.uid)
                         this.props.navigation.navigate('Home', { screen: 'Notes' })
                     })
                 .catch(error => {
@@ -176,10 +178,12 @@ handleFacebookLoginButton = async () => {
                 }
             })
        
+        await NoteDataControllerServices.retrieveDataFromFirebase(UserCredential.user.uid)
         this.storeIteminAsyncStorage()
         await Keychain.setGenericPassword('UserCredential', JSON.stringify(UserCredential));
         
-        this.storeUserLabel(UserCredential.user.uid)
+        await this.props.storeUserId(UserCredential.user.uid)
+        await this.storeUserLabels(UserCredential.user.uid)
         this.props.navigation.navigate('Home', { screen: 'Notes' })
     })
         .catch(error => {

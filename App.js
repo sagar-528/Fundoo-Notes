@@ -8,7 +8,7 @@ import PushNotification from "react-native-push-notification";
 
 export class App extends Component {
 
-  componentDidMount = () => {
+  componentDidMount = async() => {
     Notification.checkPermission()
     
     PushNotification.configure({
@@ -19,12 +19,7 @@ export class App extends Component {
       
       onNotification: function (notification) {
         console.log("NOTIFICATION:", notification);
-        alert('Test')
-      },
-      
-      onAction: function (notification) {
-        console.log("ACTION:", notification.action);
-        console.log("NOTIFICATION:", notification);
+        alert(notification.data.title, notification.data.body)
       },
       
       onRegistrationError: function(err) {
@@ -38,6 +33,11 @@ export class App extends Component {
       popInitialNotification: true,
       requestPermissions: true,
     });
+     // PushNotification.localNotification({
+    //   title: "My Notification Title", // (optional)
+    //   message: "My Notification Message", // (required)
+    // });
+   Notification.reminderNotification() 
   }
 
   render() {
