@@ -1,16 +1,25 @@
 import React, { Component } from 'react'
+import {AppState} from 'react-native';
 import NavigationStack  from './src/Navigation/NavigationStack'
 import {Provider} from 'react-redux'
 import store from './src/Redux/store'
 import Notification from './Service/Notification'
 import PushNotification from "react-native-push-notification";
+import BackgroundTimer from 'react-native-background-timer';
 
 
-export class App extends Component {
+class App extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      appState: AppState.currentState
+    }
+  }
 
   componentDidMount = async() => {
     Notification.checkPermission()
-    
+    AppState.addEventListener("change", this.handleAppStateChange);
     PushNotification.configure({
       
       onRegister: function (token) {
@@ -19,7 +28,7 @@ export class App extends Component {
       
       onNotification: function (notification) {
         console.log("NOTIFICATION:", notification);
-        alert(notification.data.title, notification.data.body)
+        alert(notification.title + '\n' + notification.message)
       },
       
       onRegistrationError: function(err) {
@@ -33,11 +42,19 @@ export class App extends Component {
       popInitialNotification: true,
       requestPermissions: true,
     });
-     // PushNotification.localNotification({
-    //   title: "My Notification Title", // (optional)
-    //   message: "My Notification Message", // (required)
-    // });
-   Notification.reminderNotification() 
+    BackgroundTimer.setInterval(() => {
+      Notification.reminderNotification()
+    }, 60000);
+  }
+
+  handleAppStateChange = async nextAppState => {
+    await this.setState({ appState: nextAppState });
+  };
+
+  componentWillUnmount() {
+    this.setState = (state,callback)=>{
+        return;
+    };
   }
 
   render() {

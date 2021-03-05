@@ -1,4 +1,4 @@
-package com.registration.services;
+package com.registration;
 
 import android.app.Service;
 import android.content.Context;
@@ -20,7 +20,7 @@ public class PushNotificationService extends Service {
    public void run() {
      // context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("Heartbeat",null);
      Context context = getApplicationContext();
-     Intent myIntent = new Intent(context, PushNotificationHandlerService.class);
+     Intent myIntent = new Intent(context, PushNotificationEventService.class);
      context.startService(myIntent);
      HeadlessJsTaskService.acquireWakeLockNow(context);
      handler.postDelayed(this, 2000);

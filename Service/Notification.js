@@ -1,7 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firebase from 'react-native-firebase';
 import SQLiteServices from '../Service/SQLiteServices'
+import PushNotification from "react-native-push-notification";
 import * as Keychain from 'react-native-keychain';
+import moment from "moment";
 
 class Notification {
     
@@ -38,7 +40,7 @@ class Notification {
 
     sendPushNotification = async (title, note) => {
         const token = await AsyncStorage.getItem('fcmToken')
-        const FIREBASE_API_KEY = "cVxqwbI2CQw:APA91bF-qB4a_2jHLYhwrHMQh-_PbzpGereICtVHcvopjterJKA7RvB829XyUdGZGJBhz6nxhoGDupf9rz6TwO8Rgb4WTzwK9bkoPYgksVJ2EKmeHYgAvv1_9aBb9Ms0KGmi9wD5At99"
+        const FIREBASE_API_KEY = "fnGfF64ZRAWJ_6j1eBMQNS:APA91bH9NYDuzmMayBJowSHP-qIybfYNKdI3GiVQ8rWplpcDOmbT-gb9ogYi3uP4vGywEdHkTOFy0IiBJWLpW51QKT9_wbePHU5SfOjp-bDvyLNHQleD6NJ6xPWuFGl3oAxB6m19zKJS"
         const message = {
           registration_ids: [
             token
@@ -73,7 +75,6 @@ class Notification {
     }
 
     reminderNotification = async() => {
-        console.log('true')
         const isLoggedIn = JSON.parse(await AsyncStorage.getItem('isLoggedIn'))
         let date = new Date()
         let reminder
@@ -86,12 +87,8 @@ class Notification {
                     for (let i = 0; i < result.rows.length; ++i) {
                         if(JSON.parse(result.rows.item(i).reminder) != '') {
                             reminder = new Date(JSON.parse(result.rows.item(i).reminder))
-                            if(date.getDate() == reminder.getDate() &&
-                                date.getMonth() == reminder.getMonth() &&
-                                date.getFullYear() == reminder.getFullYear() &&
-                                date.getHours() == reminder.getHours() &&
-                                date.getMinutes() == reminder.getMinutes()) {
-                                    this.sendPushNotification(result.rows.item(i).title, result.rows.item(i).note);
+                            if(moment(date).format('D MMM, h.mm a') == moment(reminder).format('D MMM, h.mm a')) {
+                                this.localNotification(result.rows.item(i).title, result.rows.item(i).note)
                             }
                         }
                     }
@@ -102,8 +99,9 @@ class Notification {
     }
 
     localNotification = (title, note) => {
+        console.log('local');
         PushNotification.localNotification({
-            title: title,
+            title : title,
             message: note
         });
     }

@@ -15,6 +15,7 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.FacebookSdk;
 import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
+import com.ocetnik.timer.BackgroundTimerPackage;
 import java.lang.reflect.InvocationTargetException;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import java.util.List;

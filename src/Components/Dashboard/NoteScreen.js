@@ -129,6 +129,12 @@ readImage = async () => {
         // onPress();
     }
 
+    componentWillUnmount() {
+        this.setState = (state,callback)=>{
+            return;
+        };
+    }
+    
     render() {
         return (
             <Provider>
